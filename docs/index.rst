@@ -7,10 +7,11 @@ Welcome to St. Basil Confirmation Candidate Website's documentation!
 ====================================================================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :caption: Contents:
+   :numbered:
 
-   startup.rst
+   startup
 
 
 
