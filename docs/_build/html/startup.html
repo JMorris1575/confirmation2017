@@ -74,6 +74,68 @@ clicked OK.</p>
 <strong>Fr. Jim Morris</strong>.</p>
 <p>I added <cite>startup.rst</cite> to the contents in the index.rst file and now I will try using the <cite>make html</cite> command from the
 PyCharm terminal…</p>
+<p>It worked perfectly! I will probably want to make some changes in <cite>conf.py</cite> eventually but, for now, what I have will
+serve the purpose.</p>
+</div>
+<div class="section" id="step-four-initiating-version-control">
+<h3>Step Four: Initiating Version Control<a class="headerlink" href="#step-four-initiating-version-control" title="Permalink to this headline">¶</a></h3>
+<p>I clicked <cite>VCS -&gt; Initiate Version Control</cite> (or whatever it said – it disappeared from the menu after I clicked it)
+and selected Git as my version control system. All the untracked files lit up in red.</p>
+<p>I created a <cite>.gitignore</cite> file in the <cite>StBasilConfirmation</cite> directory and populated it with the following:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">docs</span><span class="o">/</span><span class="n">_build</span><span class="o">/</span><span class="n">html</span><span class="o">/</span><span class="n">_sources</span><span class="o">/</span>
+<span class="n">docs</span><span class="o">/</span><span class="n">_build</span><span class="o">/</span><span class="n">html</span><span class="o">/</span><span class="n">_static</span><span class="o">/</span>
+<span class="o">.</span><span class="n">idea</span><span class="o">/</span>
+</pre></div>
+</div>
+<p>Then I did the first commit.</p>
+<p>It’s getting close to time for Confessions so I will save the rest of the startup process for later.</p>
+</div>
+<div class="section" id="step-five-installing-django">
+<h3>Step Five: Installing Django<a class="headerlink" href="#step-five-installing-django" title="Permalink to this headline">¶</a></h3>
+<p>Django is easy to install. In PyCharm’s Terminal I first verified it was in the <cite>conf</cite> virtual environment then typed:</p>
+<p><cite>pip install django</cite></p>
+<p>It seemed to take a while but it installed Django 1.11.7 without problems.</p>
+</div>
+<div class="section" id="step-six-creating-the-django-project">
+<h3>Step Six: Creating the Django Project<a class="headerlink" href="#step-six-creating-the-django-project" title="Permalink to this headline">¶</a></h3>
+<p>In the PyCharm terminal I typed:</p>
+<p><cite>django-admin startproject StBasilConfirmation</cite></p>
+<p>which it did so quickly I wondered if it had done it correctly, especially since nothing showed up in the Project window
+until I clicked on it.</p>
+<p>I then realized it may be confusing to have the Django project name the same as the PyCharm project name and decided to
+erase the Django project by deleting the <cite>StBasilConfirmation</cite> folder created by <cite>startproject</cite>. I repeated the process
+with:</p>
+<p><cite>django-admin startproject ConfirmationWebsite</cite></p>
+<p>and then set about making the necessary changes and additions.</p>
+<div class="section" id="changing-the-name-of-the-configuration-folder">
+<h4>Changing the Name of the Configuration Folder<a class="headerlink" href="#changing-the-name-of-the-configuration-folder" title="Permalink to this headline">¶</a></h4>
+<p>Using PyCharm’s Refactor to change the inner <cite>ConfirmationWebsite</cite> folder to <cite>config</cite> found all the necessary changes
+in the other files and was very easy to perform. (Well, almost. I added the previous sentence before clicking “Do
+Refactor” and it complained that the code had changed and that I had to search over again.)</p>
+</div>
+<div class="section" id="installing-psycopg2">
+<h4>Installing psycopg2<a class="headerlink" href="#installing-psycopg2" title="Permalink to this headline">¶</a></h4>
+<p>I tried simply doing:</p>
+<p><cite>pip install psycopg2-2.7.3-cp36-cp36m-win_amd64.whl</cite></p>
+<p>in PyCharm’s terminal while in the project directory <cite>C:Usersfrjam_000DocumentsMyDjangoProjectsStBasilConfirmation</cite>
+but it could not find the file</p>
+<p><cite>pip install c:/psycopg2-2.7.3-cp36-cp36m-win_amd64.whl</cite></p>
+<p>worked right away.</p>
+</div>
+<div class="section" id="changing-to-postgresql">
+<h4>Changing to PostgreSQL<a class="headerlink" href="#changing-to-postgresql" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="preparing-the-local-database">
+<h5>Preparing the Local Database<a class="headerlink" href="#preparing-the-local-database" title="Permalink to this headline">¶</a></h5>
+<p>In pgAdmin III I double-clicked <cite>PostgreSQL 9.5 (localhost:5432)</cite> and entered my password (dylan selfie), right-clicked
+on <cite>Databases</cite> and selected <cite>New Database…</cite>. I called it <cite>confdatabase</cite>, named Jim as the owner, and added the
+comment: <cite>Created on the rectory computer for the St. Basil Confirmation Website.</cite></p>
+</div>
+<div class="section" id="database-changes-in-settings-py">
+<h5>Database Changes in Settings.py<a class="headerlink" href="#database-changes-in-settings-py" title="Permalink to this headline">¶</a></h5>
+<p>This is going to involve adding the <cite>secrets.json</cite> file and dividing the <cite>settings.py</cite> file into three files in a new
+<cite>settings</cite> module. I will include the database changes when I do all of that.</p>
+</div>
+</div>
 </div>
 </div>
 </div>

@@ -67,3 +67,70 @@ I created a `.gitignore` file in the `StBasilConfirmation` directory and populat
     .idea/
 
 Then I did the first commit.
+
+It's getting close to time for Confessions so I will save the rest of the startup process for later.
+
+Step Five: Installing Django
+----------------------------
+
+Django is easy to install. In PyCharm's Terminal I first verified it was in the `conf` virtual environment then typed:
+
+`pip install django`
+
+It seemed to take a while but it installed Django 1.11.7 without problems.
+
+Step Six: Creating the Django Project
+-------------------------------------
+
+In the PyCharm terminal I typed:
+
+`django-admin startproject StBasilConfirmation`
+
+which it did so quickly I wondered if it had done it correctly, especially since nothing showed up in the Project window
+until I clicked on it.
+
+I then realized it may be confusing to have the Django project name the same as the PyCharm project name and decided to
+erase the Django project by deleting the `StBasilConfirmation` folder created by `startproject`. I repeated the process
+with:
+
+`django-admin startproject ConfirmationWebsite`
+
+and then set about making the necessary changes and additions.
+
+Changing the Name of the Configuration Folder
++++++++++++++++++++++++++++++++++++++++++++++
+
+Using PyCharm's Refactor to change the inner `ConfirmationWebsite` folder to `config` found all the necessary changes
+in the other files and was very easy to perform. (Well, almost. I added the previous sentence before clicking "Do
+Refactor" and it complained that the code had changed and that I had to search over again.)
+
+Installing psycopg2
++++++++++++++++++++
+
+I tried simply doing:
+
+`pip install psycopg2-2.7.3-cp36-cp36m-win_amd64.whl`
+
+in PyCharm's terminal while in the project directory `C:\Users\frjam_000\Documents\MyDjangoProjects\StBasilConfirmation`
+but it could not find the file
+
+`pip install c:/psycopg2-2.7.3-cp36-cp36m-win_amd64.whl`
+
+worked right away.
+
+Changing to PostgreSQL
+++++++++++++++++++++++
+
+Preparing the Local Database
+****************************
+
+In pgAdmin III I double-clicked `PostgreSQL 9.5 (localhost:5432)` and entered my password (dylan selfie), right-clicked
+on `Databases` and selected `New Database...`. I called it `confdatabase`, named Jim as the owner, and added the
+comment: `Created on the rectory computer for the St. Basil Confirmation Website.`
+
+Database Changes in Settings.py
+*******************************
+
+This is going to involve adding the `secrets.json` file and dividing the `settings.py` file into three files in a new
+`settings` module. I will include the database changes when I do all of that.
+
