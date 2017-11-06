@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>St. Basil Confirmation Candidate Website &#8212; St. Basil Confirmation Candidate Website 1.0 documentation</title>
+    <title>1. Starting the Confirmation Project &#8212; St. Basil Confirmation Candidate Website 1.0 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
@@ -39,49 +39,47 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="st-basil-confirmation-candidate-website">
-<h1>St. Basil Confirmation Candidate Website<a class="headerlink" href="#st-basil-confirmation-candidate-website" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="starting-the-project">
-<h2>Starting the Project<a class="headerlink" href="#starting-the-project" title="Permalink to this headline">¶</a></h2>
+  <div class="section" id="starting-the-confirmation-project">
+<h1>1. Starting the Confirmation Project<a class="headerlink" href="#starting-the-confirmation-project" title="Permalink to this headline">¶</a></h1>
 <p>This file documents the process used to start the interactive Confirmation page for St. Basil Confirmation Candidates.
 It was started on November 4, 2017.</p>
 <div class="section" id="step-one-creating-the-project">
-<h3>Step One: Creating the Project<a class="headerlink" href="#step-one-creating-the-project" title="Permalink to this headline">¶</a></h3>
+<h2>1.1. Step One: Creating the Project<a class="headerlink" href="#step-one-creating-the-project" title="Permalink to this headline">¶</a></h2>
 <p>I decided to use PyCharm as much as I could and, after creating the project:</p>
-<p><cite>C:Usersfrjam_000DocumentsMyDjangoProjectsStBasilConfirmation</cite></p>
+<p><code class="docutils literal"><span class="pre">C:\Users\frjam_000\Documents\MyDjangoProjects\StBasilConfirmation</span></code></p>
 <p>I went to the help system to learn how to create a virtual environment.</p>
 </div>
 <div class="section" id="step-two-creating-a-virtual-environment-with-pycharm">
-<h3>Step Two: Creating a Virtual Environment with PyCharm<a class="headerlink" href="#step-two-creating-a-virtual-environment-with-pycharm" title="Permalink to this headline">¶</a></h3>
-<p>I wanted to create a new virtual environment called <cite>conf</cite> for Python 3.6. In the Settings dialog box I clicked on the
+<h2>1.2. Step Two: Creating a Virtual Environment with PyCharm<a class="headerlink" href="#step-two-creating-a-virtual-environment-with-pycharm" title="Permalink to this headline">¶</a></h2>
+<p>I wanted to create a new virtual environment called <code class="docutils literal"><span class="pre">conf</span></code> for Python 3.6. In the Settings dialog box I clicked on the
 projects name and then on Interpreter. I had to click the gear icon at the upper right and selected Create VirtualEnv.
-I learned I had to put <cite>Envs</cite> into the pathname myself or the new environment would be created in the <cite>frjam_000</cite>
-directory. (I had to delete the <cite>conf</cite> environment I created there.) I selected Python 3.6 as the Base interpreter and
+I learned I had to put <code class="docutils literal"><span class="pre">Envs</span></code> into the pathname myself or the new environment would be created in the <code class="docutils literal"><span class="pre">frjam_000</span></code>
+directory. (I had to delete the <code class="docutils literal"><span class="pre">conf</span></code> environment I created there.) I selected Python 3.6 as the Base interpreter and
 clicked OK.</p>
 <p>That seemed to do it, and the terminal was already in the virtual environment.</p>
-<p>I just checked, and <cite>workon conf</cite> in a command window activates the virtual environment too.</p>
+<p>I just checked, and <code class="docutils literal"><span class="pre">workon</span> <span class="pre">conf</span></code> in a command window activates the virtual environment too.</p>
 </div>
 <div class="section" id="step-three-installing-and-using-sphinx">
-<h3>Step Three: Installing and Using Sphinx<a class="headerlink" href="#step-three-installing-and-using-sphinx" title="Permalink to this headline">¶</a></h3>
+<h2>1.3. Step Three: Installing and Using Sphinx<a class="headerlink" href="#step-three-installing-and-using-sphinx" title="Permalink to this headline">¶</a></h2>
 <p>I wanted to be able to start writing these documents so my first pip install was:</p>
-<p><cite>pip install sphinx</cite></p>
+<p><code class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">sphinx</span></code></p>
 <p>This installed Sphinx 1.6.5.</p>
-<p>To get the project directory structure I like I had to use PyCharm to create a <cite>docs</cite> directory in the
-<cite>StBasilConfirmation</cite> directory and, in the teminal type:</p>
-<p><cite>cd docs</cite>
-<cite>sphinx-quickstart</cite></p>
+<p>To get the project directory structure I like I had to use PyCharm to create a <code class="docutils literal"><span class="pre">docs</span></code> directory in the
+<code class="docutils literal"><span class="pre">StBasilConfirmation</span></code> directory and, in the teminal type:</p>
+<p><code class="docutils literal"><span class="pre">cd</span> <span class="pre">docs</span></code>
+<code class="docutils literal"><span class="pre">sphinx-quickstart</span></code></p>
 <p>I used all the defaults and called the project: <strong>St. Basil Confirmation Candidate Website</strong> with the author:
 <strong>Fr. Jim Morris</strong>.</p>
-<p>I added <cite>startup.rst</cite> to the contents in the index.rst file and now I will try using the <cite>make html</cite> command from the
+<p>I added <code class="docutils literal"><span class="pre">startup.rst</span></code> to the contents in the index.rst file and now I will try using the <code class="docutils literal"><span class="pre">make</span> <span class="pre">html</span></code> command from the
 PyCharm terminal…</p>
-<p>It worked perfectly! I will probably want to make some changes in <cite>conf.py</cite> eventually but, for now, what I have will
+<p>It worked perfectly! I will probably want to make some changes in <code class="docutils literal"><span class="pre">conf.py</span></code> eventually but, for now, what I have will
 serve the purpose.</p>
 </div>
 <div class="section" id="step-four-initiating-version-control">
-<h3>Step Four: Initiating Version Control<a class="headerlink" href="#step-four-initiating-version-control" title="Permalink to this headline">¶</a></h3>
-<p>I clicked <cite>VCS -&gt; Initiate Version Control</cite> (or whatever it said – it disappeared from the menu after I clicked it)
+<h2>1.4. Step Four: Initiating Version Control<a class="headerlink" href="#step-four-initiating-version-control" title="Permalink to this headline">¶</a></h2>
+<p>I clicked <code class="docutils literal"><span class="pre">VCS</span> <span class="pre">-&gt;</span> <span class="pre">Initiate</span> <span class="pre">Version</span> <span class="pre">Control</span></code> (or whatever it said – it disappeared from the menu after I clicked it)
 and selected Git as my version control system. All the untracked files lit up in red.</p>
-<p>I created a <cite>.gitignore</cite> file in the <cite>StBasilConfirmation</cite> directory and populated it with the following:</p>
+<p>I created a <code class="docutils literal"><span class="pre">.gitignore</span></code> file in the <code class="docutils literal"><span class="pre">StBasilConfirmation</span></code> directory and populated it with the following:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">docs</span><span class="o">/</span><span class="n">_build</span><span class="o">/</span><span class="n">html</span><span class="o">/</span><span class="n">_sources</span><span class="o">/</span>
 <span class="n">docs</span><span class="o">/</span><span class="n">_build</span><span class="o">/</span><span class="n">html</span><span class="o">/</span><span class="n">_static</span><span class="o">/</span>
 <span class="o">.</span><span class="n">idea</span><span class="o">/</span>
@@ -91,51 +89,297 @@ and selected Git as my version control system. All the untracked files lit up in
 <p>It’s getting close to time for Confessions so I will save the rest of the startup process for later.</p>
 </div>
 <div class="section" id="step-five-installing-django">
-<h3>Step Five: Installing Django<a class="headerlink" href="#step-five-installing-django" title="Permalink to this headline">¶</a></h3>
-<p>Django is easy to install. In PyCharm’s Terminal I first verified it was in the <cite>conf</cite> virtual environment then typed:</p>
-<p><cite>pip install django</cite></p>
+<h2>1.5. Step Five: Installing Django<a class="headerlink" href="#step-five-installing-django" title="Permalink to this headline">¶</a></h2>
+<p>Django is easy to install. In PyCharm’s Terminal I first verified it was in the <code class="docutils literal"><span class="pre">conf</span></code> virtual environment then typed:</p>
+<p><code class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">django</span></code></p>
 <p>It seemed to take a while but it installed Django 1.11.7 without problems.</p>
 </div>
 <div class="section" id="step-six-creating-the-django-project">
-<h3>Step Six: Creating the Django Project<a class="headerlink" href="#step-six-creating-the-django-project" title="Permalink to this headline">¶</a></h3>
+<h2>1.6. Step Six: Creating the Django Project<a class="headerlink" href="#step-six-creating-the-django-project" title="Permalink to this headline">¶</a></h2>
 <p>In the PyCharm terminal I typed:</p>
-<p><cite>django-admin startproject StBasilConfirmation</cite></p>
+<p><code class="docutils literal"><span class="pre">django-admin</span> <span class="pre">startproject</span> <span class="pre">StBasilConfirmation</span></code></p>
 <p>which it did so quickly I wondered if it had done it correctly, especially since nothing showed up in the Project window
 until I clicked on it.</p>
 <p>I then realized it may be confusing to have the Django project name the same as the PyCharm project name and decided to
-erase the Django project by deleting the <cite>StBasilConfirmation</cite> folder created by <cite>startproject</cite>. I repeated the process
+erase the Django project by deleting the <code class="docutils literal"><span class="pre">StBasilConfirmation</span></code> folder created by <code class="docutils literal"><span class="pre">startproject</span></code>. I repeated the process
 with:</p>
-<p><cite>django-admin startproject ConfirmationWebsite</cite></p>
+<p><code class="docutils literal"><span class="pre">django-admin</span> <span class="pre">startproject</span> <span class="pre">ConfirmationWebsite</span></code></p>
 <p>and then set about making the necessary changes and additions.</p>
 <div class="section" id="changing-the-name-of-the-configuration-folder">
-<h4>Changing the Name of the Configuration Folder<a class="headerlink" href="#changing-the-name-of-the-configuration-folder" title="Permalink to this headline">¶</a></h4>
-<p>Using PyCharm’s Refactor to change the inner <cite>ConfirmationWebsite</cite> folder to <cite>config</cite> found all the necessary changes
+<h3>1.6.1. Changing the Name of the Configuration Folder<a class="headerlink" href="#changing-the-name-of-the-configuration-folder" title="Permalink to this headline">¶</a></h3>
+<p>Using PyCharm’s Refactor to change the inner <code class="docutils literal"><span class="pre">ConfirmationWebsite</span></code> folder to <code class="docutils literal"><span class="pre">config</span></code> found all the necessary changes
 in the other files and was very easy to perform. (Well, almost. I added the previous sentence before clicking “Do
 Refactor” and it complained that the code had changed and that I had to search over again.)</p>
 </div>
 <div class="section" id="installing-psycopg2">
-<h4>Installing psycopg2<a class="headerlink" href="#installing-psycopg2" title="Permalink to this headline">¶</a></h4>
+<h3>1.6.2. Installing psycopg2<a class="headerlink" href="#installing-psycopg2" title="Permalink to this headline">¶</a></h3>
 <p>I tried simply doing:</p>
-<p><cite>pip install psycopg2-2.7.3-cp36-cp36m-win_amd64.whl</cite></p>
-<p>in PyCharm’s terminal while in the project directory <cite>C:Usersfrjam_000DocumentsMyDjangoProjectsStBasilConfirmation</cite>
+<p><code class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">psycopg2-2.7.3-cp36-cp36m-win_amd64.whl</span></code></p>
+<p>in PyCharm’s terminal while in the project directory <code class="docutils literal"><span class="pre">C:\Users\frjam_000\Documents\MyDjangoProjects\StBasilConfirmation</span></code>
 but it could not find the file</p>
-<p><cite>pip install c:/psycopg2-2.7.3-cp36-cp36m-win_amd64.whl</cite></p>
+<p><code class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">c:/psycopg2-2.7.3-cp36-cp36m-win_amd64.whl</span></code></p>
 <p>worked right away.</p>
 </div>
 <div class="section" id="changing-to-postgresql">
-<h4>Changing to PostgreSQL<a class="headerlink" href="#changing-to-postgresql" title="Permalink to this headline">¶</a></h4>
+<h3>1.6.3. Changing to PostgreSQL<a class="headerlink" href="#changing-to-postgresql" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="preparing-the-local-database">
-<h5>Preparing the Local Database<a class="headerlink" href="#preparing-the-local-database" title="Permalink to this headline">¶</a></h5>
-<p>In pgAdmin III I double-clicked <cite>PostgreSQL 9.5 (localhost:5432)</cite> and entered my password (dylan selfie), right-clicked
-on <cite>Databases</cite> and selected <cite>New Database…</cite>. I called it <cite>confdatabase</cite>, named Jim as the owner, and added the
-comment: <cite>Created on the rectory computer for the St. Basil Confirmation Website.</cite></p>
+<h4>1.6.3.1. Preparing the Local Database<a class="headerlink" href="#preparing-the-local-database" title="Permalink to this headline">¶</a></h4>
+<p>In pgAdmin III I double-clicked <code class="docutils literal"><span class="pre">PostgreSQL</span> <span class="pre">9.5</span> <span class="pre">(localhost:5432)</span></code> and entered my password (dylan selfie), right-clicked
+on <code class="docutils literal"><span class="pre">Databases</span></code> and selected <code class="docutils literal"><span class="pre">New</span> <span class="pre">Database...</span></code>. I called it <code class="docutils literal"><span class="pre">confdatabase</span></code>, named Jim as the owner, and added the
+comment: <code class="docutils literal"><span class="pre">Created</span> <span class="pre">on</span> <span class="pre">the</span> <span class="pre">rectory</span> <span class="pre">computer</span> <span class="pre">for</span> <span class="pre">the</span> <span class="pre">St.</span> <span class="pre">Basil</span> <span class="pre">Confirmation</span> <span class="pre">Website.</span></code></p>
 </div>
 <div class="section" id="database-changes-in-settings-py">
-<h5>Database Changes in Settings.py<a class="headerlink" href="#database-changes-in-settings-py" title="Permalink to this headline">¶</a></h5>
-<p>This is going to involve adding the <cite>secrets.json</cite> file and dividing the <cite>settings.py</cite> file into three files in a new
-<cite>settings</cite> module. I will include the database changes when I do all of that.</p>
+<h4>1.6.3.2. Database Changes in Settings.py<a class="headerlink" href="#database-changes-in-settings-py" title="Permalink to this headline">¶</a></h4>
+<p>This is going to involve adding the <code class="docutils literal"><span class="pre">secrets.json</span></code> file and dividing the <code class="docutils literal"><span class="pre">settings.py</span></code> file into three files in a new
+<code class="docutils literal"><span class="pre">settings</span></code> module. I will include the database changes when I do all of that.</p>
 </div>
 </div>
+</div>
+<div class="section" id="step-seven-restructuring-the-django-settings">
+<h2>1.7. Step Seven: Restructuring the Django Settings<a class="headerlink" href="#step-seven-restructuring-the-django-settings" title="Permalink to this headline">¶</a></h2>
+<p>As before, I want to move the <code class="docutils literal"><span class="pre">settings.py</span></code> file into a separate <code class="docutils literal"><span class="pre">settings</span></code> folder with an <code class="docutils literal"><span class="pre">__init__.py</span></code> file to
+make it a package or module, I don’t remember which, and create seperate settings files for development and production.
+While I’m at it I might as well create the <code class="docutils literal"><span class="pre">conf-secrets.json</span></code> file to protect the secrets, rather than having them
+displayed on GitHub. Alas, now that I mention that I realize I have already published the current <code class="docutils literal"><span class="pre">settings.py</span></code> file
+on GidHub, along with the <code class="docutils literal"><span class="pre">SECRET_KEY</span></code>. I will have to change that after I create <code class="docutils literal"><span class="pre">conf-secrets.json</span></code>. I think
+there was a method listed in <cite>Django Unleashed</cite>.</p>
+<div class="section" id="creating-the-settings-module">
+<h3>1.7.1. Creating the settings Module<a class="headerlink" href="#creating-the-settings-module" title="Permalink to this headline">¶</a></h3>
+<p>I added a new directory called <code class="docutils literal"><span class="pre">settings</span></code> to the <code class="docutils literal"><span class="pre">config</span></code> directory and added an <code class="docutils literal"><span class="pre">__init__.py</span></code> file containing:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Uncomment the appropriate line according to which machine is being used.</span>
+<span class="sd">On the development machine, use dev.py, on the production machine, use prod.py</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">.dev</span> <span class="k">import</span> <span class="o">*</span>
+
+<span class="c1"># from .prod import *</span>
+</pre></div>
+</div>
+<p>This was copied from <code class="docutils literal"><span class="pre">c17Development</span></code> but with the instructional comment edited.</p>
+</div>
+<div class="section" id="base-py">
+<h3>1.7.2. base.py<a class="headerlink" href="#base-py" title="Permalink to this headline">¶</a></h3>
+<p>I copied the <code class="docutils literal"><span class="pre">settings.py</span></code> file created by Django 1.11 and copied it to <code class="docutils literal"><span class="pre">base.py</span></code>. Then I went through and changed
+it to the following:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Django settings for ConfirmationWebsite project.</span>
+
+<span class="sd">Generated by &#39;django-admin startproject&#39; using Django 1.11.7.</span>
+
+<span class="sd">For more information on this file, see</span>
+<span class="sd">https://docs.djangoproject.com/en/1.11/topics/settings/</span>
+
+<span class="sd">For the full list of settings and their values, see</span>
+<span class="sd">https://docs.djangoproject.com/en/1.11/ref/settings/</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="c1"># Build paths inside the project like this: os.path.join(BASE_DIR, ...)</span>
+<span class="n">BASE_DIR</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">))))</span>
+
+<span class="c1"># Added as per instructions in Two Scoops of Django chapter 5</span>
+
+<span class="kn">import</span> <span class="nn">json</span>
+
+<span class="kn">from</span> <span class="nn">django.core.exceptions</span> <span class="k">import</span> <span class="n">ImproperlyConfigured</span>
+<span class="kn">from</span> <span class="nn">django.core.urlresolvers</span> <span class="k">import</span> <span class="n">reverse_lazy</span>
+
+<span class="c1"># JSON-based secrets module</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">BASE_DIR</span><span class="p">,</span> <span class="s1">&#39;config/settings/conf-secrets.json&#39;</span><span class="p">))</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">secrets</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+
+<span class="k">def</span> <span class="nf">get_secret</span><span class="p">(</span><span class="n">setting</span><span class="p">,</span> <span class="n">secrets</span><span class="o">=</span><span class="n">secrets</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get the secret variable or return explicit excepton.&quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">secrets</span><span class="p">[</span><span class="n">setting</span><span class="p">]</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="n">error_msg</span> <span class="o">=</span> <span class="s2">&quot;Set the </span><span class="si">{0}</span><span class="s2"> variable in the secret file&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">setting</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">ImproperlyConfigured</span><span class="p">(</span><span class="n">error_msg</span><span class="p">)</span>
+
+
+<span class="c1"># Quick-start development settings - unsuitable for production</span>
+<span class="c1"># See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/</span>
+
+<span class="c1"># SECURITY WARNING: keep the secret key used in production secret!</span>
+<span class="n">SECRET_KEY</span> <span class="o">=</span> <span class="n">get_secret</span><span class="p">(</span><span class="s2">&quot;SECRET_KEY&quot;</span><span class="p">)</span> <span class="c1"># &#39;v5mzgm)jfqcp2^=mrh2cl+q!7i^1wj$5&amp;egyw02=n_wb)b3_zu&#39;</span>
+
+<span class="n">ALLOWED_HOSTS</span> <span class="o">=</span> <span class="p">[]</span>
+
+
+<span class="c1"># Application definition</span>
+
+<span class="n">INSTALLED_APPS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;django.contrib.admin&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;django.contrib.auth&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;django.contrib.contenttypes&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;django.contrib.sessions&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;django.contrib.messages&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;django.contrib.staticfiles&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="n">MIDDLEWARE</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;django.middleware.security.SecurityMiddleware&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;django.contrib.sessions.middleware.SessionMiddleware&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;django.middleware.common.CommonMiddleware&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;django.middleware.csrf.CsrfViewMiddleware&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;django.contrib.auth.middleware.AuthenticationMiddleware&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;django.contrib.messages.middleware.MessageMiddleware&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;django.middleware.clickjacking.XFrameOptionsMiddleware&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="n">ROOT_URLCONF</span> <span class="o">=</span> <span class="s1">&#39;config.urls&#39;</span>
+
+<span class="n">TEMPLATES</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s1">&#39;BACKEND&#39;</span><span class="p">:</span> <span class="s1">&#39;django.template.backends.django.DjangoTemplates&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;DIRS&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">BASE_DIR</span><span class="p">,</span> <span class="s1">&#39;templates&#39;</span><span class="p">)],</span>
+        <span class="s1">&#39;APP_DIRS&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="s1">&#39;OPTIONS&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;context_processors&#39;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="s1">&#39;django.template.context_processors.debug&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;django.template.context_processors.request&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;django.contrib.auth.context_processors.auth&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;django.contrib.messages.context_processors.messages&#39;</span><span class="p">,</span>
+            <span class="p">],</span>
+        <span class="p">},</span>
+    <span class="p">},</span>
+<span class="p">]</span>
+
+<span class="n">WSGI_APPLICATION</span> <span class="o">=</span> <span class="s1">&#39;config.wsgi.application&#39;</span>
+
+
+<span class="c1"># Password validation</span>
+<span class="c1"># https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators</span>
+
+<span class="n">AUTH_PASSWORD_VALIDATORS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span>
+        <span class="s1">&#39;NAME&#39;</span><span class="p">:</span> <span class="s1">&#39;django.contrib.auth.password_validation.UserAttributeSimilarityValidator&#39;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s1">&#39;NAME&#39;</span><span class="p">:</span> <span class="s1">&#39;django.contrib.auth.password_validation.MinimumLengthValidator&#39;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s1">&#39;NAME&#39;</span><span class="p">:</span> <span class="s1">&#39;django.contrib.auth.password_validation.CommonPasswordValidator&#39;</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="p">{</span>
+        <span class="s1">&#39;NAME&#39;</span><span class="p">:</span> <span class="s1">&#39;django.contrib.auth.password_validation.NumericPasswordValidator&#39;</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">]</span>
+
+
+<span class="c1"># Internationalization</span>
+<span class="c1"># https://docs.djangoproject.com/en/1.11/topics/i18n/</span>
+
+<span class="n">LANGUAGE_CODE</span> <span class="o">=</span> <span class="s1">&#39;en-us&#39;</span>
+
+<span class="n">TIME_ZONE</span> <span class="o">=</span> <span class="s1">&#39;America/Detroit&#39;</span>
+
+<span class="n">USE_I18N</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="n">USE_L10N</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="n">USE_TZ</span> <span class="o">=</span> <span class="kc">True</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="dev-py">
+<h3>1.7.3. dev.py<a class="headerlink" href="#dev-py" title="Permalink to this headline">¶</a></h3>
+<p>I copied <code class="docutils literal"><span class="pre">dev.py</span></code> from Christmas2017 and edited it to what follows:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">.base</span> <span class="k">import</span> <span class="o">*</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="c1"># SECURITY WARNING: don&#39;t run with debug turnd on in production!</span>
+<span class="n">DEBUG</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="c1"># Database</span>
+<span class="c1"># https://docs.djangoproject.com/en/1.11/ref/settings/#databases</span>
+
+<span class="n">DATABASES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;default&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;ENGINE&#39;</span><span class="p">:</span> <span class="s1">&#39;django.db.backends.postgresql&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;NAME&#39;</span><span class="p">:</span> <span class="n">get_secret</span><span class="p">(</span><span class="s1">&#39;DATABASE_NAME&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;USER&#39;</span><span class="p">:</span> <span class="n">get_secret</span><span class="p">(</span><span class="s1">&#39;DATABASE_USER&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;PASSWORD&#39;</span><span class="p">:</span> <span class="n">get_secret</span><span class="p">(</span><span class="s1">&#39;DATABASE_PASSWORD&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;HOST&#39;</span><span class="p">:</span> <span class="n">get_secret</span><span class="p">(</span><span class="s1">&#39;DATABASE_HOST&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;PORT&#39;</span><span class="p">:</span> <span class="n">get_secret</span><span class="p">(</span><span class="s1">&#39;DATABASE_PORT&#39;</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">EMAIL_BACKEND</span> <span class="o">=</span> <span class="s1">&#39;django.core.mail.backends.console.EmailBackend&#39;</span>
+
+<span class="c1"># Static files (CSS, JavaScript, Images)</span>
+<span class="c1"># https://docs.djangoproject.com/en/1.11/howto/static-files/</span>
+
+<span class="n">STATIC_URL</span> <span class="o">=</span> <span class="s1">&#39;/static/&#39;</span>
+<span class="n">STATICFILES_DIRS</span> <span class="o">=</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">BASE_DIR</span><span class="p">,</span> <span class="s1">&#39;static&#39;</span><span class="p">,</span> <span class="s1">&#39;site&#39;</span><span class="p">),</span> <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="prod-py">
+<h3>1.7.4. prod.py<a class="headerlink" href="#prod-py" title="Permalink to this headline">¶</a></h3>
+<p>Similarly, I copied <code class="docutils literal"><span class="pre">prod.py</span></code> from Christmas2017 and edited it as follows. Note that I commented some lines out until
+I know what they should contain:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">.base</span> <span class="k">import</span> <span class="o">*</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="c1"># SECURITY WARNING: don&#39;t run with debug turned on in production!</span>
+<span class="n">DEBUG</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="n">DATABASES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;default&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;ENGINE&#39;</span><span class="p">:</span> <span class="s1">&#39;django.db.backends.postgresql&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;NAME&#39;</span><span class="p">:</span> <span class="n">get_secret</span><span class="p">(</span><span class="s1">&#39;PROD_DATABASE_NAME&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;USER&#39;</span><span class="p">:</span> <span class="n">get_secret</span><span class="p">(</span><span class="s1">&#39;PROD_DATABASE_USER&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;PASSWORD&#39;</span><span class="p">:</span> <span class="n">get_secret</span><span class="p">(</span><span class="s1">&#39;PROD_DATABASE_PASSWORD&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;HOST&#39;</span><span class="p">:</span> <span class="n">get_secret</span><span class="p">(</span><span class="s1">&#39;PROD_DATABASE_HOST&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;PORT&#39;</span><span class="p">:</span> <span class="n">get_secret</span><span class="p">(</span><span class="s1">&#39;PROD_DATABASE_PORT&#39;</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1"># Static files (CSS, JavaScript, Images)</span>
+<span class="c1"># https://docs.djangoproject.com/en/1.11/howto/static-files/</span>
+
+<span class="c1"># STATIC_ROOT = os.path.join(os.path.dirname(os.path.dirname(BASE_DIR)), &#39;c17_static/&#39;)</span>
+<span class="c1"># STATIC_URL = &#39;http://christmas.jmorris.webfactional.com/static/&#39;</span>
+<span class="n">STATICFILES_DIRS</span> <span class="o">=</span> <span class="p">(</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">BASE_DIR</span><span class="p">,</span> <span class="s1">&#39;static&#39;</span><span class="p">,</span> <span class="s1">&#39;site&#39;</span><span class="p">,),</span> <span class="p">)</span>
+
+<span class="c1"># ALLOWED_HOSTS.append(&#39;christmas.jmorris.webfactional.com&#39;)</span>
+
+<span class="n">ADMINS</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="p">(</span><span class="s1">&#39;Jim&#39;</span><span class="p">,</span> <span class="s1">&#39;jmorris@ecybermind.net&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Jim&#39;</span><span class="p">,</span> <span class="s1">&#39;frjamesmorris@gmail.com&#39;</span><span class="p">)</span>
+<span class="p">)</span>
+
+
+<span class="n">EMAIL_HOST</span> <span class="o">=</span> <span class="n">get_secret</span><span class="p">(</span><span class="s1">&#39;EMAIL_HOST&#39;</span><span class="p">)</span>
+<span class="n">EMAIL_HOST_USER</span> <span class="o">=</span> <span class="n">get_secret</span><span class="p">(</span><span class="s1">&#39;EMAIL_HOST_USER&#39;</span><span class="p">)</span>
+<span class="n">EMAIL_HOST_PASSWORD</span> <span class="o">=</span> <span class="n">get_secret</span><span class="p">(</span><span class="s1">&#39;EMAIL_HOST_PASSWORD&#39;</span><span class="p">)</span>
+<span class="n">DEFAULT_FROM_EMAIL</span> <span class="o">=</span> <span class="n">get_secret</span><span class="p">(</span><span class="s1">&#39;DEFAULT_FROM_EMAIL&#39;</span><span class="p">)</span>
+<span class="n">SERVER_EMAIL</span> <span class="o">=</span> <span class="n">get_secret</span><span class="p">(</span><span class="s1">&#39;SERVER_EMAIL&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="conf-secrets-json">
+<h3>1.7.5. conf-secrets.json<a class="headerlink" href="#conf-secrets-json" title="Permalink to this headline">¶</a></h3>
+<p>Finally, I copied <code class="docutils literal"><span class="pre">secrets.json</span></code> from Christmas2017 into <code class="docutils literal"><span class="pre">conf-secrets.json</span></code> and edited it for the Confirmation
+Website. I will not copy it here.</p>
+<p>To update the <code class="docutils literal"><span class="pre">SECRET_KEY</span></code> I used the second technique given on page 736 of <cite>Django Unleashed</cite>. In PyCharm’s Terminal
+I got into the Django shell <code class="docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">shell</span></code> then typed:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.utils.crypto</span> <span class="k">import</span> <span class="n">get_random_string</span>
+<span class="n">chars</span> <span class="o">=</span> <span class="s1">&#39;abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&amp;*(-_=+)&#39;</span>
+<span class="n">get_random_string</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="n">chars</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>and it obediently printed out a new <code class="docutils literal"><span class="pre">SECRET_KEY</span></code> which I copied into <code class="docutils literal"><span class="pre">conf-secrets.json</span></code>.</p>
+</div>
+<div class="section" id="testing-the-website">
+<h3>1.7.6. Testing the Website<a class="headerlink" href="#testing-the-website" title="Permalink to this headline">¶</a></h3>
+<p>I typed <code class="docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">runserver</span></code> in PyCharm’s Terminal and, upon visiting <code class="docutils literal"><span class="pre">localhost:8000</span></code> I got the “It
+worked! message. Yay!</p>
+<p>Now I will delete the original <code class="docutils literal"><span class="pre">settings.py</span></code> file and do a commit.</p>
 </div>
 </div>
 </div>
