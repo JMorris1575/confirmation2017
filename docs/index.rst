@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to St. Basil Confirmation Candidate Website's documentation!
-====================================================================
+St. Basil Confirmation Candidate Website's documentation!
+=========================================================
 
 .. toctree::
    :maxdepth: 3
@@ -12,6 +12,9 @@ Welcome to St. Basil Confirmation Candidate Website's documentation!
    :numbered:
 
    startup
+   planning
+   building
+   deploying
 
 
 

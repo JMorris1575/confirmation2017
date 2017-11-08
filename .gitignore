@@ -1,3 +1,11 @@
 docs/_build/html/_sources/
 docs/_build/html/_static/
 .idea/
+__pycache__
+ConfirmationWebsite/config/__pycache__/
+ConfirmationWebsite/config/settings/__pycache__/
+ConfirmationWebsite/config/settings/conf-secrets.json
+docs/_build/doctrees/building.doctree
+docs/_build/doctrees/deploying.doctree
+docs/_build/doctrees/planning.doctree
+docs/_templates/

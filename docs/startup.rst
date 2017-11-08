@@ -382,3 +382,12 @@ I typed ``python manage.py runserver`` in PyCharm's Terminal and, upon visiting 
 worked! message. Yay!
 
 Now I will delete the original ``settings.py`` file and do a commit.
+
+Step Eight: Setting up a GitHub Repository
+------------------------------------------
+
+This was particularly easy in PyCharm. First I went to GitHub.com and created a new repository: ``confirmation2017``.
+Then, in PyCharm, I just went to VCS->Git->Push. The window that opened had a link that said something like
+``Define Repository`` which I clicked. The next window asked for a URL, which I copy/pasted from GitHub. Then everything
+was set for my first push.
+

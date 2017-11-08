@@ -1,0 +1,281 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>2. Planning the Confirmation Website &#8212; St. Basil Confirmation Candidate Website 1.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="3. Building the Confirmation Website" href="building.html" />
+    <link rel="prev" title="1. Starting the Confirmation Project" href="startup.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="planning-the-confirmation-website">
+<h1>2. Planning the Confirmation Website<a class="headerlink" href="#planning-the-confirmation-website" title="Permalink to this headline">¶</a></h1>
+<p>This document details the plans for the Confirmation Website for St. Basil Catholic Church, 2017. It will help design
+the database structures and plan the whole Django program.</p>
+<div class="section" id="narrative-walkthroughs">
+<h2>2.1. Narrative Walkthroughs<a class="headerlink" href="#narrative-walkthroughs" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="initial-walkthrough-from-wordperfect">
+<h3>2.1.1. Initial Walkthrough from WordPerfect<a class="headerlink" href="#initial-walkthrough-from-wordperfect" title="Permalink to this headline">¶</a></h3>
+<p>Jim the Confirmation Candidate enters the St. Basil Confirmation website by clicking a link on the parish’s own website.
+(Determine where.) Upon arriving at the site he is asked to login with the username and password provided to him by the
+church.</p>
+<p>Once he logs in he is welcomed to a page that shows the currently existing projects with checkmarks indicating his
+progress through them. When he clicks on the “Continue” button he comes to the page of his next uncompleted step. He can
+page backward through completed steps and perhaps edit his written out answers, but he cannot go ahead to pages he has
+not finished until he has completed the ones leading up to it. He finished the last project and is now ready to start
+“The Real Story of Noah.”  He clicks the “Continue” button.</p>
+<p>[Alternative: Once he logs in he is welcomed to a page that shows the currently existing projects with checkmarks next
+to ones he has finished and percentage of completion otherwise. He can select any project by clicking on its name.  He
+clicks on the “The Real Story of Noah” which he is just beginning.]</p>
+<p>Jim arrives at a page explaining what he must do, read the story of Noah in the Bible and, when he is finished, he
+clicks on the “Next” button.</p>
+<p>Jim arrives at a page asking him a question or requests his point of view or otherwise asks him to write something.
+Sometimes questions may be multiple choice or even True or False. He responds and clicks on the “Submit” button.</p>
+<p>He is brought to the next page which may or may not give him feedback on the previous question and presents a new
+question or activity. Jim… [This is where the WordPerfect file ends.]</p>
+</div>
+<div class="section" id="miguel">
+<h3>2.1.2. Miguel<a class="headerlink" href="#miguel" title="Permalink to this headline">¶</a></h3>
+<p>Miguel, a St. Basil Confirmation candidate, decides to visit the parish’s Confirmation candidate website. Upon entering
+the site he sees a red banner heading with “St. Basil Confirmation Candidate Website” at the top with a Holy Spirit
+image to the left. Below that is a form asking for his username and password. He enters these as they were given to him
+in an e-mail, or possibly even via regular mail. When he clicks the Submit button he enters the site proper.</p>
+<p>The first page he sees lists a set of activities he can accomplish. Since this is his first time at the site, they all
+indicate that he is 0% finished with that activity.</p>
+<p>He decides to select the activity labelled “Noah: The REAL Story” and enters the opening page of that activity. This
+first page simply tells him to read a passage from the bible (there is a link on the page pointing to an explanation of
+how to find passages in the bible). It instructs him to click on the “Finished Reading” button only after he has
+completed reading the passage. Behind the scenes the computer has stored the date and time he first entered the page and
+will record the date and time he clicks the “Finished Reading” button. This can be used to help ensure the candidates
+really read the passage.</p>
+<p>Miguel leaves the page and goes to his bible to read the passage. Afterwards he returns to the website and enters the
+“Noah: The REAL Story” activity again. It opens to the first page, the one with the “Finished Reading” button, which he
+now clicks.</p>
+<p>The next page asks him to read and simplify one of the footnotes in his bible. It has a box with the instructions and
+a text entry box for him to enter his answer. When he clicks “Submit” his response is stored (though he can edit it
+later) and he proceeds to the third page.</p>
+<p>This one is simpler. It asks him a multiple choice question and allows him to select one of the answers. He is tired,
+however, and he still has other homework to do, so he leaves the site for another day.</p>
+</div>
+<div class="section" id="mary">
+<h3>2.1.3. Mary<a class="headerlink" href="#mary" title="Permalink to this headline">¶</a></h3>
+<p>Mary, also a St. Basil Confirmation Candidate, has visited the website several times. When she logs in to the site she
+sees the page with all the activities she has worked on with 100% next to the ones she has completed and some other
+number indicating how much she has completed next to any she has started. She clicks on one that says 60% and goes
+immediately to page four out of five. She has completed the other three.</p>
+<p>But Mary isn’t happy with her answer to the previous page’s question so she clicks the “Previous” button at the bottom
+left and goes to the preceding question. There she can edit her answer since it was an open-ended “what are your
+thoughts” kind of question. Multiple choice questions cannot be changed because the correct answers are given jsut after
+the candidates have submitted their response.</p>
+<p>When she has edited her response she clicks the “Next” button to go back to page four and answers that question, a True
+False type.</p>
+</div>
+<div class="section" id="fr-jim">
+<h3>2.1.4. Fr. Jim<a class="headerlink" href="#fr-jim" title="Permalink to this headline">¶</a></h3>
+<p>As one of the administrators of the site, Fr. Jim has more choices than the candidates do. He can send out e-mails (to
+which the other adults involved may also have access for safe environment purposes). Fr. Jim, and at least some of the
+others also has access to a summary page of all the candidates activities. He can also comment on candidate responses
+and perhaps send individual e-mails to that candidate when he has made a comment on his or her responses.</p>
+</div>
+</div>
+<div class="section" id="thoughts-after-the-walkthroughs">
+<h2>2.2. Thoughts After the Walkthroughs<a class="headerlink" href="#thoughts-after-the-walkthroughs" title="Permalink to this headline">¶</a></h2>
+<p>The main page seems simple enough to implement. A table should be able to hold the names of the activities and the
+percent completed.</p>
+<p>Each page will have the same header and footer which can be implemented as it has in my Christmas websites.</p>
+<p>The challenge will be in the different kinds of activity pages. Somehow, each activity needs to know what kind of page
+to display and have the right kind of content available for that kind of page. There should be a timing option so that
+the time it takes the candidates to respond can be tracked and used if desired. Also, the aftermath of clicking the
+“Submit” button may differ from page to page, or at least from one type of page to another. Pages requesting text
+input should allow administrator comments, which closes that page for editing. Multiple Choice pages may optionally
+give the correct answer once the candidates have submitted their response. All these differences will have to be
+programmed in to the models somehow.</p>
+<p>I think I have enough of an idea now to think about the database models I need to design. It will probably be much like
+what I have already designed for the Christmas 2017 website.</p>
+</div>
+<div class="section" id="model-design">
+<h2>2.3. Model Design<a class="headerlink" href="#model-design" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="initial-thoughts">
+<h3>2.3.1. Initial Thoughts<a class="headerlink" href="#initial-thoughts" title="Permalink to this headline">¶</a></h3>
+<p>I will need a User model which, in addition to the user name, e-mail and password will have to keep some information
+on what the candidate has accomplished so far, where they stand in the various categories and perhaps even their
+responses to each question. On second thought, much of that information can be kept in other models: who made a response
+in a Response model, the time of entering and leaving timed pages for instance, but some things may still need to be
+kept in a supplement to Django’s <code class="docutils literal"><span class="pre">auth.user</span></code> model.</p>
+<p>There will need to be a model for the different types of pages: the instruction page, the text input page, the multiple
+choice page. Some of these will have to have the ability to store usage dates and times corresponding to each user.</p>
+</div>
+<div class="section" id="data-listing">
+<h3>2.3.2. Data Listing<a class="headerlink" href="#data-listing" title="Permalink to this headline">¶</a></h3>
+<p>A quick glance of Chapter 30 of <em>Django Unleashed</em> suggested, at least to me, that it might be helpful to simply list
+the data that needs to be recorded without much concern as to models at the beginning. Here is an attempt to do that:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">What</span> <span class="n">Needs</span> <span class="n">to</span> <span class="n">be</span> <span class="n">Remembered</span>
+
+<span class="n">The</span> <span class="n">activities</span>
+<span class="n">The</span> <span class="n">pages</span> <span class="k">for</span> <span class="n">each</span> <span class="n">activity</span>
+<span class="n">The</span> <span class="nb">type</span> <span class="n">of</span> <span class="n">page</span><span class="p">:</span> <span class="n">instructions</span><span class="p">,</span> <span class="nb">open</span> <span class="n">answer</span><span class="p">,</span> <span class="n">multiple</span> <span class="n">choice</span><span class="o">/</span><span class="n">true</span><span class="o">-</span><span class="n">false</span><span class="p">,</span> <span class="n">timed</span>
+<span class="n">Suggested</span> <span class="n">answers</span> <span class="k">for</span> <span class="n">multiple</span> <span class="n">choice</span> <span class="n">questions</span>
+<span class="n">User</span> <span class="n">history</span><span class="p">:</span> <span class="n">pages</span> <span class="n">completed</span><span class="p">,</span> <span class="n">date</span><span class="o">-</span><span class="n">time</span> <span class="n">of</span> <span class="n">entry</span> <span class="ow">and</span> <span class="n">leaving</span> <span class="n">pages</span> <span class="n">marked</span>
+<span class="n">User</span> <span class="n">Responses</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="urls">
+<h2>2.4. URLs<a class="headerlink" href="#urls" title="Permalink to this headline">¶</a></h2>
+<p>Here is my first attempt to plan the URL scheme of the website:</p>
+<table border="1" class="colwidths-auto docutils" id="id1">
+<caption><span class="caption-text"><strong>URL Patterns - First Attempt</strong></span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">URL</th>
+<th class="head">Page(s) Addressed</th>
+<th class="head">Notes</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>/</td>
+<td>login.html</td>
+<td>Entering the site brings them to the login page</td>
+</tr>
+<tr class="row-odd"><td>/login</td>
+<td>login.html</td>
+<td>This is the URL to which / redirects</td>
+</tr>
+<tr class="row-even"><td>/main</td>
+<td>activities.html</td>
+<td>The page with the list of activities</td>
+</tr>
+<tr class="row-odd"><td>/&lt;activity-slug&gt;/create</td>
+<td>activity_create.html</td>
+<td>page where administrators can create new activities</td>
+</tr>
+<tr class="row-even"><td>/&lt;activity-slug&gt;/&lt;n&gt;</td>
+<td>&lt;page-type&gt;.html</td>
+<td>&lt;page-type&gt; selected by activity and page number &lt;n&gt;</td>
+</tr>
+<tr class="row-odd"><td>/&lt;activity-slug/&lt;n&gt;/create</td>
+<td>&lt;create-page-type&gt;.html</td>
+<td>pages for administrators to create new pages</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="index.html">
+    <img class="logo" src="_static/images/HolyspiritYellowRedFlipped.png" alt="Logo"/>
+    
+  </a>
+</p>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="startup.html">1. Starting the Confirmation Project</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">2. Planning the Confirmation Website</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#narrative-walkthroughs">2.1. Narrative Walkthroughs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#initial-walkthrough-from-wordperfect">2.1.1. Initial Walkthrough from WordPerfect</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#miguel">2.1.2. Miguel</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mary">2.1.3. Mary</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fr-jim">2.1.4. Fr. Jim</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#thoughts-after-the-walkthroughs">2.2. Thoughts After the Walkthroughs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#model-design">2.3. Model Design</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#initial-thoughts">2.3.1. Initial Thoughts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#data-listing">2.3.2. Data Listing</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#urls">2.4. URLs</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="building.html">3. Building the Confirmation Website</a></li>
+<li class="toctree-l1"><a class="reference internal" href="deploying.html">4. Deploying the Confirmation Website</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="startup.html" title="previous chapter">1. Starting the Confirmation Project</a></li>
+      <li>Next: <a href="building.html" title="next chapter">3. Building the Confirmation Website</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Fr. Jim Morris.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/planning.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -89,7 +89,12 @@ html_theme = 'alabaster'
 # further.  For a list of options available for each theme, see the
 # documentation.
 #
-# html_theme_options = {}
+html_theme_options = {
+    'logo': 'images/HolyspiritYellowRedFlipped.png',
+    'page_width': '1200px',
+    'sidebar_width': '300px',
+    'show_related': 'true',
+}
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -103,6 +108,8 @@ html_static_path = ['_static']
 # refs: http://alabaster.readthedocs.io/en/latest/installation.html#sidebars
 html_sidebars = {
     '**': [
+        'about.html',
+        'navigation.html',
         'relations.html',  # needs 'show_related': True theme option to display
         'searchbox.html',
     ]
@@ -161,7 +168,7 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
     (master_doc, 'StBasilConfirmationCandidateWebsite', 'St. Basil Confirmation Candidate Website Documentation',
-     author, 'StBasilConfirmationCandidateWebsite', 'One line description of project.',
+     author, 'StBasilConfirmationCandidateWebsite', 'Activity Website for St. Basil Confirmation Candidates.',
      'Miscellaneous'),
 ]
 
