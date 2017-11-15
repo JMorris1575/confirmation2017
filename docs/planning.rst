@@ -135,6 +135,111 @@ the data that needs to be recorded without much concern as to models at the begi
     User history: pages completed, date-time of entry and leaving pages marked
     User Responses
 
+Models to Test
+++++++++++++++
+
+I have just completed my Model Experimentation project that it may be able to be used to test the models I develop here.
+Here are my initial model ideas::
+
+    * Augment the User model to keep track of the last page completed in each activity the number of pages completed
+    * Create an Activity model with the name of that activity
+    * Create a Page model connected to an Activity and an indicator as to the type of page
+    * Create a Question model with the text of the question and the page on which it appears
+    * Create a Response model with the question to which it belongs, a possible response, and whether this response
+    is correct
+    true/false questions
+    * Create an Essay model pointing to the question to which it belongs and a space for the answers and the user who
+    answers this way
+    * Create a User_Answers model with activity, page, their response to that page and whether their answer was correct
+    * Allow for an anonymous User for essay questions or comments that should remain anonymous
+
+So, here goes:
+
+.. csv-table:: **Activity Model**
+    :header: "Field Name", "Type", "Parameters", "Notes"
+    :widths: auto
+
+    number, IntegerField, primary_key=True, so that activities can be re-ordered
+    name, CharField, max_characters=30, the name to be displayed in the list and headings
+
+|
+
+.. csv-table:: **Page Model**
+    :header: "Field Name", "Type", "Parameters", "Notes"
+    :widths: auto
+
+    activity, "ForeignKey", 'Activity', the activity to which this page belongs
+    type, CharField, , the type of page: INSTRUCTIONS; MULTICHOICE; ESSAY; ANONYMOUS
+    timed, Boolean, , True if this page is to be timed; False otherwise
+
+|
+
+.. csv-table:: **Question Model**
+    :header: "Field Name", "Type", "Parameters", "Notes"
+    :widths: auto
+
+    page, ForeignKey, 'Page', the page on which this question appears
+    text. CharField, max_length=400, the text of the question
+
+|
+
+.. csv-table:: **Response Model**
+    :header: "Field Name", "Type", "Parameters", "Notes"
+    :widths: auto
+
+    question, ForeignKey, 'Question', the question to which this is a possible response
+    text, CharField, max_length=100, the text of the possible response
+    correct, Boolean, , True if this is the correct response; False otherwise
+
+|
+
+.. csv-table:: **Essay Model**
+    :header: "Field Name", "Type", "Parameters", "Notes"
+    :widths: auto
+
+    question, ForeignKey, 'Question', the question to which this response belongs
+    user, ForeignKey, 'User', the user responding (could be anonymous)
+    text, TextField, , the response
+
+|
+
+.. csv-table:: **User-Answer Model**
+    :header: "Field Name", "Type", "Parameters", "Notes"
+    :widths: auto
+
+    user, ForeignKey, 'User', the user making this response
+    question, ForeignKey, 'Question', the question to which this response belongs
+    response, ForeignKey, 'Response', the response they chose to questions on MULTICHOICE pages
+    essay, ForeignKey, 'Essay', the text they wrote to questions on ESSAY pages
+    time, DateTimeField?, , the time it took them to complete a TIMED page
+
+|
+
+.. csv-table:: **User_Profile Model**
+    :header: "Field Name", "Type", "Parameters", "Notes"
+    :widths: auto
+
+    total_pages, IntegerField, , total number of pages completed
+    last_page, ForeignKey, 'Page', last page completed
+
+|
+
+What I Learned from the Models Above
+++++++++++++++++++++++++++++++++++++
+
+**Activity Model**: I may have to develop some means of breaking larger activities into sub-activities but I will definitely
+have to figure out how to make some choices unavailable if the candidate has not completed its prerequisites -- so that,
+for instance, Abraham Episode 3 cannot be done before Episodes 1 or 2.  That presumes, however, that the unavailable
+ones will be listed together with the available ones. That is not necessarily the case. I could put the different
+episodes into a page sequence and ensure, somehow, that the pages have to be completed in order.
+
+**Activity Model**: I need to add a slug field to the Activity Model so that it can be used to identify the different
+activities in the url. It should be based on the name of the activity and added/computed when the activity is created.
+
+
+
+
+
 URLs
 ----
 

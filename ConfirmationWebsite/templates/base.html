@@ -1,0 +1,47 @@
+{% load staticfiles %}
+
+<! DOCTYPE html >
+
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <title>
+            {% block title %}
+                St. Basil Confirmation -
+            {% endblock %}
+        </title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!--[if IE]><script
+            src="http://html5shiv.googlecode.com/svn/trunk/html5.js">
+        </script><![endif]-->
+        <link rel="stylesheet" type="text/css"
+              href="{% static 'site/normalize.css' %}">
+        <link rel="stylesheet" type="text/css"
+              href="{% static 'site/skeleton.css' %}">
+        <link rel="stylesheet" type="text/css"
+              href="{% static 'site/custom.css' %}">
+        {% block head %}{% endblock %}
+    </head>
+
+    <body>
+        <div class="container"><!-- container -->
+            <header class="row">
+                <div class="offset-by-two eight columns">
+                    <h1 class="logo">St. Basil Confirmation Activities</h1>
+                </div>
+            </header>
+            <main>
+                {% block content %}
+                    This is default content!
+                {% endblock %}
+            </main>
+        </div><!-- container -->
+
+        <footer>
+            <p class="offset-by-nine three columns">
+                Developed by Fr. Jim Morris
+            </p>
+        </footer>
+    </body>
