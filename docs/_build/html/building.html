@@ -83,18 +83,13 @@ something about using <code class="docutils literal"><span class="pre">reverse_l
 <p><strong>Does the url ``/login/`` result in the display of the login page?</strong> No. I got a “Page not found (404)” error. It
 found no reference to <code class="docutils literal"><span class="pre">/login/</span></code> in the url patterns.</p>
 <p>Working Toward a Solution: I departed from the strict, or even lenient, TDD path but this is what I had to do:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">*</span> <span class="n">add</span> <span class="n">user</span><span class="o">.</span><span class="n">apps</span><span class="o">.</span><span class="n">UserConfig</span> <span class="n">to</span> <span class="n">the</span> <span class="n">installed</span> <span class="n">apps</span>
-<span class="o">*</span> <span class="n">add</span> <span class="n">LOGIN_URL</span> <span class="o">=</span> <span class="s1">&#39;/login/&#39;</span> <span class="n">to</span> <span class="n">the</span> <span class="n">base</span><span class="o">.</span><span class="n">py</span> <span class="n">file</span>
-<span class="o">*</span> <span class="n">use</span> <span class="n">the</span> <span class="n">following</span> <span class="k">as</span> <span class="n">my</span> <span class="n">url</span> <span class="n">patterns</span><span class="p">:</span>
-    <span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^$&#39;</span><span class="p">,</span> <span class="n">RedirectView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s1">&#39;login/&#39;</span><span class="p">)),</span>
-        <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^admin/&#39;</span><span class="p">,</span> <span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">urls</span><span class="p">),</span>
-        <span class="n">url</span><span class="p">(</span><span class="s1">&#39;^&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="s1">&#39;django.contrib.auth.urls&#39;</span><span class="p">)),</span>
-    <span class="p">]</span>
-<span class="o">*</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">user</span> <span class="n">app</span> <span class="n">folder</span><span class="p">,</span> <span class="n">create</span> <span class="n">a</span> <span class="n">templates</span> <span class="n">directory</span> <span class="n">containing</span> <span class="n">a</span> <span class="n">registration</span> <span class="n">directory</span> <span class="n">containing</span> <span class="n">login</span><span class="o">.</span><span class="n">html</span>
-<span class="o">*</span> <span class="n">created</span> <span class="n">a</span> <span class="n">simple</span> <span class="n">login</span><span class="o">.</span><span class="n">html</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">registration</span> <span class="n">directory</span><span class="o">.</span>
-</pre></div>
-</div>
+<ul class="simple">
+<li>add user.apps.UserConfig to the installed apps</li>
+<li>add LOGIN_URL = ‘/login/’ to the base.py file</li>
+<li>use the url patterns: [url(r’^$’, RedirectView.as_view(url=’login/’)), url(r’^admin/’, admin.site.urls), url(‘^’, include(‘django.contrib.auth.urls’)),]</li>
+<li>in the user app folder, create a templates directory containing a registration directory containing login.html</li>
+<li>created a simple login.html file in the registration directory.</li>
+</ul>
 <p>Next I will want to create a <code class="docutils literal"><span class="pre">base.html</span></code> file someplace to form the base of all my html documents.</p>
 </div>
 <div class="section" id="improving-the-templates">
@@ -184,6 +179,192 @@ found no reference to <code class="docutils literal"><span class="pre">/login/</
 </pre></div>
 </div>
 </div>
+<div class="section" id="logging-in">
+<h3>3.1.3. Logging In<a class="headerlink" href="#logging-in" title="Permalink to this headline">¶</a></h3>
+<p><strong>Does entering a username and password on the login page result on arriving at the Welcome page?</strong> No. Django throws
+some goofy ProgrammingError about <code class="docutils literal"><span class="pre">&quot;auth_user&quot;</span> <span class="pre">does</span> <span class="pre">not</span> <span class="pre">exist</span></code>. I need to run <code class="docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">createsuperuser</span></code>.</p>
+<p><strong>Can you create a superuser?</strong> No. It threw the same error as before but, in the command window, Django also reminded
+me to perform a <code class="docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">migrate</span></code>. When I did that it did mention that “auth” was one of the migrations it
+performed.</p>
+<p><strong>Does entering a username and password on the login page result on arriving at the Welcome page?</strong> No. It just keeps
+returning to the login page with no error messages. I will have to deal with that (the no error messages) later.
+Otherwise I need to create some users after creating a superuser.</p>
+<p><strong>Can you create a superuser?</strong> Yes. I used ‘Jim’ as my username, <a class="reference external" href="mailto:'FrJamesMorris&#37;&#52;&#48;gmail&#46;com">‘FrJamesMorris<span>&#64;</span>gmail<span>&#46;</span>com</a>’ as my e-mail and
+dylan-selfie as my password.</p>
+<p><strong>Does entering a username and password on the login page result on arriving at the Welcome page?</strong> No. It seems to be
+accepting the username and password I created for the superuser but tries to send me to the default
+<code class="docutils literal"><span class="pre">/accounts/profile/</span></code> page. I need to add a welcome page and the means of arriving there.</p>
+</div>
+<div class="section" id="arriving-at-the-welcome-page">
+<h3>3.1.4. Arriving at the Welcome Page<a class="headerlink" href="#arriving-at-the-welcome-page" title="Permalink to this headline">¶</a></h3>
+<p>What I think I need to do is:</p>
+<ol class="arabic simple">
+<li>Import reverse_lazy from django.core.urlresolvers</li>
+<li>Add a LOGIN_REDIRECT_URL to base.py</li>
+<li>Create a new ‘activities’ app that will hold the welcome page</li>
+<li>Include the activities url patterns in config.urls.py</li>
+<li>Create an activities_welcome.html page to display the welcome page</li>
+<li>Create a view to control what gets rendered on that page</li>
+</ol>
+<p>I learned that number 1 was already done, but not used yet.</p>
+<p>For number 2 I added LOGIN_REDIRECT_URL = reverse_lazy(‘welcome’)</p>
+<p><strong>Does entering a username and password on the login page result on arriving at the Welcome page?</strong> No. It says:
+<code class="docutils literal"><span class="pre">Reverse</span> <span class="pre">for</span> <span class="pre">'welcome'</span> <span class="pre">not</span> <span class="pre">found.</span> <span class="pre">'welcome'</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">a</span> <span class="pre">valid</span> <span class="pre">view</span> <span class="pre">function</span> <span class="pre">or</span> <span class="pre">pattern</span> <span class="pre">name</span></code>. I’ll make it a valid
+pattern name as in step 4 above.</p>
+<p><strong>Does entering a username and password on the login page result on arriving at the Welcome page?</strong> No. The name
+‘activities’ was not defined because I have neither created it nor imported it into base.py. I will import it into
+<code class="docutils literal"><span class="pre">config.urls.py</span></code> even though it doesn’t yet exist.</p>
+<p><strong>Does entering a username and password on the login page result on arriving at the Welcome page?</strong> No. I got a
+<code class="docutils literal"><span class="pre">module</span> <span class="pre">not</span> <span class="pre">found</span></code> error. I will use <code class="docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">startapp</span> <span class="pre">activities</span></code> to create the activities app.</p>
+<p><strong>Does entering a username and password on the login page result on arriving at the Welcome page?</strong> No. <code class="docutils literal"><span class="pre">startapp</span></code>
+does not create a default <code class="docutils literal"><span class="pre">urls.py</span></code> file. I will create it myself.</p>
+<p><strong>Does entering a username and password on the login page result on arriving at the Welcome page?</strong> No. Importing
+<code class="docutils literal"><span class="pre">activities.urls</span></code> into <code class="docutils literal"><span class="pre">config.urls</span></code> does not seem to work. I will change the url pattern to
+<code class="docutils literal"><span class="pre">url('^activity/',</span> <span class="pre">include('activity.urls'),</span> <span class="pre">name='welcome')</span></code></p>
+<p><strong>Does entering a username and password on the login page result on arriving at the Welcome page?</strong> No. But I’m getting
+closer. It got to <code class="docutils literal"><span class="pre">activity/urls</span></code> (I changed the name of the <code class="docutils literal"><span class="pre">activities</span></code> app above to <code class="docutils literal"><span class="pre">activity</span></code>) but found an
+empty file. I will put the following into it:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.conf.urls</span> <span class="k">import</span> <span class="n">url</span>
+
+<span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^$&#39;</span><span class="p">,</span> <span class="n">WelcomePage</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;welcome_page&#39;</span><span class="p">)</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p><strong>Does entering a username and password on the login page result on arriving at the Welcome page?</strong> No. <code class="docutils literal"><span class="pre">WelcomePage</span></code>
+is not defined in <code class="docutils literal"><span class="pre">activity.urls.py</span></code> I will import it.</p>
+<p><strong>Does entering a username and password on the login page result on arriving at the Welcome page?</strong> No. It cannot import
+<code class="docutils literal"><span class="pre">WelcomePage</span></code> because that view does not exist. I will create it as a stub.</p>
+<p><strong>Does entering a username and password on the login page result on arriving at the Welcome page?</strong> No. This time it
+says <code class="docutils literal"><span class="pre">'WelcomePage'</span> <span class="pre">has</span> <span class="pre">no</span> <span class="pre">attribute</span> <span class="pre">'as_view'</span></code> I think I need to subclass Views in my WelcomePage class. Before that
+I need to import it from django.views.generic.</p>
+<p><strong>Does entering a username and password on the login page result on arriving at the Welcome page?</strong> No. But it went back
+to telling me <code class="docutils literal"><span class="pre">Reverse</span> <span class="pre">for</span> <span class="pre">'welcome'</span> <span class="pre">not</span> <span class="pre">found.</span> <span class="pre">'welcome'</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">a</span> <span class="pre">valid</span> <span class="pre">view</span> <span class="pre">function</span> <span class="pre">or</span> <span class="pre">pattern</span> <span class="pre">name.</span></code> It is a valid
+pattern name now so it must be looking for the view to return something. I added a simple function to it:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">WelcomePage</span><span class="p">(</span><span class="n">View</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="k">return</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Does entering a username and password on the login page result on arriving at the Welcome page?</strong> No. It kept telling
+me <code class="docutils literal"><span class="pre">'welcome'</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">a</span> <span class="pre">valid</span> <span class="pre">view</span> <span class="pre">function</span> <span class="pre">of</span> <span class="pre">pattern</span> <span class="pre">name.</span></code> It needed a <code class="docutils literal"><span class="pre">post</span></code> method in the WelcomePage class:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">WelcomePage</span><span class="p">(</span><span class="n">View</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Does entering a username and password on the login page result on arriving at the Welcome page?</strong> No. <code class="docutils literal"><span class="pre">render()</span></code>
+has <code class="docutils literal"><span class="pre">1</span> <span class="pre">required</span> <span class="pre">positional</span> <span class="pre">argument:</span> <span class="pre">'template_name'</span></code>. I will add one: <code class="docutils literal"><span class="pre">template_name</span> <span class="pre">=</span> <span class="pre">'actiity/welcome.html'</span></code></p>
+<p><strong>Does entering a username and password on the login page result on arriving at the Welcome page?</strong> No. But now I got
+<code class="docutils literal"><span class="pre">TemplateDoesNotExist</span> <span class="pre">at</span> <span class="pre">/activity/welcome/</span></code>. I will add a stub welcome.html file to <code class="docutils literal"><span class="pre">activity.templates.activity</span></code>.</p>
+<p><strong>Does entering a username and password on the login page result on arriving at the Welcome page?</strong> No. Still can’t find
+the template maybe <code class="docutils literal"><span class="pre">template_name</span> <span class="pre">=</span> <span class="pre">'welcome/welcome.html'</span></code> will work.</p>
+<p><strong>Does entering a username and password on the login page result on arriving at the Welcome page?</strong> No. It kept giving
+me the <code class="docutils literal"><span class="pre">TemplateDoesNotExist</span></code> error. I finally realized I haven’t informed Django that the activity app exists. I will
+add <code class="docutils literal"><span class="pre">'activity.apps.ActivityConfig',</span></code> to the <code class="docutils literal"><span class="pre">INSTALLED_APPS</span></code> variabe in <code class="docutils literal"><span class="pre">base.py</span></code>.</p>
+<p><strong>Does entering a username and password on the login page result on arriving at the Welcome page?</strong> No. A message in
+the terminal says
+<code class="docutils literal"><span class="pre">ModuleNotFoundError:</span> <span class="pre">No</span> <span class="pre">module</span> <span class="pre">named</span> <span class="pre">'activity.apps.ActivityConfig';</span> <span class="pre">'activity.apps'</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">a</span> <span class="pre">package</span></code>. Inside the
+<code class="docutils literal"><span class="pre">apps.py</span></code> file the class name was still <code class="docutils literal"><span class="pre">ActivitiesConfig</span></code> so I changed it to <code class="docutils literal"><span class="pre">ActivityConfig</span></code>.</p>
+<p><strong>Does entering a username and password on the login page result on arriving at the Welcome page?</strong> No. It got to a
+page with the proper header and footer but it still contained the default content. I will add the {% block content %}
+and {% endblock %} around the ‘Got to the Welcome page!’ stub.</p>
+<p><strong>Does entering a username and password on the login page result on arriving at the Welcome page?</strong> Yes! Hurray! Now I
+can do something else.</p>
+</div>
+<div class="section" id="addingg-the-activity-list-to-the-welcome-page">
+<h3>3.1.5. Addingg the Activity List to the Welcome Page<a class="headerlink" href="#addingg-the-activity-list-to-the-welcome-page" title="Permalink to this headline">¶</a></h3>
+<p>This will Finishing the welcome page is going to require me to:</p>
+<ol class="arabic simple">
+<li>Update <code class="docutils literal"><span class="pre">welcome.html</span></code> to include the display of a list of activities</li>
+<li>Update the <code class="docutils literal"><span class="pre">get</span></code> method in the WelcomePage view class to feed the template the right values</li>
+<li>Create the Activity model, make migrations and migrate</li>
+<li>Make it look nice with css</li>
+</ol>
+<p>I thought of a better way to document my approach to Test Driven Development. Each question can appear as the title of
+a csv-table with the results and subsequent actions as the table columns.</p>
+<table border="1" class="colwidths-auto docutils" id="id1">
+<caption><span class="caption-text"><strong>Does a list of activities appear on the welcome page?</strong></span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Result</th>
+<th class="head">Action before next test</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>No</td>
+<td>Add a simple listing to the <code class="docutils literal"><span class="pre">welcome.html</span></code> file using the context variable <code class="docutils literal"><span class="pre">activities</span></code></td>
+</tr>
+<tr class="row-odd"><td>No</td>
+<td>page displayed with no list; update the <code class="docutils literal"><span class="pre">get</span></code> method in WelcomePage view</td>
+</tr>
+<tr class="row-even"><td>No</td>
+<td>ImportError upon writing <a class="reference internal" href="#act-import"><span class="std std-ref">import</span></a>; create the <a class="reference internal" href="#activity-model"><span class="std std-ref">model</span></a> and migrate.</td>
+</tr>
+<tr class="row-odd"><td>No</td>
+<td>still nothing in list; <a class="reference internal" href="#send-context"><span class="std std-ref">send a context variable</span></a> from <code class="docutils literal"><span class="pre">views.WelcomePage.get</span></code>.</td>
+</tr>
+<tr class="row-even"><td>No</td>
+<td>use admin app to add some activities</td>
+</tr>
+<tr class="row-odd"><td>No</td>
+<td>register Activity in <code class="docutils literal"><span class="pre">activities.admin.py</span></code>: <code class="docutils literal"><span class="pre">from</span> <span class="pre">.models</span> <span class="pre">import</span> <span class="pre">Activity...</span> <span class="pre">admin.site.register(Activity)</span></code></td>
+</tr>
+<tr class="row-even"><td>No</td>
+<td>nothing to show in list; add four activities to the Activity model</td>
+</tr>
+<tr class="row-odd"><td>Yes!</td>
+<td>Now to make it look nice</td>
+</tr>
+</tbody>
+</table>
+<p id="act-import">The Activity model import in <code class="docutils literal"><span class="pre">activity.views.py</span></code>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">.models</span> <span class="k">import</span> <span class="n">Activity</span>
+</pre></div>
+</div>
+<p id="activity-model">The Activity Model:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Activity</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">number</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">(</span><span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">slug</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">SlugField</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+</pre></div>
+</div>
+<p id="send-context">Sending the ‘activities’ context variable from activity.views.WelcomePage.get:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+    <span class="n">activities</span> <span class="o">=</span> <span class="n">Activity</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">template_name</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;activities&#39;</span><span class="p">:</span> <span class="n">activities</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="things-i-learned-or-still-need-to-study">
+<h2>3.2. Things I Learned or Still Need to Study<a class="headerlink" href="#things-i-learned-or-still-need-to-study" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="static-files">
+<h3>3.2.1. Static Files<a class="headerlink" href="#static-files" title="Permalink to this headline">¶</a></h3>
+<p>In order to get the <code class="docutils literal"><span class="pre">skeleton.css</span></code> files etc. to work I had to put these lines into my <code class="docutils literal"><span class="pre">base.py</span></code> program:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">STATIC_URL</span> <span class="o">=</span> <span class="s1">&#39;/static/&#39;</span>
+<span class="n">STATICFILES_DIRS</span> <span class="o">=</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">BASE_DIR</span><span class="p">,</span> <span class="s2">&quot;static&quot;</span><span class="p">,</span> <span class="s2">&quot;site&quot;</span> <span class="p">),</span> <span class="p">)</span>
+</pre></div>
+</div>
+<p>and the references to them had to change to:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">link</span> <span class="n">rel</span><span class="o">=</span><span class="s2">&quot;stylesheet&quot;</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;text/css&quot;</span>
+      <span class="n">href</span><span class="o">=</span><span class="s2">&quot;{</span><span class="si">% s</span><span class="s2">tatic &#39;/normalize.css&#39; %}&quot;</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">link</span> <span class="n">rel</span><span class="o">=</span><span class="s2">&quot;stylesheet&quot;</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;text/css&quot;</span>
+      <span class="n">href</span><span class="o">=</span><span class="s2">&quot;{</span><span class="si">% s</span><span class="s2">tatic &#39;/skeleton.css&#39; %}&quot;</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">link</span> <span class="n">rel</span><span class="o">=</span><span class="s2">&quot;stylesheet&quot;</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;text/css&quot;</span>
+      <span class="n">href</span><span class="o">=</span><span class="s2">&quot;{</span><span class="si">% s</span><span class="s2">tatic &#39;custom.css&#39; %}&quot;</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>I’m not sure why I couldn’t do it as it was done in <em>Django Unleashed</em> but whatever works is fine by me.</p>
+<p><strong>I may need to study how Django handles static files.</strong></p>
+</div>
 </div>
 </div>
 
@@ -216,6 +397,13 @@ found no reference to <code class="docutils literal"><span class="pre">/login/</
 <li class="toctree-l2"><a class="reference internal" href="#the-user-app">3.1. The user App</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#getting-to-the-login-page">3.1.1. Getting to the Login Page</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#improving-the-templates">3.1.2. Improving the Templates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#logging-in">3.1.3. Logging In</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#arriving-at-the-welcome-page">3.1.4. Arriving at the Welcome Page</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#addingg-the-activity-list-to-the-welcome-page">3.1.5. Addingg the Activity List to the Welcome Page</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#things-i-learned-or-still-need-to-study">3.2. Things I Learned or Still Need to Study</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#static-files">3.2.1. Static Files</a></li>
 </ul>
 </li>
 </ul>

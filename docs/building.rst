@@ -51,18 +51,13 @@ This did not redirect to /login/ so I added the RedirectView line back in.
 **Does the url ``/login/`` result in the display of the login page?** No. I got a "Page not found (404)" error. It
 found no reference to ``/login/`` in the url patterns.
 
-Working Toward a Solution: I departed from the strict, or even lenient, TDD path but this is what I had to do::
+Working Toward a Solution: I departed from the strict, or even lenient, TDD path but this is what I had to do:
 
-    * add user.apps.UserConfig to the installed apps
-    * add LOGIN_URL = '/login/' to the base.py file
-    * use the following as my url patterns:
-        urlpatterns = [
-            url(r'^$', RedirectView.as_view(url='login/')),
-            url(r'^admin/', admin.site.urls),
-            url('^', include('django.contrib.auth.urls')),
-        ]
-    * in the user app folder, create a templates directory containing a registration directory containing login.html
-    * created a simple login.html file in the registration directory.
+* add user.apps.UserConfig to the installed apps
+* add LOGIN_URL = '/login/' to the base.py file
+* use the url patterns: [url(r'^$', RedirectView.as_view(url='login/')), url(r'^admin/', admin.site.urls), url('^', include('django.contrib.auth.urls')),]
+* in the user app folder, create a templates directory containing a registration directory containing login.html
+* created a simple login.html file in the registration directory.
 
 Next I will want to create a ``base.html`` file someplace to form the base of all my html documents.
 
@@ -273,6 +268,61 @@ and {% endblock %} around the 'Got to the Welcome page!' stub.
 
 **Does entering a username and password on the login page result on arriving at the Welcome page?** Yes! Hurray! Now I
 can do something else.
+
+Addingg the Activity List to the Welcome Page
++++++++++++++++++++++++++++++++++++++++++++++
+
+This will Finishing the welcome page is going to require me to:
+
+#. Update ``welcome.html`` to include the display of a list of activities
+#. Update the ``get`` method in the WelcomePage view class to feed the template the right values
+#. Create the Activity model, make migrations and migrate
+#. Make it look nice with css
+
+I thought of a better way to document my approach to Test Driven Development. Each question can appear as the title of
+a csv-table with the results and subsequent actions as the table columns.
+
+.. csv-table:: **Does a list of activities appear on the welcome page?**
+    :header: "Result", "Action before next test"
+    :widths: auto
+
+    No, Add a simple listing to the ``welcome.html`` file using the context variable ``activities``
+    No, page displayed with no list; update the ``get`` method in WelcomePage view
+    No, ImportError upon writing :ref:`import<act_import>`; create the :ref:`model<activity_model>` and migrate.
+    No, still nothing in list; :ref:`send a context variable<send_context>` from ``views.WelcomePage.get``.
+    No, use admin app to add some activities
+    No, register Activity in ``activities.admin.py``: ``from .models import Activity... admin.site.register(Activity)``
+    No, nothing to show in list; add four activities to the Activity model
+    Yes!, Now to make it look nice
+
+.. _act_import:
+
+The Activity model import in ``activity.views.py``::
+
+    from .models import Activity
+
+.. _activity_model:
+
+The Activity Model::
+
+    class Activity(models.Model):
+        number = models.IntegerField(unique=True)
+        name = models.CharField(max_length=100)
+        slug = models.SlugField()
+
+        def __str__(self):
+            return self.name
+
+.. _send_context:
+
+Sending the 'activities' context variable from activity.views.WelcomePage.get::
+
+        def get(self, request):
+            activities = Activity.objects.all()
+            return render(request, self.template_name, {'activities': activities})
+
+
+
 
 
 

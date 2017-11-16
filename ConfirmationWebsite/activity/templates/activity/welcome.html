@@ -2,5 +2,7 @@
 
 
 {% block content %}
-    Got to the Welcome page!
+    {% for activity in activities %}
+        <p>{{ activity }}</p>
+    {% endfor %}
 {% endblock %}
