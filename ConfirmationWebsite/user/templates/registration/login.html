@@ -3,5 +3,20 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-    Yay!!!
+    <p class="offset-by-three six columns info u-full-width">
+        Enter the Username and Password you were given then click the "Submit" button. Both the Username and Password
+        are case sensitive.
+    </p>
+    <form class="offset-by-four four columns u-full-width" method="post">
+        <p>
+            <label for="id_username">Username:</label>
+            <input class="u-full-width" type="text"
+                   name="username" autofocus maxlength="254" required id="id_username" />
+            <label for="id_password">Password:</label>
+            <input class="u-full-width" type="password"
+                   name="password" required id="id_password" />
+            <input class="button-primary" value="Login" type="submit">
+        </p>
+        {% csrf_token %}
+    </form>
 {% endblock %}

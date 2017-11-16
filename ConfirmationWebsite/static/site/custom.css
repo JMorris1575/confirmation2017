@@ -1,0 +1,9 @@
+header,
+footer {
+    color: #ffdd55;
+    background-color: #d40000;
+}
+
+header {
+        font-family: 'Gloria Hallelujah', cursive;
+}

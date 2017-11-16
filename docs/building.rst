@@ -153,3 +153,150 @@ Now the ``login.html`` file can say::
     {% block content %}
         Yay!!!
     {% endblock %}
+
+Logging In
+++++++++++
+
+**Does entering a username and password on the login page result on arriving at the Welcome page?** No. Django throws
+some goofy ProgrammingError about ``"auth_user" does not exist``. I need to run ``python manage.py createsuperuser``.
+
+**Can you create a superuser?** No. It threw the same error as before but, in the command window, Django also reminded
+me to perform a ``python manage.py migrate``. When I did that it did mention that "auth" was one of the migrations it
+performed.
+
+**Does entering a username and password on the login page result on arriving at the Welcome page?** No. It just keeps
+returning to the login page with no error messages. I will have to deal with that (the no error messages) later.
+Otherwise I need to create some users after creating a superuser.
+
+**Can you create a superuser?** Yes. I used 'Jim' as my username, 'FrJamesMorris@gmail.com' as my e-mail and
+dylan-selfie as my password.
+
+**Does entering a username and password on the login page result on arriving at the Welcome page?** No. It seems to be
+accepting the username and password I created for the superuser but tries to send me to the default
+``/accounts/profile/`` page. I need to add a welcome page and the means of arriving there.
+
+Arriving at the Welcome Page
+++++++++++++++++++++++++++++
+
+What I think I need to do is:
+
+#. Import reverse_lazy from django.core.urlresolvers
+#. Add a LOGIN_REDIRECT_URL to base.py
+#. Create a new 'activities' app that will hold the welcome page
+#. Include the activities url patterns in config.urls.py
+#. Create an activities_welcome.html page to display the welcome page
+#. Create a view to control what gets rendered on that page
+
+I learned that number 1 was already done, but not used yet.
+
+For number 2 I added LOGIN_REDIRECT_URL = reverse_lazy('welcome')
+
+**Does entering a username and password on the login page result on arriving at the Welcome page?** No. It says:
+``Reverse for 'welcome' not found. 'welcome' is not a valid view function or pattern name``. I'll make it a valid
+pattern name as in step 4 above.
+
+**Does entering a username and password on the login page result on arriving at the Welcome page?** No. The name
+'activities' was not defined because I have neither created it nor imported it into base.py. I will import it into
+``config.urls.py`` even though it doesn't yet exist.
+
+**Does entering a username and password on the login page result on arriving at the Welcome page?** No. I got a
+``module not found`` error. I will use ``python manage.py startapp activities`` to create the activities app.
+
+**Does entering a username and password on the login page result on arriving at the Welcome page?** No. ``startapp``
+does not create a default ``urls.py`` file. I will create it myself.
+
+**Does entering a username and password on the login page result on arriving at the Welcome page?** No. Importing
+``activities.urls`` into ``config.urls`` does not seem to work. I will change the url pattern to
+``url('^activity/', include('activity.urls'), name='welcome')``
+
+**Does entering a username and password on the login page result on arriving at the Welcome page?** No. But I'm getting
+closer. It got to ``activity/urls`` (I changed the name of the ``activities`` app above to ``activity``) but found an
+empty file. I will put the following into it::
+
+    from django.conf.urls import url
+
+    urlpatterns = [
+        url(r'^$', WelcomePage.as_view(), name='welcome_page')
+    ]
+
+**Does entering a username and password on the login page result on arriving at the Welcome page?** No. ``WelcomePage``
+is not defined in ``activity.urls.py`` I will import it.
+
+**Does entering a username and password on the login page result on arriving at the Welcome page?** No. It cannot import
+``WelcomePage`` because that view does not exist. I will create it as a stub.
+
+**Does entering a username and password on the login page result on arriving at the Welcome page?** No. This time it
+says ``'WelcomePage' has no attribute 'as_view'`` I think I need to subclass Views in my WelcomePage class. Before that
+I need to import it from django.views.generic.
+
+**Does entering a username and password on the login page result on arriving at the Welcome page?** No. But it went back
+to telling me ``Reverse for 'welcome' not found. 'welcome' is not a valid view function or pattern name.`` It is a valid
+pattern name now so it must be looking for the view to return something. I added a simple function to it::
+
+    class WelcomePage(View):
+
+        def get(self, request):
+            return(request)
+
+**Does entering a username and password on the login page result on arriving at the Welcome page?** No. It kept telling
+me ``'welcome' is not a valid view function of pattern name.`` It needed a ``post`` method in the WelcomePage class::
+
+    class WelcomePage(View):
+
+        def get(self, request):
+            return render(request)
+
+        def post(self, request):
+            return render(request)
+
+**Does entering a username and password on the login page result on arriving at the Welcome page?** No. ``render()``
+has ``1 required positional argument: 'template_name'``. I will add one: ``template_name = 'actiity/welcome.html'``
+
+**Does entering a username and password on the login page result on arriving at the Welcome page?** No. But now I got
+``TemplateDoesNotExist at /activity/welcome/``. I will add a stub welcome.html file to ``activity.templates.activity``.
+
+**Does entering a username and password on the login page result on arriving at the Welcome page?** No. Still can't find
+the template maybe ``template_name = 'welcome/welcome.html'`` will work.
+
+**Does entering a username and password on the login page result on arriving at the Welcome page?** No. It kept giving
+me the ``TemplateDoesNotExist`` error. I finally realized I haven't informed Django that the activity app exists. I will
+add ``'activity.apps.ActivityConfig',`` to the ``INSTALLED_APPS`` variabe in ``base.py``.
+
+**Does entering a username and password on the login page result on arriving at the Welcome page?** No. A message in
+the terminal says
+``ModuleNotFoundError: No module named 'activity.apps.ActivityConfig'; 'activity.apps' is not a package``. Inside the
+``apps.py`` file the class name was still ``ActivitiesConfig`` so I changed it to ``ActivityConfig``.
+
+**Does entering a username and password on the login page result on arriving at the Welcome page?** No. It got to a
+page with the proper header and footer but it still contained the default content. I will add the {% block content %}
+and {% endblock %} around the 'Got to the Welcome page!' stub.
+
+**Does entering a username and password on the login page result on arriving at the Welcome page?** Yes! Hurray! Now I
+can do something else.
+
+
+
+Things I Learned or Still Need to Study
+---------------------------------------
+
+Static Files
+++++++++++++
+
+In order to get the ``skeleton.css`` files etc. to work I had to put these lines into my ``base.py`` program::
+
+    STATIC_URL = '/static/'
+    STATICFILES_DIRS = (os.path.join(BASE_DIR, "static", "site" ), )
+
+and the references to them had to change to::
+
+        <link rel="stylesheet" type="text/css"
+              href="{% static '/normalize.css' %}">
+        <link rel="stylesheet" type="text/css"
+              href="{% static '/skeleton.css' %}">
+        <link rel="stylesheet" type="text/css"
+              href="{% static 'custom.css' %}">
+
+I'm not sure why I couldn't do it as it was done in *Django Unleashed* but whatever works is fine by me.
+
+**I may need to study how Django handles static files.**
+

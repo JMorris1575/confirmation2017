@@ -251,7 +251,7 @@ Here is my first attempt to plan the URL scheme of the website:
 
     /, login.html, Entering the site brings them to the login page
     /login, login.html, This is the URL to which / redirects
-    /main, activities.html, The page with the list of activities
+    /welcome, welcome.html, The page with the list of activities
     /<activity-slug>/create, activity_create.html, page where administrators can create new activities
     /<activity-slug>/<n>, <page-type>.html, <page-type> selected by activity and page number <n>
     /<activity-slug/<n>/create, <create-page-type>.html, pages for administrators to create new pages

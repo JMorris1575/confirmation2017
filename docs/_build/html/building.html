@@ -44,6 +44,147 @@
 <h1>3. Building the Confirmation Website<a class="headerlink" href="#building-the-confirmation-website" title="Permalink to this headline">¶</a></h1>
 <p>This document details the process of getting the St. Basil Confirmation Website to work on a local system. This will
 be the basis for the final production website to be deployed.</p>
+<div class="section" id="the-user-app">
+<h2>3.1. The user App<a class="headerlink" href="#the-user-app" title="Permalink to this headline">¶</a></h2>
+<p>I decided it would take too long to test the models in <code class="docutils literal"><span class="pre">ModelExperimentation</span></code> so I started building the website to
+have something real to work on. I decided to start with logging in and logging out which means I had to create the
+<code class="docutils literal"><span class="pre">user</span></code> app using <code class="docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">startapp</span> <span class="pre">user</span></code> which worked as expected. Let me try a simplified version of
+Test Driven Development.</p>
+<div class="section" id="getting-to-the-login-page">
+<h3>3.1.1. Getting to the Login Page<a class="headerlink" href="#getting-to-the-login-page" title="Permalink to this headline">¶</a></h3>
+<p><strong>Does an unauthenticated user get sent to the login page when entering the root url (/)?</strong> No. I need to do some sort
+of redirect.</p>
+<p>Working Toward a Solution: I read <a class="reference external" href="https://docs.djangoproject.com/en/1.11/topics/auth/default/">https://docs.djangoproject.com/en/1.11/topics/auth/default/</a> and, although I’m sure it
+contains some very useful information about authentication, it is not what I’m looking for now. I will try to copy what
+I did in ModelExperimentation.</p>
+<p>Attempt 1: in <code class="docutils literal"><span class="pre">config.urls.py</span></code> add a url pattern as follows:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">...</span>
+<span class="kn">from</span> <span class="nn">django.views.generic</span> <span class="k">import</span> <span class="n">RedirectView</span>
+<span class="o">...</span>
+<span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^$&#39;</span><span class="p">,</span> <span class="n">RedirectView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s1">&#39;login/&#39;</span><span class="p">),</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+<p>Once I got the correct syntax it worked to redirect <code class="docutils literal"><span class="pre">localhost:8000</span></code> to <code class="docutils literal"><span class="pre">localhost:8000/login/</span></code>.</p>
+<p>This solution, however, does not correspond to what is in <em>Django Unleashed</em>. I will look at the authentication video
+I downloaded the other night that are in <code class="docutils literal"><span class="pre">Net</span> <span class="pre">Gleanings/Video</span> <span class="pre">Downloads/Django/jeff</span> <span class="pre">n</span> <span class="pre">Tutorials</span></code> and found some things
+reminiscent of what I read in the documentation above. So, let’s try it! It says to put this line into the url patterns
+in <code class="docutils literal"><span class="pre">config.urls.py</span></code>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">url</span><span class="p">(</span><span class="s1">&#39;^&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="s1">&#39;django.contrib.auth.urls&#39;</span><span class="p">)),</span>
+</pre></div>
+</div>
+<p>I had to add <code class="docutils literal"><span class="pre">include</span></code> to my <code class="docutils literal"><span class="pre">django.config.urls</span></code> import and create a setting in <code class="docutils literal"><span class="pre">settings.py</span></code>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">LOGIN</span> <span class="o">=</span> <span class="s1">&#39;/login/&#39;</span>
+</pre></div>
+</div>
+<p>Which, he said is not the recommended thing to do but he didn’t say what was so I’ll leave it for now. (He said
+something about using <code class="docutils literal"><span class="pre">reverse_lazy</span></code> but I may have to try that later.)</p>
+<p>This did not redirect to /login/ so I added the RedirectView line back in.</p>
+<p><strong>Does the url ``/login/`` result in the display of the login page?</strong> No. I got a “Page not found (404)” error. It
+found no reference to <code class="docutils literal"><span class="pre">/login/</span></code> in the url patterns.</p>
+<p>Working Toward a Solution: I departed from the strict, or even lenient, TDD path but this is what I had to do:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">*</span> <span class="n">add</span> <span class="n">user</span><span class="o">.</span><span class="n">apps</span><span class="o">.</span><span class="n">UserConfig</span> <span class="n">to</span> <span class="n">the</span> <span class="n">installed</span> <span class="n">apps</span>
+<span class="o">*</span> <span class="n">add</span> <span class="n">LOGIN_URL</span> <span class="o">=</span> <span class="s1">&#39;/login/&#39;</span> <span class="n">to</span> <span class="n">the</span> <span class="n">base</span><span class="o">.</span><span class="n">py</span> <span class="n">file</span>
+<span class="o">*</span> <span class="n">use</span> <span class="n">the</span> <span class="n">following</span> <span class="k">as</span> <span class="n">my</span> <span class="n">url</span> <span class="n">patterns</span><span class="p">:</span>
+    <span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^$&#39;</span><span class="p">,</span> <span class="n">RedirectView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="s1">&#39;login/&#39;</span><span class="p">)),</span>
+        <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^admin/&#39;</span><span class="p">,</span> <span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">urls</span><span class="p">),</span>
+        <span class="n">url</span><span class="p">(</span><span class="s1">&#39;^&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="s1">&#39;django.contrib.auth.urls&#39;</span><span class="p">)),</span>
+    <span class="p">]</span>
+<span class="o">*</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">user</span> <span class="n">app</span> <span class="n">folder</span><span class="p">,</span> <span class="n">create</span> <span class="n">a</span> <span class="n">templates</span> <span class="n">directory</span> <span class="n">containing</span> <span class="n">a</span> <span class="n">registration</span> <span class="n">directory</span> <span class="n">containing</span> <span class="n">login</span><span class="o">.</span><span class="n">html</span>
+<span class="o">*</span> <span class="n">created</span> <span class="n">a</span> <span class="n">simple</span> <span class="n">login</span><span class="o">.</span><span class="n">html</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">registration</span> <span class="n">directory</span><span class="o">.</span>
+</pre></div>
+</div>
+<p>Next I will want to create a <code class="docutils literal"><span class="pre">base.html</span></code> file someplace to form the base of all my html documents.</p>
+</div>
+<div class="section" id="improving-the-templates">
+<h3>3.1.2. Improving the Templates<a class="headerlink" href="#improving-the-templates" title="Permalink to this headline">¶</a></h3>
+<p>Based on what is done in <em>Django Unleashed</em>, I need to create the main <code class="docutils literal"><span class="pre">base.html</span></code> file in the
+<code class="docutils literal"><span class="pre">ConfirmationWebsite.templates</span></code> directory and and <code class="docutils literal"><span class="pre">base_&lt;appname&gt;.html</span></code> files in each of the
+<code class="docutils literal"><span class="pre">&lt;appname&gt;.templates.&lt;appname&gt;</span></code> directories.</p>
+<p>Here is <code class="docutils literal"><span class="pre">base.html</span></code> (adapted from <em>Django Unleashed</em>):</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>{% load staticfiles %}
+
+&lt;! DOCTYPE html &gt;
+
+&lt;html lang=&quot;en&quot;&gt;
+
+    &lt;head&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;title&gt;
+            {% block title %}
+                St. Basil Confirmation -
+            {% endblock %}
+        &lt;/title&gt;
+        &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge, chrome=1&quot;&gt;
+        &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+        &lt;!--[if IE]&gt;&lt;script
+            src=&quot;http://html5shiv.googlecode.com/svn/trunk/html5.js&quot;&gt;
+        &lt;/script&gt;&lt;![endif]--&gt;
+        &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot;
+              href=&quot;{% static &#39;site/normalize.css&#39; %}&quot;&gt;
+        &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot;
+              href=&quot;{% static &#39;site/skeleton.css&#39; %}&quot;&gt;
+        &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot;
+              href=&quot;{% static &#39;site/custom.css&#39; %}&quot;&gt;
+        {% block head %}{% endblock %}
+    &lt;/head&gt;
+
+    &lt;body&gt;
+        &lt;div class=&quot;container&quot;&gt;&lt;!-- container --&gt;
+            &lt;header class=&quot;row&quot;&gt;
+                &lt;div class=&quot;offset-by-two eight columns&quot;&gt;
+                    &lt;h1 class=&quot;logo&quot;&gt;St. Basil Confirmation Activities&lt;/h1&gt;
+                &lt;/div&gt;
+            &lt;/header&gt;
+            &lt;div class=&quot;status row&quot;&gt;
+                &lt;div class=&quot;offset-by-eight four columns&quot;&gt;
+                    &lt;ul class=&quot;inline&quot;&gt;
+                        {% if user.is_authenticated %}
+                            &lt;li&gt;&lt;a href=&quot;{% url &#39;dj-auth:logout&#39; %}&quot;&gt;
+                                Log Out
+                            &lt;/a&gt;&lt;/li&gt;
+                        {% else %}
+                            &lt;li&gt;&lt;a href=&quot;{% url &#39;dj-auth:login&#39; %}&quot;&gt;
+                                Log In
+                            &lt;/a&gt;&lt;/li&gt;
+                        {% endif %}
+                    &lt;/ul&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;main&gt;
+                {% block content %}
+                    This is default content!
+                {% endblock %}
+            &lt;/main&gt;
+        &lt;/div&gt;&lt;!-- container --&gt;
+
+        &lt;footer&gt;
+            &lt;p class=&quot;offset-by-eight four columns&quot;&gt;
+                Modified from base.html created for
+                &lt;a href=&quot;https://Django-Unleashed.com/&quot;&gt;
+                    Django Unleashed&lt;/a&gt;
+            &lt;/p&gt;
+        &lt;/footer&gt;
+    &lt;/body&gt;
+</pre></div>
+</div>
+<p>The <code class="docutils literal"><span class="pre">base_&lt;appname&gt;.html</span></code> files have this form:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="o">%</span> <span class="n">extends</span> <span class="n">parent_template</span><span class="o">|</span><span class="n">default</span><span class="p">:</span><span class="s2">&quot;base.html&quot;</span> <span class="o">%</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Now the <code class="docutils literal"><span class="pre">login.html</span></code> file can say:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>{% extends &#39;user/base_user.html&#39; %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+    Yay!!!
+{% endblock %}
+</pre></div>
+</div>
+</div>
+</div>
 </div>
 
 
@@ -71,7 +212,14 @@ be the basis for the final production website to be deployed.</p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="startup.html">1. Starting the Confirmation Project</a></li>
 <li class="toctree-l1"><a class="reference internal" href="planning.html">2. Planning the Confirmation Website</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">3. Building the Confirmation Website</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">3. Building the Confirmation Website</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#the-user-app">3.1. The user App</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#getting-to-the-login-page">3.1.1. Getting to the Login Page</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#improving-the-templates">3.1.2. Improving the Templates</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="deploying.html">4. Deploying the Confirmation Website</a></li>
 </ul>
 

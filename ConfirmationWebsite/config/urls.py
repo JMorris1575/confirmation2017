@@ -21,4 +21,5 @@ urlpatterns = [
     url(r'^$', RedirectView.as_view(url='login/')),
     url(r'^admin/', admin.site.urls),
     url('^', include('django.contrib.auth.urls')),
+    url('^activity/', include('activity.urls'), name='welcome'),
 ]

@@ -48,6 +48,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'user.apps.UserConfig',
+    'activity.apps.ActivityConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -120,7 +121,7 @@ USE_L10N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = (os.path.join(BASE_DIR, "static" ), )
-print('STATICFILES_DIRS = ', STATICFILES_DIRS)
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "static", "site" ), )
 
 LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/activity/welcome'
