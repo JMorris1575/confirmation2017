@@ -368,7 +368,85 @@ will need to:
     :widths: auto
 
     No, Nothing at all happens. Convert the list items to links
-    No, 'Page not found'; create a url pattern in ``activity.urls``
+    No, 'Page not found'; create a :ref:`url pattern<page-url>` in ``activity.urls`` and corresponding stub view
+    No, still couldn't fine it; error in url pattern; try a :ref:`new one<new-page-url>`.
+    No, it got to the url but there was nothing to get; fill out the :ref:`PageDisplay`<page-display-01>` view.
+    No, get() got an unexpected keyword argument 'slug'; include ``slug`` ``and page_number`` in the call to ``get()``
+    No, TemplateDoesNotExist; create ``page_display.html`` in ``activity.templates.activity``
+    No, the view does not use page data; modify :ref:`PageDisplay<page-display-02>` to use the (non-existent) Page model
+    No, no Page model; create a :ref:`Page model<page-model>`; add to ``admin.py``; update the :ref:`template<page-display-03>`.
+    Yes, Now I can add some questions (try to dump the database for transfer to other computers).
+
+
+.. _page-url:
+
+Here is the new url::
+
+     url(r'^(?P<slug>[\w\-]+)/(?P<page_number>)/$', PageDisplay.as_view(), name="page_display"),
+
+.. _new-page-url:
+
+That one didn't work. I neglected to indicate a pattern for the <page_number>. Here is a better one::
+
+     url(r'^(?P<slug>[\w\-]+)/(?P<page_number>[0-9]+)/$', PageDisplay.as_view(), name="page_display"),
+
+.. _page-display-01:
+
+Here is the first try at the PageDisplay view::
+
+    class PageDisplay(View):
+        template_name = 'activity/page_display.html'
+
+        def get(self, request):
+            return render(request, self.template_name)
+
+.. _page-display-02:
+
+Here is the second form of the PageDisplay view::
+
+    class PageDisplay(View):
+        template_name = 'activity/page_display.html'
+
+        def get(self, request, slug=None, page_number=None):
+            pages = Page.objects.filter(activity__slug=slug)
+            return render(request, self.template_name, {'pages':pages})
+
+.. _page-model:
+
+Here is the current form of the page model. I should be able to make a combination of activity and number unique
+though. (I can! Using the Meta class as shown below and order the listings as well.)::
+
+    class Page(models.Model):
+        activity = models.ForeignKey(Activity)
+        number = models.IntegerField()
+        type = models.CharField(max_length=15,
+                                choices=[('IN', 'Instructions'),
+                                         ('MC', 'Multichoice'),
+                                         ('ES', 'Essay'),
+                                         ('AN', 'Anonymous')])
+        timed = models.BooleanField(default=False)
+
+        def __str__(self):
+            return str(self.activity) + " Page: " + str(self.number)
+
+    class Meta:
+        unique_together = ('activity', 'number')
+        ordering = ['activity', 'number']
+
+.. _page-display-03:
+
+Here is the version of page-display.html that lists all the available pages for an activity::
+
+    {% extends 'activity/base_activity.html' %}
+
+    {% block content %}
+        <ul>
+            {% for page in pages %}
+                <li>{{ page }}</li>
+            {% endfor %}
+        </ul>
+    {% endblock %}
+
 
 Things I Learned or Still Need to Study
 ---------------------------------------

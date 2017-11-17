@@ -377,8 +377,102 @@ color?) etc.</p>
 <p>The list items on the Welcome page are supposed to be links to the actual activity pages. To implement this I think I
 will need to:</p>
 <ol class="arabic simple">
-<li>Make the activity list items into links to</li>
+<li>Make the activity list items into links to the first page of the corresponding activity.</li>
+<li>Create the <code class="docutils literal"><span class="pre">activity.urls</span></code> pattern to pick up the slug for page 1.</li>
+<li>Create a view in <code class="docutils literal"><span class="pre">activity.views</span></code> to render the page</li>
+<li>Create the Page model in <code class="docutils literal"><span class="pre">activity.models</span></code></li>
+<li>Create a template <code class="docutils literal"><span class="pre">instruction_page.html</span></code> for the view to render</li>
 </ol>
+<table border="1" class="colwidths-auto docutils" id="id2">
+<caption><span class="caption-text"><strong>Does clicking on an activity bring me to the instruction page for that activity?</strong></span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Result</th>
+<th class="head">Action before next test</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>No</td>
+<td>Nothing at all happens. Convert the list items to links</td>
+</tr>
+<tr class="row-odd"><td>No</td>
+<td>‘Page not found’; create a <a class="reference internal" href="#page-url"><span class="std std-ref">url pattern</span></a> in <code class="docutils literal"><span class="pre">activity.urls</span></code> and corresponding stub view</td>
+</tr>
+<tr class="row-even"><td>No</td>
+<td>still couldn’t fine it; error in url pattern; try a <a class="reference internal" href="#new-page-url"><span class="std std-ref">new one</span></a>.</td>
+</tr>
+<tr class="row-odd"><td>No</td>
+<td>it got to the url but there was nothing to get; fill out the <a class="reference internal" href="#page-display-01"><span class="std std-ref">PageDisplay`</span></a> view.</td>
+</tr>
+<tr class="row-even"><td>No</td>
+<td>get() got an unexpected keyword argument ‘slug’; include <code class="docutils literal"><span class="pre">slug</span></code> <code class="docutils literal"><span class="pre">and</span> <span class="pre">page_number</span></code> in the call to <code class="docutils literal"><span class="pre">get()</span></code></td>
+</tr>
+<tr class="row-odd"><td>No</td>
+<td>TemplateDoesNotExist; create <code class="docutils literal"><span class="pre">page_display.html</span></code> in <code class="docutils literal"><span class="pre">activity.templates.activity</span></code></td>
+</tr>
+<tr class="row-even"><td>No</td>
+<td>the view does not use page data; modify <a class="reference internal" href="#page-display-02"><span class="std std-ref">PageDisplay</span></a> to use the (non-existent) Page model</td>
+</tr>
+<tr class="row-odd"><td>No</td>
+<td>no Page model; create a <a class="reference internal" href="#page-model"><span class="std std-ref">Page model</span></a>; add to <code class="docutils literal"><span class="pre">admin.py</span></code>; update the <a class="reference internal" href="#page-display-03"><span class="std std-ref">template</span></a>.</td>
+</tr>
+<tr class="row-even"><td>Yes</td>
+<td>Now I can add some questions (try to dump the database for transfer to other computers).</td>
+</tr>
+</tbody>
+</table>
+<p id="page-url">Here is the new url:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^(?P&lt;slug&gt;[\w\-]+)/(?P&lt;page_number&gt;)/$&#39;</span><span class="p">,</span> <span class="n">PageDisplay</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;page_display&quot;</span><span class="p">),</span>
+</pre></div>
+</div>
+<p id="new-page-url">That one didn’t work. I neglected to indicate a pattern for the &lt;page_number&gt;. Here is a better one:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^(?P&lt;slug&gt;[\w\-]+)/(?P&lt;page_number&gt;[0-9]+)/$&#39;</span><span class="p">,</span> <span class="n">PageDisplay</span><span class="o">.</span><span class="n">as_view</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;page_display&quot;</span><span class="p">),</span>
+</pre></div>
+</div>
+<p id="page-display-01">Here is the first try at the PageDisplay view:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">PageDisplay</span><span class="p">(</span><span class="n">View</span><span class="p">):</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;activity/page_display.html&#39;</span>
+
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">template_name</span><span class="p">)</span>
+</pre></div>
+</div>
+<p id="page-display-02">Here is the second form of the PageDisplay view:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">PageDisplay</span><span class="p">(</span><span class="n">View</span><span class="p">):</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;activity/page_display.html&#39;</span>
+
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">slug</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">page_number</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">pages</span> <span class="o">=</span> <span class="n">Page</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">activity__slug</span><span class="o">=</span><span class="n">slug</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">template_name</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;pages&#39;</span><span class="p">:</span><span class="n">pages</span><span class="p">})</span>
+</pre></div>
+</div>
+<p id="page-model">Here is the current form of the page model. I should be able to make a combination of activity and number unique
+though:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Page</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">activity</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Activity</span><span class="p">)</span>
+    <span class="n">number</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">()</span>
+    <span class="nb">type</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">CharField</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
+                            <span class="n">choices</span><span class="o">=</span><span class="p">[(</span><span class="s1">&#39;IN&#39;</span><span class="p">,</span> <span class="s1">&#39;Instructions&#39;</span><span class="p">),</span>
+                                     <span class="p">(</span><span class="s1">&#39;MC&#39;</span><span class="p">,</span> <span class="s1">&#39;Multichoice&#39;</span><span class="p">),</span>
+                                     <span class="p">(</span><span class="s1">&#39;ES&#39;</span><span class="p">,</span> <span class="s1">&#39;Essay&#39;</span><span class="p">),</span>
+                                     <span class="p">(</span><span class="s1">&#39;AN&#39;</span><span class="p">,</span> <span class="s1">&#39;Anonymous&#39;</span><span class="p">)])</span>
+    <span class="n">timed</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">activity</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; Page: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">number</span><span class="p">)</span>
+</pre></div>
+</div>
+<p id="page-display-03">Here is the version of page-display.html that lists all the available pages for an activity:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="o">%</span> <span class="n">extends</span> <span class="s1">&#39;activity/base_activity.html&#39;</span> <span class="o">%</span><span class="p">}</span>
+
+<span class="p">{</span><span class="o">%</span> <span class="n">block</span> <span class="n">content</span> <span class="o">%</span><span class="p">}</span>
+    <span class="o">&lt;</span><span class="n">ul</span><span class="o">&gt;</span>
+        <span class="p">{</span><span class="o">%</span> <span class="k">for</span> <span class="n">page</span> <span class="ow">in</span> <span class="n">pages</span> <span class="o">%</span><span class="p">}</span>
+            <span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;</span><span class="p">{{</span> <span class="n">page</span> <span class="p">}}</span><span class="o">&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
+        <span class="p">{</span><span class="o">%</span> <span class="n">endfor</span> <span class="o">%</span><span class="p">}</span>
+    <span class="o">&lt;/</span><span class="n">ul</span><span class="o">&gt;</span>
+<span class="p">{</span><span class="o">%</span> <span class="n">endblock</span> <span class="o">%</span><span class="p">}</span>
+</pre></div>
+</div>
 </div>
 </div>
 <div class="section" id="things-i-learned-or-still-need-to-study">
