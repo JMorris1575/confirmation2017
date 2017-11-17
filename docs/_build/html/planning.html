@@ -182,13 +182,18 @@ Here are my initial model ideas:</p>
 <tbody valign="top">
 <tr class="row-even"><td>number</td>
 <td>IntegerField</td>
-<td>primary_key=True</td>
-<td>so that activities can be re-ordered</td>
+<td>&#160;</td>
+<td>for display; ordering and re-ordering</td>
 </tr>
 <tr class="row-odd"><td>name</td>
 <td>CharField</td>
 <td>max_characters=30</td>
 <td>the name to be displayed in the list and headings</td>
+</tr>
+<tr class="row-even"><td>slug</td>
+<td>SlugField</td>
+<td>string to identify this activity in the url</td>
+<td>&#160;</td>
 </tr>
 </tbody>
 </table>
@@ -210,12 +215,17 @@ Here are my initial model ideas:</p>
 <td>‘Activity’</td>
 <td>the activity to which this page belongs</td>
 </tr>
-<tr class="row-odd"><td>type</td>
-<td>CharField</td>
+<tr class="row-odd"><td>number</td>
+<td>IntegerField</td>
 <td>&#160;</td>
+<td>for display; ordering and re-ordering</td>
+</tr>
+<tr class="row-even"><td>type</td>
+<td>CharField</td>
+<td>choices= &lt;see notes&gt;</td>
 <td>the type of page: INSTRUCTIONS; MULTICHOICE; ESSAY; ANONYMOUS</td>
 </tr>
-<tr class="row-even"><td>timed</td>
+<tr class="row-odd"><td>timed</td>
 <td>Boolean</td>
 <td>&#160;</td>
 <td>True if this page is to be timed; False otherwise</td>

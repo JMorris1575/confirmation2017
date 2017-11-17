@@ -3,6 +3,14 @@
 
 {% block content %}
     {% for activity in activities %}
-        <p>{{ activity }}</p>
+        <ul class="activity-list">
+            <a href="/activity/{{ activity.slug }}/1/">
+                <li class="row">
+                    <div class="offset-by-one four columns">
+                        {{ activity.number }}. {{ activity }}
+                    </div>
+                </li>
+            </a>
+        </ul>
     {% endfor %}
 {% endblock %}

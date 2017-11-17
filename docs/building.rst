@@ -269,8 +269,8 @@ and {% endblock %} around the 'Got to the Welcome page!' stub.
 **Does entering a username and password on the login page result on arriving at the Welcome page?** Yes! Hurray! Now I
 can do something else.
 
-Addingg the Activity List to the Welcome Page
-+++++++++++++++++++++++++++++++++++++++++++++
+Adding the Activity List to the Welcome Page
+++++++++++++++++++++++++++++++++++++++++++++
 
 This will Finishing the welcome page is going to require me to:
 
@@ -321,10 +321,54 @@ Sending the 'activities' context variable from activity.views.WelcomePage.get::
             activities = Activity.objects.all()
             return render(request, self.template_name, {'activities': activities})
 
+Making the Welcome Page Look Better
++++++++++++++++++++++++++++++++++++
 
+Here I just played with the ``welcome.html`` and ``custom.css`` files until I was happy with what I have so far. I will
+have to change it later when I have more information available, such as the number of pages in each activity (which I
+may call 'events' or 'tasks' [ugh!] or 'parts' or something) to indicate how much there is to an activity. Other
+information can be displayed, such as how far the user is along in each activity, which ones are completed (indicate by
+color?) etc.
 
+Here is the for loop in the ``welcome.html`` file::
 
+        {% for activity in activities %}
+            <ul class="activity-list">
+                <li class="row">
+                    <div class="offset-by-one four columns">
+                        {{ activity.number }}. {{ activity }}
+                    </div>
+                </li>
+            </ul>
+        {% endfor %}
 
+Here is the new ``.activity-list`` selector in the ``custom.css`` file::
+
+    .activity-list {
+        list-style-type: none;
+        color: #2eb873;
+        font-weight: bold;
+        margin-top: 20px;
+    }
+
+Linking to the Activities
++++++++++++++++++++++++++
+
+The list items on the Welcome page are supposed to be links to the actual activity pages. To implement this I think I
+will need to:
+
+#. Make the activity list items into links to the first page of the corresponding activity.
+#. Create the ``activity.urls`` pattern to pick up the slug for page 1.
+#. Create a view in ``activity.views`` to render the page
+#. Create the Page model in ``activity.models``
+#. Create a template ``instruction_page.html`` for the view to render
+
+.. csv-table:: **Does clicking on an activity bring me to the instruction page for that activity?**
+    :header: "Result", "Action before next test"
+    :widths: auto
+
+    No, Nothing at all happens. Convert the list items to links
+    No, 'Page not found'; create a url pattern in ``activity.urls``
 
 Things I Learned or Still Need to Study
 ---------------------------------------

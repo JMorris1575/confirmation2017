@@ -7,3 +7,10 @@ footer {
 header {
         font-family: 'Gloria Hallelujah', cursive;
 }
+
+.activity-list {
+    list-style-type: none;
+    color: #2eb873;
+    font-weight: bold;
+    margin-top: 20px;
+}

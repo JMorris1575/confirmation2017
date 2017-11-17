@@ -159,8 +159,9 @@ So, here goes:
     :header: "Field Name", "Type", "Parameters", "Notes"
     :widths: auto
 
-    number, IntegerField, primary_key=True, so that activities can be re-ordered
+    number, IntegerField, , for display; ordering and re-ordering
     name, CharField, max_characters=30, the name to be displayed in the list and headings
+    slug, SlugField, unique=True, string to identify this activity in the url
 
 |
 
@@ -169,7 +170,8 @@ So, here goes:
     :widths: auto
 
     activity, "ForeignKey", 'Activity', the activity to which this page belongs
-    type, CharField, , the type of page: INSTRUCTIONS; MULTICHOICE; ESSAY; ANONYMOUS
+    number, IntegerField, , for display; ordering and re-ordering
+    type, CharField, choices= <see notes> , the type of page: INSTRUCTIONS; MULTICHOICE; ESSAY; ANONYMOUS
     timed, Boolean, , True if this page is to be timed; False otherwise
 
 |
