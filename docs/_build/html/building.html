@@ -195,8 +195,11 @@ dylan-selfie as my password.</p>
 accepting the username and password I created for the superuser but tries to send me to the default
 <code class="docutils literal"><span class="pre">/accounts/profile/</span></code> page. I need to add a welcome page and the means of arriving there.</p>
 </div>
+</div>
+<div class="section" id="the-welcome-page">
+<h2>3.2. The Welcome Page<a class="headerlink" href="#the-welcome-page" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="arriving-at-the-welcome-page">
-<h3>3.1.4. Arriving at the Welcome Page<a class="headerlink" href="#arriving-at-the-welcome-page" title="Permalink to this headline">¶</a></h3>
+<h3>3.2.1. Arriving at the Welcome Page<a class="headerlink" href="#arriving-at-the-welcome-page" title="Permalink to this headline">¶</a></h3>
 <p>What I think I need to do is:</p>
 <ol class="arabic simple">
 <li>Import reverse_lazy from django.core.urlresolvers</li>
@@ -278,7 +281,7 @@ and {% endblock %} around the ‘Got to the Welcome page!’ stub.</p>
 can do something else.</p>
 </div>
 <div class="section" id="adding-the-activity-list-to-the-welcome-page">
-<h3>3.1.5. Adding the Activity List to the Welcome Page<a class="headerlink" href="#adding-the-activity-list-to-the-welcome-page" title="Permalink to this headline">¶</a></h3>
+<h3>3.2.2. Adding the Activity List to the Welcome Page<a class="headerlink" href="#adding-the-activity-list-to-the-welcome-page" title="Permalink to this headline">¶</a></h3>
 <p>This will Finishing the welcome page is going to require me to:</p>
 <ol class="arabic simple">
 <li>Update <code class="docutils literal"><span class="pre">welcome.html</span></code> to include the display of a list of activities</li>
@@ -288,8 +291,8 @@ can do something else.</p>
 </ol>
 <p>I thought of a better way to document my approach to Test Driven Development. Each question can appear as the title of
 a csv-table with the results and subsequent actions as the table columns.</p>
-<table border="1" class="colwidths-auto docutils" id="id1">
-<caption><span class="caption-text"><strong>Does a list of activities appear on the welcome page?</strong></span><a class="headerlink" href="#id1" title="Permalink to this table">¶</a></caption>
+<table border="1" class="colwidths-auto docutils" id="id2">
+<caption><span class="caption-text"><strong>Does a list of activities appear on the welcome page?</strong></span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">Result</th>
 <th class="head">Action before next test</th>
@@ -344,7 +347,7 @@ a csv-table with the results and subsequent actions as the table columns.</p>
 </div>
 </div>
 <div class="section" id="making-the-welcome-page-look-better">
-<h3>3.1.6. Making the Welcome Page Look Better<a class="headerlink" href="#making-the-welcome-page-look-better" title="Permalink to this headline">¶</a></h3>
+<h3>3.2.3. Making the Welcome Page Look Better<a class="headerlink" href="#making-the-welcome-page-look-better" title="Permalink to this headline">¶</a></h3>
 <p>Here I just played with the <code class="docutils literal"><span class="pre">welcome.html</span></code> and <code class="docutils literal"><span class="pre">custom.css</span></code> files until I was happy with what I have so far. I will
 have to change it later when I have more information available, such as the number of pages in each activity (which I
 may call ‘events’ or ‘tasks’ [ugh!] or ‘parts’ or something) to indicate how much there is to an activity. Other
@@ -372,8 +375,11 @@ color?) etc.</p>
 </pre></div>
 </div>
 </div>
+</div>
+<div class="section" id="displaying-the-activity-pages">
+<h2>3.3. Displaying the Activity Pages<a class="headerlink" href="#displaying-the-activity-pages" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="linking-to-the-activities">
-<h3>3.1.7. Linking to the Activities<a class="headerlink" href="#linking-to-the-activities" title="Permalink to this headline">¶</a></h3>
+<h3>3.3.1. Linking to the Activities<a class="headerlink" href="#linking-to-the-activities" title="Permalink to this headline">¶</a></h3>
 <p>The list items on the Welcome page are supposed to be links to the actual activity pages. To implement this I think I
 will need to:</p>
 <ol class="arabic simple">
@@ -383,8 +389,8 @@ will need to:</p>
 <li>Create the Page model in <code class="docutils literal"><span class="pre">activity.models</span></code></li>
 <li>Create a template <code class="docutils literal"><span class="pre">instruction_page.html</span></code> for the view to render</li>
 </ol>
-<table border="1" class="colwidths-auto docutils" id="id2">
-<caption><span class="caption-text"><strong>Does clicking on an activity bring me to the instruction page for that activity?</strong></span><a class="headerlink" href="#id2" title="Permalink to this table">¶</a></caption>
+<table border="1" class="colwidths-auto docutils" id="id3">
+<caption><span class="caption-text"><strong>Does clicking on an activity bring me to the instruction page for that activity?</strong></span><a class="headerlink" href="#id3" title="Permalink to this table">¶</a></caption>
 <thead valign="bottom">
 <tr class="row-odd"><th class="head">Result</th>
 <th class="head">Action before next test</th>
@@ -446,7 +452,7 @@ will need to:</p>
 </pre></div>
 </div>
 <p id="page-model">Here is the current form of the page model. I should be able to make a combination of activity and number unique
-though:</p>
+though. (I can! Using the Meta class as shown below and order the listings as well.):</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Page</span><span class="p">(</span><span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">):</span>
     <span class="n">activity</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">ForeignKey</span><span class="p">(</span><span class="n">Activity</span><span class="p">)</span>
     <span class="n">number</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">IntegerField</span><span class="p">()</span>
@@ -459,6 +465,10 @@ though:</p>
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">activity</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; Page: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">number</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+    <span class="n">unique_together</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;activity&#39;</span><span class="p">,</span> <span class="s1">&#39;number&#39;</span><span class="p">)</span>
+    <span class="n">ordering</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;activity&#39;</span><span class="p">,</span> <span class="s1">&#39;number&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 <p id="page-display-03">Here is the version of page-display.html that lists all the available pages for an activity:</p>
@@ -473,12 +483,123 @@ though:</p>
 <span class="p">{</span><span class="o">%</span> <span class="n">endblock</span> <span class="o">%</span><span class="p">}</span>
 </pre></div>
 </div>
+<p>At this point I had to move everything to the <a class="reference internal" href="#moving-to-rectory"><span class="std std-ref">rectory computer</span></a>.</p>
+</div>
+<div class="section" id="improving-the-looks-of-page-display-html">
+<h3>3.3.2. Improving the looks of page-display.html<a class="headerlink" href="#improving-the-looks-of-page-display-html" title="Permalink to this headline">¶</a></h3>
+<p>I noticed that the list of pages one gets after clicking on the activity name looks different than the list of
+activities even though they are under the same css class in custom.css. I suspect this is because one set, the
+activity set, is coded as links (the ‘&lt;a&gt;’ tag), while the other is just a set of list items. If so, this will be
+fixed when I create links to the actual question pages.</p>
+<p>By the way, it seems the page they get to when clicking on an activity is more like a table of contents page. Perhaps I
+should call it that. … After further thought, it is only a table of contents page for such things as the Abraham
+Saga that comes in several episodes, each with its own set of questions. I decided to add (‘CO’, ‘Table of Contents’)
+to the list of choices for the type of page in the Page model.</p>
+</div>
+</div>
+<div class="section" id="side-task-getting-a-welcome-and-logout-link-into-the-header">
+<h2>3.4. Side Task: Getting a Welcome and Logout link into the Header<a class="headerlink" href="#side-task-getting-a-welcome-and-logout-link-into-the-header" title="Permalink to this headline">¶</a></h2>
+<p>Hopefully this will be a simple task mostly taken care of in the <code class="docutils literal"><span class="pre">base.html</span></code> template using the framework given me by
+skeleton.css. Here we go:</p>
+<div class="section" id="welcome-message">
+<span id="welcome-message-table"></span><h3>3.4.1. Welcome Message<a class="headerlink" href="#welcome-message" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="colwidths-auto docutils" id="id4">
+<caption><span class="caption-text"><strong>Does ‘Welcome’ and the user’s first name appear on the right hand bottom part of the header?</strong></span><a class="headerlink" href="#id4" title="Permalink to this table">¶</a></caption>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Result</th>
+<th class="head">Action before next test</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>No</td>
+<td>It is not in the template; <a class="reference internal" href="#welcome-msg"><span class="std std-ref">add it now</span></a>.</td>
+</tr>
+<tr class="row-odd"><td>No</td>
+<td>It appears to the left and even on the login page. Change class to u-pull-right; add {% if user.authenticated %}</td>
+</tr>
+<tr class="row-even"><td>No</td>
+<td>It doesn’t appear on the login page OR after logging in! Change to {% if user.is_authenticated %}</td>
+</tr>
+<tr class="row-odd"><td>No</td>
+<td>I hadn’t entered my first name into the database. Add my first name.</td>
+</tr>
+<tr class="row-even"><td>Yes</td>
+<td><a class="reference internal" href="#table-error"><span class="std std-ref">‘Welcome Jim’</span></a> appears in the same font as the heading at the right side of the header.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="logout-link">
+<h3>3.4.2. Logout Link<a class="headerlink" href="#logout-link" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="colwidths-auto docutils" id="id5">
+<caption><span class="caption-text"><strong>Does a link to Logout appear to the right of the “Welcome &lt;user_first_name&gt;” message?</strong></span><a class="headerlink" href="#id5" title="Permalink to this table">¶</a></caption>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Result</th>
+<th class="head">Action before next test</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>No</td>
+<td>I haven’t put that into the <code class="docutils literal"><span class="pre">base.html</span></code> file yet. Change <a class="reference internal" href="#id1"><span class="std std-ref">base.html</span></a>.</td>
+</tr>
+<tr class="row-odd"><td>Yes</td>
+<td>but the styling needs help.</td>
+</tr>
+</tbody>
+</table>
+<p id="welcome-msg">Here is my first attempt:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">header</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;row&quot;</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">div</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;two columns&quot;</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">img</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;u-max-full-width&quot;</span> <span class="n">src</span><span class="o">=</span><span class="s2">&quot;{</span><span class="si">% s</span><span class="s2">tatic &#39;images/HolyspiritYellowRedFlipped.png&#39; %}&quot;</span><span class="o">&gt;</span>
+    <span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">div</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;ten columns&quot;</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">h2</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;logo&quot;</span><span class="o">&gt;</span><span class="n">St</span><span class="o">.</span> <span class="n">Basil</span> <span class="n">Confirmation</span> <span class="n">Activities</span><span class="o">&lt;/</span><span class="n">h2</span><span class="o">&gt;</span>
+    <span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">div</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;pull-right&quot;</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">h4</span><span class="o">&gt;</span><span class="n">Welcome</span> <span class="p">{{</span> <span class="n">user</span><span class="o">.</span><span class="n">first_name</span> <span class="p">}}</span><span class="o">&lt;/</span><span class="n">h4</span><span class="o">&gt;</span>
+    <span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">header</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p id="id1">This worked right away:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">div</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;u-pull-right&quot;</span><span class="o">&gt;</span>
+    <span class="p">{</span><span class="o">%</span> <span class="k">if</span> <span class="n">user</span><span class="o">.</span><span class="n">is_authenticated</span> <span class="o">%</span><span class="p">}</span>
+        <span class="o">&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s2">&quot;logout/&quot;</span><span class="o">&gt;</span><span class="n">Logout</span><span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;</span>
+    <span class="p">{</span><span class="o">%</span> <span class="n">endif</span> <span class="o">%</span><span class="p">}</span>
+<span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">div</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;u-pull-right&quot;</span><span class="o">&gt;</span>
+    <span class="p">{</span><span class="o">%</span> <span class="k">if</span> <span class="n">user</span><span class="o">.</span><span class="n">is_authenticated</span> <span class="o">%</span><span class="p">}</span>
+        <span class="o">&lt;</span><span class="n">h4</span><span class="o">&gt;</span><span class="n">Welcome</span> <span class="p">{{</span> <span class="n">user</span><span class="o">.</span><span class="n">first_name</span> <span class="p">}}</span><span class="o">&lt;/</span><span class="n">h4</span><span class="o">&gt;</span>
+    <span class="p">{</span><span class="o">%</span> <span class="n">endif</span> <span class="o">%</span><span class="p">}</span>
+<span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>The formatting needs help however. The Logout link is too close to the welcome message and is lined up with the upper
+part of the welcome message and is the wrong color. I can probably fix that all with css.</p>
+</div>
+<div class="section" id="adding-the-first-set-of-questions">
+<h3>3.4.3. Adding the First Set of Questions<a class="headerlink" href="#adding-the-first-set-of-questions" title="Permalink to this headline">¶</a></h3>
+<p>I will start with the Noah activity since that is the one I have most developed. It currently has a total of five pages,
+the first one instructions and the rest are essays. The instruction page is timed. In order to get it to display
+properly I will need to:</p>
+<ol class="arabic simple">
+<li>update the information in the page model for the noah pages</li>
+<li>differentiate between Instruction pages and Essay pages in <code class="docutils literal"><span class="pre">page-display.html</span></code></li>
+<li>create a Contents(?) model (formerly called Question model) to hold the text of the instructions or questions.</li>
+</ol>
+<p>For now I will just keep the listing of the pages and not try to implement keeping track of the user’s progress and
+displaying the next page accordingly. That means I will have to add a Table of Contents page to the beginning of the
+Noah activity and modify <code class="docutils literal"><span class="pre">page-display.html</span></code> accordingly.</p>
+<p>Hmm… Thinking about it some I realized that the <code class="docutils literal"><span class="pre">page-display.html</span></code> being fed by the <code class="docutils literal"><span class="pre">PageDisplay</span></code> view isn’t
+really doing what I wanted. The view sends a set of pages but I really only want one. It seems I may have to figure out
+a way either to do away with contents pages, or implement a separate template and view for tables of contents. Activity
+types perhaps? Or a ‘multi-part’ option? I think the latter would be best.</p>
 </div>
 </div>
 <div class="section" id="things-i-learned-or-still-need-to-study">
-<h2>3.2. Things I Learned or Still Need to Study<a class="headerlink" href="#things-i-learned-or-still-need-to-study" title="Permalink to this headline">¶</a></h2>
+<h2>3.5. Things I Learned or Still Need to Study<a class="headerlink" href="#things-i-learned-or-still-need-to-study" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="static-files">
-<h3>3.2.1. Static Files<a class="headerlink" href="#static-files" title="Permalink to this headline">¶</a></h3>
+<h3>3.5.1. Static Files<a class="headerlink" href="#static-files" title="Permalink to this headline">¶</a></h3>
 <p>In order to get the <code class="docutils literal"><span class="pre">skeleton.css</span></code> files etc. to work I had to put these lines into my <code class="docutils literal"><span class="pre">base.py</span></code> program:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">STATIC_URL</span> <span class="o">=</span> <span class="s1">&#39;/static/&#39;</span>
 <span class="n">STATICFILES_DIRS</span> <span class="o">=</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">BASE_DIR</span><span class="p">,</span> <span class="s2">&quot;static&quot;</span><span class="p">,</span> <span class="s2">&quot;site&quot;</span> <span class="p">),</span> <span class="p">)</span>
@@ -495,6 +616,31 @@ though:</p>
 </div>
 <p>I’m not sure why I couldn’t do it as it was done in <em>Django Unleashed</em> but whatever works is fine by me.</p>
 <p><strong>I may need to study how Django handles static files.</strong></p>
+</div>
+<div class="section" id="moving-to-the-rectory-computer">
+<span id="moving-to-rectory"></span><h3>3.5.2. Moving to the Rectory Computer<a class="headerlink" href="#moving-to-the-rectory-computer" title="Permalink to this headline">¶</a></h3>
+<p>I managed to get everything moved over here to my rectory computer, including the data I entered in the database. I
+learned that the migration files were not under version control so I had to copy them from my Home computer then did a
+<code class="docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">migrate</span></code> which worked without difficulty.</p>
+<p>Then, using TeamViewer, I got onto my Home computer and created fixtures to serialize the data in the database:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">dumpdata</span> <span class="n">activity</span><span class="o">.</span><span class="n">Activity</span> <span class="o">&gt;</span> <span class="n">activity</span><span class="o">.</span><span class="n">json</span>
+<span class="n">python</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">dumpdata</span> <span class="n">activity</span><span class="o">.</span><span class="n">Page</span> <span class="o">&gt;</span> <span class="n">page</span><span class="o">.</span><span class="n">json</span>
+</pre></div>
+</div>
+<p>According to the Django documentation these were expected in a <code class="docutils literal"><span class="pre">fixtures</span></code> directory under the app where they belonged
+(I think) so I created one in the <code class="docutils literal"><span class="pre">activity</span></code> folder, copied the files from my Home computer using TeamViewer (I just
+used copy and paste and it worked! New feature in TeamViewer13?), and then copied them to the new <code class="docutils literal"><span class="pre">fixtures</span></code>
+directory. With all that, loading the data was simple:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">loaddata</span> <span class="n">activity</span><span class="o">.</span><span class="n">json</span>
+<span class="n">python</span> <span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">loaddata</span> <span class="n">page</span><span class="o">.</span><span class="n">json</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="random-notes">
+<h3>3.5.3. Random Notes<a class="headerlink" href="#random-notes" title="Permalink to this headline">¶</a></h3>
+<p id="table-error">Apparently one must avoid using double quotes in table entries (at least without escaping them (“). The first version
+of the last line in the <a class="reference internal" href="#welcome-message-table"><span class="std std-ref">Welcome Message TDD table</span></a> had double quotes around part of it and
+generated a warning on <code class="docutils literal"><span class="pre">make</span> <span class="pre">html</span></code>.</p>
 </div>
 </div>
 </div>
@@ -529,14 +675,29 @@ though:</p>
 <li class="toctree-l3"><a class="reference internal" href="#getting-to-the-login-page">3.1.1. Getting to the Login Page</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#improving-the-templates">3.1.2. Improving the Templates</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#logging-in">3.1.3. Logging In</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#arriving-at-the-welcome-page">3.1.4. Arriving at the Welcome Page</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#adding-the-activity-list-to-the-welcome-page">3.1.5. Adding the Activity List to the Welcome Page</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#making-the-welcome-page-look-better">3.1.6. Making the Welcome Page Look Better</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#linking-to-the-activities">3.1.7. Linking to the Activities</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#things-i-learned-or-still-need-to-study">3.2. Things I Learned or Still Need to Study</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#static-files">3.2.1. Static Files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#the-welcome-page">3.2. The Welcome Page</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#arriving-at-the-welcome-page">3.2.1. Arriving at the Welcome Page</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#adding-the-activity-list-to-the-welcome-page">3.2.2. Adding the Activity List to the Welcome Page</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#making-the-welcome-page-look-better">3.2.3. Making the Welcome Page Look Better</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#displaying-the-activity-pages">3.3. Displaying the Activity Pages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#linking-to-the-activities">3.3.1. Linking to the Activities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#improving-the-looks-of-page-display-html">3.3.2. Improving the looks of page-display.html</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#side-task-getting-a-welcome-and-logout-link-into-the-header">3.4. Side Task: Getting a Welcome and Logout link into the Header</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#welcome-message">3.4.1. Welcome Message</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#logout-link">3.4.2. Logout Link</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#adding-the-first-set-of-questions">3.4.3. Adding the First Set of Questions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#things-i-learned-or-still-need-to-study">3.5. Things I Learned or Still Need to Study</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#static-files">3.5.1. Static Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#moving-to-the-rectory-computer">3.5.2. Moving to the Rectory Computer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#random-notes">3.5.3. Random Notes</a></li>
 </ul>
 </li>
 </ul>

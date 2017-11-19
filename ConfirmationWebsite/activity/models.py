@@ -21,11 +21,13 @@ class Page(models.Model):
                             choices=[('IN', 'Instructions'),
                                      ('MC', 'Multichoice'),
                                      ('ES', 'Essay'),
-                                     ('AN', 'Anonymous')])
+                                     ('AN', 'Anonymous'),
+                                     ('CO', 'Table of Contents')])
     timed = models.BooleanField(default=False)
 
     def __str__(self):
-        return str(self.activity) + " Page: " + str(self.number)
+        count = len(Page.objects.filter(activity=self.activity))
+        return str(self.activity) + ": page " + str(self.number) + " of " + str(count)
 
     class Meta:
         unique_together = ('activity', 'number')

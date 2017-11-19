@@ -170,6 +170,9 @@ dylan-selfie as my password.
 accepting the username and password I created for the superuser but tries to send me to the default
 ``/accounts/profile/`` page. I need to add a welcome page and the means of arriving there.
 
+The Welcome Page
+----------------
+
 Arriving at the Welcome Page
 ++++++++++++++++++++++++++++
 
@@ -351,6 +354,9 @@ Here is the new ``.activity-list`` selector in the ``custom.css`` file::
         margin-top: 20px;
     }
 
+Displaying the Activity Pages
+-----------------------------
+
 Linking to the Activities
 +++++++++++++++++++++++++
 
@@ -447,6 +453,130 @@ Here is the version of page-display.html that lists all the available pages for 
         </ul>
     {% endblock %}
 
+At this point I had to move everything to the :ref:`rectory computer<moving_to_rectory>`.
+
+Improving the looks of page-display.html
+++++++++++++++++++++++++++++++++++++++++
+
+I noticed that the list of pages one gets after clicking on the activity name looks different than the list of
+activities even though they are under the same css class in custom.css. I suspect this is because one set, the
+activity set, is coded as links (the '<a>' tag), while the other is just a set of list items. If so, this will be
+fixed when I create links to the actual question pages.
+
+By the way, it seems the page they get to when clicking on an activity is more like a table of contents page. Perhaps I
+should call it that. ... After further thought, it is only a table of contents page for such things as the Abraham
+Saga that comes in several episodes, each with its own set of questions. I decided to add ('CO', 'Table of Contents')
+to the list of choices for the type of page in the Page model.
+
+Side Task: Getting a Welcome and Logout link into the Header
+------------------------------------------------------------
+
+Hopefully this will be a simple task mostly taken care of in the ``base.html`` template using the framework given me by
+skeleton.css. Here we go:
+
+.. _welcome_message_table:
+
+Welcome Message
++++++++++++++++
+
+.. csv-table:: **Does 'Welcome' and the user's first name appear on the right hand bottom part of the header?**
+    :header: "Result", "Action before next test"
+    :widths: auto
+
+    No, It is not in the template; :ref:`add it now<welcome_msg>`.
+    No, It appears to the left and even on the login page. Change class to u-pull-right; add {% if user.authenticated %}
+    No, It doesn't appear on the login page OR after logging in! Change to {% if user.is_authenticated %}
+    No, I hadn't entered my first name into the database. Add my first name.
+    Yes, :ref:`'Welcome Jim'<table_error>` appears in the same font as the heading at the right side of the header.
+
+Logout Link
++++++++++++
+
+.. csv-table:: **Does a link to Logout appear to the right of the "Welcome <user_first_name>" message?**
+    :header: "Result", "Action before next test"
+    :widths: auto
+
+    No, I haven't put that into the ``base.html`` file yet. Change :ref:`base.html<logout_link>`.
+    Yes, but the styling needs help.
+
+.. _welcome_msg:
+
+Here is my first attempt::
+
+    <header class="row">
+        <div class="two columns">
+            <img class="u-max-full-width" src="{% static 'images/HolyspiritYellowRedFlipped.png' %}">
+        </div>
+        <div class="ten columns">
+            <h2 class="logo">St. Basil Confirmation Activities</h2>
+        </div>
+        <div class="pull-right">
+            <h4>Welcome {{ user.first_name }}</h4>
+        </div>
+    </header>
+
+.. _logout_link:
+
+This worked right away::
+
+    <div class="u-pull-right">
+        {% if user.is_authenticated %}
+            <a href="logout/">Logout</a>
+        {% endif %}
+    </div>
+    <div class="u-pull-right">
+        {% if user.is_authenticated %}
+            <h4>Welcome {{ user.first_name }}</h4>
+        {% endif %}
+    </div>
+
+The formatting needs help however. The Logout link is too close to the welcome message and is lined up with the upper
+part of the welcome message and is the wrong color. I can probably fix that all with css.
+
+Making the Header Look Nice
++++++++++++++++++++++++++++
+
+First I created a custom.css class called 'welcome' that sets the font to Arial, the color to the golden yellow color:
+#ffdd55.  I also set the font-weight to bold and the margin-right to 20px.
+
+Similarly I created a 'link' class with Arial font, color #ffdd55 and margin-right to 20px.
+
+That looks good enough for now.
+
+Getting the Logout Link to Work
++++++++++++++++++++++++++++++++
+
+The Logout link should log a person out of the website and return automatically to the login page. What I did in
+Christmas2017, based on *Django Unleashed* chapter 19, looks complicated. Here goes a Test Driven Development/Learning
+process to try to figure it out.
+
+.. csv-table:: **Does clicking the Logout link log the user out and return to the Login Page?**
+    :header: "Result", "Action before next test"
+    :widths: auto
+
+    No, it throws a page not found error for ``<current url>/logout/``; set ``LOGOUT_URL`` in base.py to ``'/logout/'``
+    No, no change; name urls from django.contrib.auth.urls to auth_urls and change LOGOUT_URL to reverse that
+    No, no change; create urls in user app as per *Django Unleashed* 19.5.2
+
+Adding the First Set of Questions
++++++++++++++++++++++++++++++++++
+
+I will start with the Noah activity since that is the one I have most developed. It currently has a total of five pages,
+the first one instructions and the rest are essays. The instruction page is timed. In order to get it to display
+properly I will need to:
+
+#. update the information in the page model for the noah pages
+#. differentiate between Instruction pages and Essay pages in ``page-display.html``
+#. create a Contents(?) model (formerly called Question model) to hold the text of the instructions or questions.
+
+For now I will just keep the listing of the pages and not try to implement keeping track of the user's progress and
+displaying the next page accordingly. That means I will have to add a Table of Contents page to the beginning of the
+Noah activity and modify ``page-display.html`` accordingly.
+
+Hmm... Thinking about it some I realized that the ``page-display.html`` being fed by the ``PageDisplay`` view isn't
+really doing what I wanted. The view sends a set of pages but I really only want one. It seems I may have to figure out
+a way either to do away with contents pages, or implement a separate template and view for tables of contents. Activity
+types perhaps? Or a 'multi-part' option? I think the latter would be best.
 
 Things I Learned or Still Need to Study
 ---------------------------------------
@@ -472,3 +602,33 @@ I'm not sure why I couldn't do it as it was done in *Django Unleashed* but whate
 
 **I may need to study how Django handles static files.**
 
+.. _moving_to_rectory:
+
+Moving to the Rectory Computer
+++++++++++++++++++++++++++++++
+
+I managed to get everything moved over here to my rectory computer, including the data I entered in the database. I
+learned that the migration files were not under version control so I had to copy them from my Home computer then did a
+``python manage.py migrate`` which worked without difficulty.
+
+Then, using TeamViewer, I got onto my Home computer and created fixtures to serialize the data in the database::
+
+    python manage.py dumpdata activity.Activity > activity.json
+    python manage.py dumpdata activity.Page > page.json
+
+According to the Django documentation these were expected in a ``fixtures`` directory under the app where they belonged
+(I think) so I created one in the ``activity`` folder, copied the files from my Home computer using TeamViewer (I just
+used copy and paste and it worked! New feature in TeamViewer13?), and then copied them to the new ``fixtures``
+directory. With all that, loading the data was simple::
+
+    python manage.py loaddata activity.json
+    python manage.py loaddata page.json
+
+Random Notes
+++++++++++++
+
+.. _table_error:
+
+Apparently one must avoid using double quotes in table entries (at least without escaping them (\"). The first version
+of the last line in the :ref:`Welcome Message TDD table<welcome_message_table>` had double quotes around part of it and
+generated a warning on ``make html``.

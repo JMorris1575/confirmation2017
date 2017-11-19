@@ -2,8 +2,8 @@
 
 
 {% block content %}
-    {% for activity in activities %}
-        <ul class="link-list">
+    <ul class="link-list">
+        {% for activity in activities %}
             <a href="/activity/{{ activity.slug }}/1/">
                 <li class="row">
                     <div class="offset-by-one four columns">
@@ -11,6 +11,6 @@
                     </div>
                 </li>
             </a>
-        </ul>
-    {% endfor %}
+        {% endfor %}
+    </ul>
 {% endblock %}

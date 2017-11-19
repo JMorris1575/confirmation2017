@@ -124,4 +124,5 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static", "site" ), )
 
 LOGIN_URL = '/login/'
+LOGOUT_URL = reverse_lazy('auth_urls')
 LOGIN_REDIRECT_URL = '/activity/welcome'
