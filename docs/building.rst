@@ -543,12 +543,29 @@ Similarly I created a 'link' class with Arial font, color #ffdd55 and margin-rig
 
 That looks good enough for now.
 
+Making the Logo into a Link to the Welcome Page
++++++++++++++++++++++++++++++++++++++++++++++++
+
+One way to do this is to wrap it in an <a> tag with href="activity/welcome/". Let's see if this works...
+
+No, it didn't. It sent me to the current url with the 'activity/welcome/' url tacked on to the end of it:
+``activity/welcome/activity/welcome/`` for instance. I looked in my urls in the config directory and the activities app
+and decided to use ``<a href="{% url 'welcome_page' %}">... </a>`` and that worked as I wanted.
+
+Fixing the URL Patterns
++++++++++++++++++++++++
+
+I noticed, when studying the urls above, that the urls.py file in config have an entry
+``url('^activity/', include('activity.urls'), name='welcome'),`` which I need, but I don't think it needs a name. I will
+remove the name and see if it makes any difference. (It doesn't seem to.)
+
 Getting the Logout Link to Work
 +++++++++++++++++++++++++++++++
 
 The Logout link should log a person out of the website and return automatically to the login page. What I did in
 Christmas2017, based on *Django Unleashed* chapter 19, looks complicated. Here goes a Test Driven Development/Learning
-process to try to figure it out.
+process to try to figure it out. (Note: this was started before I made the logo into a link and fixed the naming of one
+of the url patterns in the two sections immediately preceding this one.)
 
 .. csv-table:: **Does clicking the Logout link log the user out and return to the Login Page?**
     :header: "Result", "Action before next test"
@@ -556,7 +573,47 @@ process to try to figure it out.
 
     No, it throws a page not found error for ``<current url>/logout/``; set ``LOGOUT_URL`` in base.py to ``'/logout/'``
     No, no change; name urls from django.contrib.auth.urls to auth_urls and change LOGOUT_URL to reverse that
-    No, no change; create urls in user app as per *Django Unleashed* 19.5.2
+    No, no change; create urls in user app as per *Django Unleashed* 19.5.2; test login first
+
+.. csv-table:: **Does a user see the login page when entering the website?**
+    :header: "Result", "Action before next test"
+    :widths: auto
+
+    No, it tries to go to ``login/`` not ``user/login``; change LOGIN setting in ``base.py`` to ``reverse_lazy('login')
+    No, no change; point RedirectView in config.urls.py to ``pattern_name=login``
+    Yes, but I fear unauthenticated users can get in by typing ``activity/welcome`` -- they can! Fix later.
+
+Back to the original problem:
+
+.. csv-table:: **Does clicking the Logout link log the user out and return to the Login Page?**
+    :header: "Result", "Action before next test"
+    :widths: auto
+
+    No, ``/logout/`` after current url; add 'logout' :ref:`pattern<logout_url>`; set LOGOUT_URL=reverse_lazy('logout')
+    No, same problem; change to ``<a href="{% url 'logout' %}>`` in base.html
+    No, got to Django logout page; base logout url pattern on *Django Unleashed* :ref:`Example 19.37<ex_19.37>`
+    Yes, but any user knowing the url patterns can get in without being logged in
+
+.. _logout_url:
+
+Here is the url pattern I put in ``userl/urls.py``::
+
+    ``url(r'^logout/$', auth_views.logout, name='logout')``
+
+.. _ex_19.37:
+
+Here is my version of the logout url pattern::
+
+    url(r'^logout/$',
+        auth_views.logout,
+        {'template_name': 'registration/login.html',
+         'extra_context': {'form': AuthenticationForm}},
+        name='logout'),
+
+Requiring Authentiation to Access the Website
++++++++++++++++++++++++++++++++++++++++++++++
+
+placeholder
 
 Adding the First Set of Questions
 +++++++++++++++++++++++++++++++++
