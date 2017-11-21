@@ -597,8 +597,9 @@ and decided to use <code class="docutils literal"><span class="pre">&lt;a</span>
 <code class="docutils literal"><span class="pre">url('^activity/',</span> <span class="pre">include('activity.urls'),</span> <span class="pre">name='welcome'),</span></code> which I need, but I don’t think it needs a name. I will
 remove the name and see if it makes any difference. (It doesn’t seem to.)</p>
 </div>
-<div class="section" id="getting-the-logout-link-to-work">
-<h3>3.4.6. Getting the Logout Link to Work<a class="headerlink" href="#getting-the-logout-link-to-work" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="getting-login-and-logout-working-properly">
+<h2>3.5. Getting Login and Logout Working Properly<a class="headerlink" href="#getting-login-and-logout-working-properly" title="Permalink to this headline">¶</a></h2>
 <p>The Logout link should log a person out of the website and return automatically to the login page. What I did in
 Christmas2017, based on <em>Django Unleashed</em> chapter 19, looks complicated. Here goes a Test Driven Development/Learning
 process to try to figure it out. (Note: this was started before I made the logo into a link and fixed the naming of one
@@ -680,14 +681,98 @@ of the url patterns in the two sections immediately preceding this one.)</p>
 <code class="docutils literal"><span class="pre">LOGOUT_URL</span> <span class="pre">=</span> <span class="pre">reverse_lazy('dj-auth:logout')</span></code>. Considering that they didn’t seem to have any effect on what I did
 above, I changed them for whatever benefit they will have later.</p>
 <p>But the authentication still isn’t really working. Once I’ve logged out I can’t seem to log back in! It keeps sending
-me to <code class="docutils literal"><span class="pre">user/logout/</span></code>. More study is necessary. Start on page 468 of <em>Django Unleashed</em>, then make the changes above.</p>
+me to <code class="docutils literal"><span class="pre">user/logout/</span></code>. More study is necessary. Start on page 468 of <em>Django Unleashed</em>, then make the <code class="docutils literal"><span class="pre">dj-auth</span></code>
+changes above.</p>
+<p>I’ve done all that and here are the current forms of the affected files:</p>
+<p><strong>configurls.py</strong>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.conf.urls</span> <span class="k">import</span> <span class="n">include</span><span class="p">,</span> <span class="n">url</span>
+<span class="kn">from</span> <span class="nn">django.contrib</span> <span class="k">import</span> <span class="n">admin</span>
+<span class="kn">from</span> <span class="nn">django.views.generic</span> <span class="k">import</span> <span class="n">RedirectView</span>
+
+<span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^$&#39;</span><span class="p">,</span> <span class="n">RedirectView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(</span><span class="n">pattern_name</span><span class="o">=</span><span class="s1">&#39;dj-auth:login&#39;</span><span class="p">,</span> <span class="n">permanent</span><span class="o">=</span><span class="kc">False</span><span class="p">)),</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^admin/&#39;</span><span class="p">,</span> <span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">urls</span><span class="p">),</span>
+    <span class="n">url</span><span class="p">(</span><span class="s1">&#39;^activity/&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="s1">&#39;activity.urls&#39;</span><span class="p">)),</span>
+    <span class="n">url</span><span class="p">(</span><span class="s1">&#39;^user/&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="s1">&#39;user.urls&#39;</span><span class="p">,</span> <span class="n">app_name</span><span class="o">=</span><span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="n">namespace</span><span class="o">=</span><span class="s1">&#39;dj-auth&#39;</span><span class="p">)),</span>
+<span class="p">]</span>
+</pre></div>
 </div>
+<p><strong>userurls.py</strong>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.conf.urls</span> <span class="k">import</span> <span class="n">url</span>
+<span class="kn">from</span> <span class="nn">django.contrib.auth</span> <span class="k">import</span> <span class="n">views</span> <span class="k">as</span> <span class="n">auth_views</span>
+<span class="kn">from</span> <span class="nn">django.contrib.auth.forms</span> <span class="k">import</span> <span class="n">AuthenticationForm</span>
+<span class="kn">from</span> <span class="nn">django.views.generic</span> <span class="k">import</span> <span class="n">RedirectView</span>
+
+<span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^k$&#39;</span><span class="p">,</span> <span class="n">RedirectView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(</span><span class="n">pattern_name</span><span class="o">=</span><span class="s1">&#39;login&#39;</span><span class="p">,</span> <span class="n">permanent</span><span class="o">=</span><span class="kc">False</span><span class="p">)),</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^login/$&#39;</span><span class="p">,</span> <span class="n">auth_views</span><span class="o">.</span><span class="n">login</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;template_name&#39;</span><span class="p">:</span> <span class="s1">&#39;registration/login.html&#39;</span><span class="p">},</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;login&#39;</span><span class="p">),</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^logout/$&#39;</span><span class="p">,</span> <span class="n">auth_views</span><span class="o">.</span><span class="n">logout</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;template_name&#39;</span><span class="p">:</span> <span class="s1">&#39;registration/login.html&#39;</span><span class="p">,</span>
+                                          <span class="s1">&#39;extra_context&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">AuthenticationForm</span><span class="p">}},</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;logout&#39;</span><span class="p">),</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p>The reference to <code class="docutils literal"><span class="pre">logout</span></code> in <code class="docutils literal"><span class="pre">base.html</span></code> also had to be changed to <code class="docutils literal"><span class="pre">dj-auth:logout</span></code></p>
+<p>But logout still isn’t really working. I think I need to set the link to user/login, that is, <code class="docutils literal"><span class="pre">dj-auth:login</span></code> to get
+it to automatically go back to the login page after logging out. But then would I really be logged out? I will try an
+experiment using the Welcome line as my indicator as to whether a person is really logged out.</p>
+<p>Currently, an authenticated user, when clicking <code class="docutils literal"><span class="pre">Logout</span></code> in the header, IS logged out and sent to <code class="docutils literal"><span class="pre">user/logout/</span></code>
+from which there is no escape except to erase the url back to its root (<code class="docutils literal"><span class="pre">r'^$'</span></code>).</p>
+<p>I finally opted for a separate <code class="docutils literal"><span class="pre">logged_out.html</span></code> page which gave me something for my url patterns to target. Here are
+the files affected:</p>
+<p><strong>config.urls.py</strong>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.conf.urls</span> <span class="k">import</span> <span class="n">include</span><span class="p">,</span> <span class="n">url</span>
+<span class="kn">from</span> <span class="nn">django.contrib</span> <span class="k">import</span> <span class="n">admin</span>
+<span class="kn">from</span> <span class="nn">django.views.generic</span> <span class="k">import</span> <span class="n">RedirectView</span>
+
+<span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^$&#39;</span><span class="p">,</span> <span class="n">RedirectView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(</span><span class="n">pattern_name</span><span class="o">=</span><span class="s1">&#39;dj-auth:login&#39;</span><span class="p">,</span> <span class="n">permanent</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;base_url&#39;</span><span class="p">),</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^admin/&#39;</span><span class="p">,</span> <span class="n">admin</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">urls</span><span class="p">),</span>
+    <span class="n">url</span><span class="p">(</span><span class="s1">&#39;^activity/&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="s1">&#39;activity.urls&#39;</span><span class="p">)),</span>
+    <span class="n">url</span><span class="p">(</span><span class="s1">&#39;^user/&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="s1">&#39;user.urls&#39;</span><span class="p">,</span> <span class="n">app_name</span><span class="o">=</span><span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="n">namespace</span><span class="o">=</span><span class="s1">&#39;dj-auth&#39;</span><span class="p">)),</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p><strong>user.urls.py</strong>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">django.conf.urls</span> <span class="k">import</span> <span class="n">url</span>
+<span class="kn">from</span> <span class="nn">django.contrib.auth</span> <span class="k">import</span> <span class="n">views</span> <span class="k">as</span> <span class="n">auth_views</span>
+<span class="kn">from</span> <span class="nn">django.contrib.auth.forms</span> <span class="k">import</span> <span class="n">AuthenticationForm</span>
+<span class="kn">from</span> <span class="nn">django.views.generic</span> <span class="k">import</span> <span class="n">RedirectView</span>
+
+<span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^k$&#39;</span><span class="p">,</span> <span class="n">RedirectView</span><span class="o">.</span><span class="n">as_view</span><span class="p">(</span><span class="n">pattern_name</span><span class="o">=</span><span class="s1">&#39;login&#39;</span><span class="p">,</span> <span class="n">permanent</span><span class="o">=</span><span class="kc">False</span><span class="p">)),</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^login/$&#39;</span><span class="p">,</span> <span class="n">auth_views</span><span class="o">.</span><span class="n">login</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;template_name&#39;</span><span class="p">:</span> <span class="s1">&#39;registration/login.html&#39;</span><span class="p">},</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;login&#39;</span><span class="p">),</span>
+    <span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^logout/$&#39;</span><span class="p">,</span> <span class="n">auth_views</span><span class="o">.</span><span class="n">logout</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;template_name&#39;</span><span class="p">:</span> <span class="s1">&#39;registration/logged_out.html&#39;</span><span class="p">},</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;logout&#39;</span><span class="p">),</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p><strong>user.registration.logged_out.html</strong>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">{</span><span class="o">%</span> <span class="n">extends</span> <span class="s1">&#39;user/base_user.html&#39;</span> <span class="o">%</span><span class="p">}</span>
+
+<span class="p">{</span><span class="o">%</span> <span class="n">block</span> <span class="n">title</span> <span class="o">%</span><span class="p">}</span><span class="n">Logged</span> <span class="n">Out</span><span class="p">{</span><span class="o">%</span> <span class="n">endblock</span> <span class="o">%</span><span class="p">}</span>
+
+<span class="p">{</span><span class="o">%</span> <span class="n">block</span> <span class="n">content</span> <span class="o">%</span><span class="p">}</span>
+    <span class="o">&lt;</span><span class="n">div</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;row&quot;</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">div</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;offset-by-four four columns&quot;</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;&lt;</span><span class="n">h4</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;center-text u-full-width&quot;</span><span class="o">&gt;</span><span class="n">You</span> <span class="n">are</span> <span class="n">logged</span> <span class="n">out</span><span class="o">.&lt;/</span><span class="n">h4</span><span class="o">&gt;&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="n">form</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;get&quot;</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;{</span><span class="si">% u</span><span class="s2">rl &#39;base_url&#39; %}&quot;</span><span class="o">&gt;</span>
+                <span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span>
+                    <span class="o">&lt;</span><span class="nb">input</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;button-primary u-full-width&quot;</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;Login Again&quot;</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;submit&quot;</span><span class="o">&gt;</span>
+                <span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+            <span class="o">&lt;/</span><span class="n">form</span><span class="o">&gt;</span>
+        <span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+    <span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+
+<span class="p">{</span><span class="o">%</span> <span class="n">endblock</span> <span class="o">%</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>I also did some work on the css getting the Login and Login Again buttons to full width and centering things a little
+better.</p>
 <div class="section" id="requiring-authentiation-to-access-the-website">
-<h3>3.4.7. Requiring Authentiation to Access the Website<a class="headerlink" href="#requiring-authentiation-to-access-the-website" title="Permalink to this headline">¶</a></h3>
+<h3>3.5.1. Requiring Authentiation to Access the Website<a class="headerlink" href="#requiring-authentiation-to-access-the-website" title="Permalink to this headline">¶</a></h3>
 <p>placeholder</p>
 </div>
 <div class="section" id="adding-the-first-set-of-questions">
-<h3>3.4.8. Adding the First Set of Questions<a class="headerlink" href="#adding-the-first-set-of-questions" title="Permalink to this headline">¶</a></h3>
+<h3>3.5.2. Adding the First Set of Questions<a class="headerlink" href="#adding-the-first-set-of-questions" title="Permalink to this headline">¶</a></h3>
 <p>I will start with the Noah activity since that is the one I have most developed. It currently has a total of five pages,
 the first one instructions and the rest are essays. The instruction page is timed. In order to get it to display
 properly I will need to:</p>
@@ -706,9 +791,9 @@ types perhaps? Or a ‘multi-part’ option? I think the latter would be best.</
 </div>
 </div>
 <div class="section" id="things-i-learned-or-still-need-to-study">
-<h2>3.5. Things I Learned or Still Need to Study<a class="headerlink" href="#things-i-learned-or-still-need-to-study" title="Permalink to this headline">¶</a></h2>
+<h2>3.6. Things I Learned or Still Need to Study<a class="headerlink" href="#things-i-learned-or-still-need-to-study" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="static-files">
-<h3>3.5.1. Static Files<a class="headerlink" href="#static-files" title="Permalink to this headline">¶</a></h3>
+<h3>3.6.1. Static Files<a class="headerlink" href="#static-files" title="Permalink to this headline">¶</a></h3>
 <p>In order to get the <code class="docutils literal"><span class="pre">skeleton.css</span></code> files etc. to work I had to put these lines into my <code class="docutils literal"><span class="pre">base.py</span></code> program:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">STATIC_URL</span> <span class="o">=</span> <span class="s1">&#39;/static/&#39;</span>
 <span class="n">STATICFILES_DIRS</span> <span class="o">=</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">BASE_DIR</span><span class="p">,</span> <span class="s2">&quot;static&quot;</span><span class="p">,</span> <span class="s2">&quot;site&quot;</span> <span class="p">),</span> <span class="p">)</span>
@@ -727,7 +812,7 @@ types perhaps? Or a ‘multi-part’ option? I think the latter would be best.</
 <p><strong>I may need to study how Django handles static files.</strong></p>
 </div>
 <div class="section" id="moving-to-the-rectory-computer">
-<span id="moving-to-rectory"></span><h3>3.5.2. Moving to the Rectory Computer<a class="headerlink" href="#moving-to-the-rectory-computer" title="Permalink to this headline">¶</a></h3>
+<span id="moving-to-rectory"></span><h3>3.6.2. Moving to the Rectory Computer<a class="headerlink" href="#moving-to-the-rectory-computer" title="Permalink to this headline">¶</a></h3>
 <p>I managed to get everything moved over here to my rectory computer, including the data I entered in the database. I
 learned that the migration files were not under version control so I had to copy them from my Home computer then did a
 <code class="docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">migrate</span></code> which worked without difficulty.</p>
@@ -746,7 +831,7 @@ directory. With all that, loading the data was simple:</p>
 </div>
 </div>
 <div class="section" id="random-notes">
-<h3>3.5.3. Random Notes<a class="headerlink" href="#random-notes" title="Permalink to this headline">¶</a></h3>
+<h3>3.6.3. Random Notes<a class="headerlink" href="#random-notes" title="Permalink to this headline">¶</a></h3>
 <p id="table-error">Apparently one must avoid using double quotes in table entries (at least without escaping them (“). The first version
 of the last line in the <a class="reference internal" href="#welcome-message-table"><span class="std std-ref">Welcome Message TDD table</span></a> had double quotes around part of it and
 generated a warning on <code class="docutils literal"><span class="pre">make</span> <span class="pre">html</span></code>.</p>
@@ -803,15 +888,17 @@ generated a warning on <code class="docutils literal"><span class="pre">make</sp
 <li class="toctree-l3"><a class="reference internal" href="#making-the-header-look-nice">3.4.3. Making the Header Look Nice</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#making-the-logo-into-a-link-to-the-welcome-page">3.4.4. Making the Logo into a Link to the Welcome Page</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#fixing-the-url-patterns">3.4.5. Fixing the URL Patterns</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#getting-the-logout-link-to-work">3.4.6. Getting the Logout Link to Work</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#requiring-authentiation-to-access-the-website">3.4.7. Requiring Authentiation to Access the Website</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#adding-the-first-set-of-questions">3.4.8. Adding the First Set of Questions</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#things-i-learned-or-still-need-to-study">3.5. Things I Learned or Still Need to Study</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#static-files">3.5.1. Static Files</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#moving-to-the-rectory-computer">3.5.2. Moving to the Rectory Computer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#random-notes">3.5.3. Random Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#getting-login-and-logout-working-properly">3.5. Getting Login and Logout Working Properly</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#requiring-authentiation-to-access-the-website">3.5.1. Requiring Authentiation to Access the Website</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#adding-the-first-set-of-questions">3.5.2. Adding the First Set of Questions</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#things-i-learned-or-still-need-to-study">3.6. Things I Learned or Still Need to Study</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#static-files">3.6.1. Static Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#moving-to-the-rectory-computer">3.6.2. Moving to the Rectory Computer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#random-notes">3.6.3. Random Notes</a></li>
 </ul>
 </li>
 </ul>

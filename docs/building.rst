@@ -559,8 +559,8 @@ I noticed, when studying the urls above, that the urls.py file in config have an
 ``url('^activity/', include('activity.urls'), name='welcome'),`` which I need, but I don't think it needs a name. I will
 remove the name and see if it makes any difference. (It doesn't seem to.)
 
-Getting the Logout Link to Work
-+++++++++++++++++++++++++++++++
+Getting Login and Logout Working Properly
+-----------------------------------------
 
 The Logout link should log a person out of the website and return automatically to the login page. What I did in
 Christmas2017, based on *Django Unleashed* chapter 19, looks complicated. Here goes a Test Driven Development/Learning
