@@ -18,9 +18,8 @@ from django.contrib import admin
 from django.views.generic import RedirectView
 
 urlpatterns = [
-    url(r'^$', RedirectView.as_view(pattern_name='login',
-                                    permanent=False)),
+    url(r'^$', RedirectView.as_view(pattern_name='dj-auth:login', permanent=False), name='base_url'),
     url(r'^admin/', admin.site.urls),
     url('^activity/', include('activity.urls')),
-    url('^user/', include('user.urls')),
+    url('^user/', include('user.urls', app_name='user', namespace='dj-auth')),
 ]

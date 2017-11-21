@@ -579,7 +579,7 @@ of the url patterns in the two sections immediately preceding this one.)
     :header: "Result", "Action before next test"
     :widths: auto
 
-    No, it tries to go to ``login/`` not ``user/login``; change LOGIN setting in ``base.py`` to ``reverse_lazy('login')
+    No, it tries to go to ``login/`` not ``user/login``; set ``LOGIN_URL = reverse_lazy('login')`` in base.py
     No, no change; point RedirectView in config.urls.py to ``pattern_name=login``
     Yes, but I fear unauthenticated users can get in by typing ``activity/welcome`` -- they can! Fix later.
 
@@ -609,6 +609,104 @@ Here is my version of the logout url pattern::
         {'template_name': 'registration/login.html',
          'extra_context': {'form': AuthenticationForm}},
         name='logout'),
+
+I noticed that *Django Unleashed* Example 19.45 set ``LOGIN_URL = reverse_lazy('dj-auth:login')`` and
+``LOGOUT_URL = reverse_lazy('dj-auth:logout')``. Considering that they didn't seem to have any effect on what I did
+above, I changed them for whatever benefit they will have later.
+
+But the authentication still isn't really working. Once I've logged out I can't seem to log back in! It keeps sending
+me to ``user/logout/``. More study is necessary. Start on page 468 of *Django Unleashed*, then make the ``dj-auth``
+changes above.
+
+I've done all that and here are the current forms of the affected files:
+
+**config\urls.py**::
+
+    from django.conf.urls import include, url
+    from django.contrib import admin
+    from django.views.generic import RedirectView
+
+    urlpatterns = [
+        url(r'^$', RedirectView.as_view(pattern_name='dj-auth:login', permanent=False)),
+        url(r'^admin/', admin.site.urls),
+        url('^activity/', include('activity.urls')),
+        url('^user/', include('user.urls', app_name='user', namespace='dj-auth')),
+    ]
+
+**user\urls.py**::
+
+    from django.conf.urls import url
+    from django.contrib.auth import views as auth_views
+    from django.contrib.auth.forms import AuthenticationForm
+    from django.views.generic import RedirectView
+
+    urlpatterns = [
+        url(r'^k$', RedirectView.as_view(pattern_name='login', permanent=False)),
+        url(r'^login/$', auth_views.login, {'template_name': 'registration/login.html'}, name='login'),
+        url(r'^logout/$', auth_views.logout, {'template_name': 'registration/login.html',
+                                              'extra_context': {'form': AuthenticationForm}}, name='logout'),
+    ]
+
+The reference to ``logout`` in ``base.html`` also had to be changed to ``dj-auth:logout``
+
+But logout still isn't really working. I think I need to set the link to user/login, that is, ``dj-auth:login`` to get
+it to automatically go back to the login page after logging out. But then would I really be logged out? I will try an
+experiment using the Welcome line as my indicator as to whether a person is really logged out.
+
+Currently, an authenticated user, when clicking ``Logout`` in the header, IS logged out and sent to ``user/logout/``
+from which there is no escape except to erase the url back to its root (``r'^$'``).
+
+I finally opted for a separate ``logged_out.html`` page which gave me something for my url patterns to target. Here are
+the files affected:
+
+**config.urls.py**::
+
+    from django.conf.urls import include, url
+    from django.contrib import admin
+    from django.views.generic import RedirectView
+
+    urlpatterns = [
+        url(r'^$', RedirectView.as_view(pattern_name='dj-auth:login', permanent=False), name='base_url'),
+        url(r'^admin/', admin.site.urls),
+        url('^activity/', include('activity.urls')),
+        url('^user/', include('user.urls', app_name='user', namespace='dj-auth')),
+    ]
+
+**user.urls.py**::
+
+    from django.conf.urls import url
+    from django.contrib.auth import views as auth_views
+    from django.contrib.auth.forms import AuthenticationForm
+    from django.views.generic import RedirectView
+
+    urlpatterns = [
+        url(r'^k$', RedirectView.as_view(pattern_name='login', permanent=False)),
+        url(r'^login/$', auth_views.login, {'template_name': 'registration/login.html'}, name='login'),
+        url(r'^logout/$', auth_views.logout, {'template_name': 'registration/logged_out.html'}, name='logout'),
+    ]
+
+**user.registration.logged_out.html**::
+
+    {% extends 'user/base_user.html' %}
+
+    {% block title %}Logged Out{% endblock %}
+
+    {% block content %}
+        <div class="row">
+            <div class="offset-by-four four columns">
+                <p><h4 class="center-text u-full-width">You are logged out.</h4></p>
+                <form method="get" action="{% url 'base_url' %}">
+                    <p>
+                        <input class="button-primary u-full-width" value="Login Again" type="submit">
+                    </p>
+                </form>
+            </div>
+        </div>
+
+    {% endblock %}
+
+I also did some work on the css getting the Login and Login Again buttons to full width and centering things a little
+better.
 
 Requiring Authentiation to Access the Website
 +++++++++++++++++++++++++++++++++++++++++++++

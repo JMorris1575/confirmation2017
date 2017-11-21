@@ -1,0 +1,17 @@
+{% extends 'user/base_user.html' %}
+
+{% block title %}Logged Out{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="offset-by-four four columns">
+            <p><h4 class="center-text u-full-width">You are logged out.</h4></p>
+            <form method="get" action="{% url 'base_url' %}">
+                <p>
+                    <input class="button-primary u-full-width" value="Login Again" type="submit">
+                </p>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

@@ -577,8 +577,117 @@ skeleton.css. Here we go:</p>
 <p>The formatting needs help however. The Logout link is too close to the welcome message and is lined up with the upper
 part of the welcome message and is the wrong color. I can probably fix that all with css.</p>
 </div>
+<div class="section" id="making-the-header-look-nice">
+<h3>3.4.3. Making the Header Look Nice<a class="headerlink" href="#making-the-header-look-nice" title="Permalink to this headline">¶</a></h3>
+<p>First I created a custom.css class called ‘welcome’ that sets the font to Arial, the color to the golden yellow color:
+#ffdd55.  I also set the font-weight to bold and the margin-right to 20px.</p>
+<p>Similarly I created a ‘link’ class with Arial font, color #ffdd55 and margin-right to 20px.</p>
+<p>That looks good enough for now.</p>
+</div>
+<div class="section" id="making-the-logo-into-a-link-to-the-welcome-page">
+<h3>3.4.4. Making the Logo into a Link to the Welcome Page<a class="headerlink" href="#making-the-logo-into-a-link-to-the-welcome-page" title="Permalink to this headline">¶</a></h3>
+<p>One way to do this is to wrap it in an &lt;a&gt; tag with href=”activity/welcome/”. Let’s see if this works…</p>
+<p>No, it didn’t. It sent me to the current url with the ‘activity/welcome/’ url tacked on to the end of it:
+<code class="docutils literal"><span class="pre">activity/welcome/activity/welcome/</span></code> for instance. I looked in my urls in the config directory and the activities app
+and decided to use <code class="docutils literal"><span class="pre">&lt;a</span> <span class="pre">href=&quot;{%</span> <span class="pre">url</span> <span class="pre">'welcome_page'</span> <span class="pre">%}&quot;&gt;...</span> <span class="pre">&lt;/a&gt;</span></code> and that worked as I wanted.</p>
+</div>
+<div class="section" id="fixing-the-url-patterns">
+<h3>3.4.5. Fixing the URL Patterns<a class="headerlink" href="#fixing-the-url-patterns" title="Permalink to this headline">¶</a></h3>
+<p>I noticed, when studying the urls above, that the urls.py file in config have an entry
+<code class="docutils literal"><span class="pre">url('^activity/',</span> <span class="pre">include('activity.urls'),</span> <span class="pre">name='welcome'),</span></code> which I need, but I don’t think it needs a name. I will
+remove the name and see if it makes any difference. (It doesn’t seem to.)</p>
+</div>
+<div class="section" id="getting-the-logout-link-to-work">
+<h3>3.4.6. Getting the Logout Link to Work<a class="headerlink" href="#getting-the-logout-link-to-work" title="Permalink to this headline">¶</a></h3>
+<p>The Logout link should log a person out of the website and return automatically to the login page. What I did in
+Christmas2017, based on <em>Django Unleashed</em> chapter 19, looks complicated. Here goes a Test Driven Development/Learning
+process to try to figure it out. (Note: this was started before I made the logo into a link and fixed the naming of one
+of the url patterns in the two sections immediately preceding this one.)</p>
+<table border="1" class="colwidths-auto docutils" id="id6">
+<caption><span class="caption-text"><strong>Does clicking the Logout link log the user out and return to the Login Page?</strong></span><a class="headerlink" href="#id6" title="Permalink to this table">¶</a></caption>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Result</th>
+<th class="head">Action before next test</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>No</td>
+<td>it throws a page not found error for <code class="docutils literal"><span class="pre">&lt;current</span> <span class="pre">url&gt;/logout/</span></code>; set <code class="docutils literal"><span class="pre">LOGOUT_URL</span></code> in base.py to <code class="docutils literal"><span class="pre">'/logout/'</span></code></td>
+</tr>
+<tr class="row-odd"><td>No</td>
+<td>no change; name urls from django.contrib.auth.urls to auth_urls and change LOGOUT_URL to reverse that</td>
+</tr>
+<tr class="row-even"><td>No</td>
+<td>no change; create urls in user app as per <em>Django Unleashed</em> 19.5.2; test login first</td>
+</tr>
+</tbody>
+</table>
+<table border="1" class="colwidths-auto docutils" id="id7">
+<caption><span class="caption-text"><strong>Does a user see the login page when entering the website?</strong></span><a class="headerlink" href="#id7" title="Permalink to this table">¶</a></caption>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Result</th>
+<th class="head">Action before next test</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>No</td>
+<td>it tries to go to <code class="docutils literal"><span class="pre">login/</span></code> not <code class="docutils literal"><span class="pre">user/login</span></code>; set <code class="docutils literal"><span class="pre">LOGIN_URL</span> <span class="pre">=</span> <span class="pre">reverse_lazy('login')</span></code> in base.py</td>
+</tr>
+<tr class="row-odd"><td>No</td>
+<td>no change; point RedirectView in config.urls.py to <code class="docutils literal"><span class="pre">pattern_name=login</span></code></td>
+</tr>
+<tr class="row-even"><td>Yes</td>
+<td>but I fear unauthenticated users can get in by typing <code class="docutils literal"><span class="pre">activity/welcome</span></code> – they can! Fix later.</td>
+</tr>
+</tbody>
+</table>
+<p>Back to the original problem:</p>
+<table border="1" class="colwidths-auto docutils" id="id8">
+<caption><span class="caption-text"><strong>Does clicking the Logout link log the user out and return to the Login Page?</strong></span><a class="headerlink" href="#id8" title="Permalink to this table">¶</a></caption>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Result</th>
+<th class="head">Action before next test</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>No</td>
+<td><code class="docutils literal"><span class="pre">/logout/</span></code> after current url; add ‘logout’ <a class="reference internal" href="#logout-url"><span class="std std-ref">pattern</span></a>; set LOGOUT_URL=reverse_lazy(‘logout’)</td>
+</tr>
+<tr class="row-odd"><td>No</td>
+<td>same problem; change to <code class="docutils literal"><span class="pre">&lt;a</span> <span class="pre">href=&quot;{%</span> <span class="pre">url</span> <span class="pre">'logout'</span> <span class="pre">%}&gt;</span></code> in base.html</td>
+</tr>
+<tr class="row-even"><td>No</td>
+<td>got to Django logout page; base logout url pattern on <em>Django Unleashed</em> <a class="reference internal" href="#ex-19-37"><span class="std std-ref">Example 19.37</span></a></td>
+</tr>
+<tr class="row-odd"><td>Yes</td>
+<td>but any user knowing the url patterns can get in without being logged in</td>
+</tr>
+</tbody>
+</table>
+<p id="logout-url">Here is the url pattern I put in <code class="docutils literal"><span class="pre">userl/urls.py</span></code>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>``url(r&#39;^logout/$&#39;, auth_views.logout, name=&#39;logout&#39;)``
+</pre></div>
+</div>
+<p id="ex-19-37">Here is my version of the logout url pattern:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^logout/$&#39;</span><span class="p">,</span>
+    <span class="n">auth_views</span><span class="o">.</span><span class="n">logout</span><span class="p">,</span>
+    <span class="p">{</span><span class="s1">&#39;template_name&#39;</span><span class="p">:</span> <span class="s1">&#39;registration/login.html&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;extra_context&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">AuthenticationForm</span><span class="p">}},</span>
+    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;logout&#39;</span><span class="p">),</span>
+</pre></div>
+</div>
+<p>I noticed that <em>Django Unleashed</em> Example 19.45 set <code class="docutils literal"><span class="pre">LOGIN_URL</span> <span class="pre">=</span> <span class="pre">reverse_lazy('dj-auth:login')</span></code> and
+<code class="docutils literal"><span class="pre">LOGOUT_URL</span> <span class="pre">=</span> <span class="pre">reverse_lazy('dj-auth:logout')</span></code>. Considering that they didn’t seem to have any effect on what I did
+above, I changed them for whatever benefit they will have later.</p>
+<p>But the authentication still isn’t really working. Once I’ve logged out I can’t seem to log back in! It keeps sending
+me to <code class="docutils literal"><span class="pre">user/logout/</span></code>. More study is necessary. Start on page 468 of <em>Django Unleashed</em>, then make the changes above.</p>
+</div>
+<div class="section" id="requiring-authentiation-to-access-the-website">
+<h3>3.4.7. Requiring Authentiation to Access the Website<a class="headerlink" href="#requiring-authentiation-to-access-the-website" title="Permalink to this headline">¶</a></h3>
+<p>placeholder</p>
+</div>
 <div class="section" id="adding-the-first-set-of-questions">
-<h3>3.4.3. Adding the First Set of Questions<a class="headerlink" href="#adding-the-first-set-of-questions" title="Permalink to this headline">¶</a></h3>
+<h3>3.4.8. Adding the First Set of Questions<a class="headerlink" href="#adding-the-first-set-of-questions" title="Permalink to this headline">¶</a></h3>
 <p>I will start with the Noah activity since that is the one I have most developed. It currently has a total of five pages,
 the first one instructions and the rest are essays. The instruction page is timed. In order to get it to display
 properly I will need to:</p>
@@ -691,7 +800,12 @@ generated a warning on <code class="docutils literal"><span class="pre">make</sp
 <li class="toctree-l2"><a class="reference internal" href="#side-task-getting-a-welcome-and-logout-link-into-the-header">3.4. Side Task: Getting a Welcome and Logout link into the Header</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#welcome-message">3.4.1. Welcome Message</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#logout-link">3.4.2. Logout Link</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#adding-the-first-set-of-questions">3.4.3. Adding the First Set of Questions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#making-the-header-look-nice">3.4.3. Making the Header Look Nice</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#making-the-logo-into-a-link-to-the-welcome-page">3.4.4. Making the Logo into a Link to the Welcome Page</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fixing-the-url-patterns">3.4.5. Fixing the URL Patterns</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#getting-the-logout-link-to-work">3.4.6. Getting the Logout Link to Work</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#requiring-authentiation-to-access-the-website">3.4.7. Requiring Authentiation to Access the Website</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#adding-the-first-set-of-questions">3.4.8. Adding the First Set of Questions</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#things-i-learned-or-still-need-to-study">3.5. Things I Learned or Still Need to Study</a><ul>

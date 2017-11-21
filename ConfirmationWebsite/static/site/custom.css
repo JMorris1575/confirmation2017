@@ -8,6 +8,10 @@ header {
         font-family: 'Gloria Hallelujah', cursive;
 }
 
+.center-text {
+    text-align: center;
+}
+
 .link {
     font-family: 'Arial', sans;
     color: #ffdd55;
