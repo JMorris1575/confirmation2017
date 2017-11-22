@@ -709,9 +709,37 @@ I also did some work on the css getting the Login and Login Again buttons to ful
 better.
 
 Requiring Authentiation to Access the Website
-+++++++++++++++++++++++++++++++++++++++++++++
+---------------------------------------------
 
-placeholder
+Currently, any user who knows the url patterns, or makes a good guess, can get into the website without being
+authenticated. For instance, at the login page I can enter ``activity/welcome/`` into the address box and get to the
+welcome page without being authenticated. This should be easy to fix since I did it already in ModelExperimentation.
+
+.. csv-table:: **Does submitting a url result in being sent to the Login Page?**
+    :header: "Result", "Action before next test"
+    :widths: auto
+
+    No, wrap the necessary class views in ``login_required(<view_name>)`` functions in the url patterns
+    Yes, but the next=whatever isn't working; implement the changes in *Django Unleashed* Examples 19.47 and 19.48
+    Yes, see the affected files below
+
+**user.registration.login.html**::
+
+    ...
+    <p class="row">
+        {% if next %}
+            <input type="hidden" name="next" value="{{ next }}">
+        {% endif %}
+        <label for="id_username">Username:</label>
+        ...
+
+**templates.base.html**::
+
+    ...
+    {% if user.is_authenticated %}
+        <a class="link" href="{% url 'dj-auth:logout' %}?next={{ request.path }}">Logout</a>
+    {% endif %}
+    ...
 
 Adding the First Set of Questions
 +++++++++++++++++++++++++++++++++

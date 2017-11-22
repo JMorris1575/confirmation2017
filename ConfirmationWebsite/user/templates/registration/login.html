@@ -9,6 +9,9 @@
     </p>
     <form class="offset-by-four four columns" method="post" action="{% url 'dj-auth:login' %}">
         <p class="row">
+            {% if next %}
+                <input type="hidden" name="next" value="{{ next }}">
+            {% endif %}
             <label for="id_username">Username:</label>
             <input class="u-full-width" type="text"
                    name="username" autofocus maxlength="254" required id="id_username" />

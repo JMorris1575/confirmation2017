@@ -41,7 +41,7 @@
                 </div>
                 <div class="u-pull-right">
                     {% if user.is_authenticated %}
-                        <a class="link" href="{% url 'dj-auth:logout' %}">Logout</a>
+                        <a class="link" href="{% url 'dj-auth:logout' %}?next={{ request.path }}">Logout</a>
                     {% endif %}
                 </div>
                 <div class="u-pull-right">
