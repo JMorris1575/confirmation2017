@@ -24,6 +24,7 @@ class Action(models.Model):
                                      ('ES', 'Essay'),
                                      ('AN', 'Anonymous'),
                                      ('CO', 'Table of Contents')])
+    text = models.TextField(default="")
     timed = models.BooleanField(default=False)
 
     def __str__(self):

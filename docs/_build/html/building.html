@@ -953,6 +953,71 @@ new view, perhaps ‘ActionDisplay.’</p>
 </pre></div>
 </div>
 </div>
+<div class="section" id="implementing-the-noah-questions">
+<h3>3.7.3. Implementing the Noah Questions<a class="headerlink" href="#implementing-the-noah-questions" title="Permalink to this headline">¶</a></h3>
+<p>Here is what I had developed earlier for the Noah activity:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span>Noah: The Real Story
+
+Many of you will be familiar with the story of Noah and the Ark in a simplified cartoon or Children’s Bible version,
+but have you read the original?  Now is your chance!  Read Genesis 6:5 - 9:17.  (Click here if you have no idea how
+to find those passages.)  This may take a while, in fact it probably SHOULD take a while so you have time to think
+about what you are reading.  When you are finished come back here and go to the reflection pages by clicking on the
+button below.  (Note: it will be more fun to read the passage before looking at the reflection pages.  You may be
+surprised at the Bible’s version and looking ahead may spoil that.)
+
+    Activity:
+
+    Page One: What did you notice as you were reading the story?  If anything surprised you this would be a good
+    place to mention it.
+
+    Page Two: It may have surprised you that this story in the Bible is a bit disjointed.  It jumps from one thing
+    to another, gets repetitive, and even contradicts itself, for instance, on the number of each kind of animal
+    Noah was to bring on board.  None of this affects the religious value of the story but you may wonder why it is
+    that way.  It’s explained in one of the footnotes of the New American Bible translation, but in a way aimed at
+    scholars of the Bible.  Read the footnote marked “6:5-8:22&quot; (at the bottom right of page 15 in the editions you
+    were given) and try to give a more down-to-earth explanation.  (After all have had a chance to finish, I will
+    give my own down-to-earth explanation.)
+
+    Page Three: If we took everything in the Bible literally we would soon be very confused, yet it’s stories still
+    have religious value.  You may notice that God does not always seem like Himself in this story: he “regrets”
+    things, he sets up something to “remind” Him of his promises.  Why do you think the ancient authors of Scripture
+    sometimes spoke in this way?  In other words, what advantage do you see in thinking of God in a very human way?
+
+    Page Four: What lessons might we get from the story of Noah and the Ark?  List as many as you can think of.
+</pre></div>
+</div>
+<p>From this I see that some items from the introduction need to be on the overview page while others should be on the
+first page. The rest of the pages are all “essay” pages.</p>
+<p>Here is a revised outline:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Overview</span> <span class="n">page</span> <span class="o">--</span> <span class="n">overview</span> <span class="ow">and</span> <span class="nb">list</span> <span class="n">of</span> <span class="n">five</span> <span class="n">actions</span>
+
+ <span class="n">Action</span> <span class="n">Pages</span><span class="p">:</span>
+    <span class="mf">1.</span> <span class="n">Timed</span> <span class="n">instructions</span> <span class="n">to</span> <span class="n">read</span> <span class="n">the</span> <span class="n">page</span>
+    <span class="mf">2.</span> <span class="n">What</span> <span class="n">they</span> <span class="n">noticed</span>
+    <span class="mf">3.</span> <span class="n">Interpreting</span> <span class="n">the</span> <span class="n">footnote</span>
+    <span class="mf">4.</span> <span class="n">Thinking</span> <span class="n">of</span> <span class="n">God</span> <span class="ow">in</span> <span class="n">human</span> <span class="n">terms</span>
+    <span class="mf">5.</span> <span class="n">Lessons</span> <span class="kn">from</span> <span class="nn">Noah</span> <span class="ow">and</span> <span class="n">the</span> <span class="n">Ark</span>
+</pre></div>
+</div>
+<p>First, after updating the Noah overview, I will work on displaying the timed instructions.</p>
+<table border="1" class="colwidths-auto docutils" id="id12">
+<caption><span class="caption-text"><strong>Does clicking the first link on the Noah overview page get to the instructions on reading?</strong></span><a class="headerlink" href="#id12" title="Permalink to this table">¶</a></caption>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Result</th>
+<th class="head">Action before next test</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>No</td>
+<td>create a TextField in the action model for the instructions and edit <code class="docutils literal"><span class="pre">activity_display.html</span></code> to show them</td>
+</tr>
+<tr class="row-odd"><td>No</td>
+<td>change <code class="docutils literal"><span class="pre">{{</span> <span class="pre">activity.text</span> <span class="pre">}}</span></code> to <code class="docutils literal"><span class="pre">{{</span> <span class="pre">action.text</span> <span class="pre">}}</span></code> in <code class="docutils literal"><span class="pre">action_display.html</span></code>. <a class="reference internal" href="#name-change-01"><span class="std std-ref">see below</span></a>.</td>
+</tr>
+</tbody>
+</table>
+<p id="name-change-01">I decided to change the name of <code class="docutils literal"><span class="pre">activity_display.html</span></code> to <code class="docutils literal"><span class="pre">action_display.html</span></code> since that is what it is doing.</p>
+</div>
 </div>
 <div class="section" id="things-i-learned-or-still-need-to-study">
 <h2>3.8. Things I Learned or Still Need to Study<a class="headerlink" href="#things-i-learned-or-still-need-to-study" title="Permalink to this headline">¶</a></h2>
@@ -1059,6 +1124,7 @@ generated a warning on <code class="docutils literal"><span class="pre">make</sp
 <li class="toctree-l2"><a class="reference internal" href="#adding-the-first-set-of-questions">3.7. Adding the First Set of Questions</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#displaying-activity-overview-page">3.7.1. Displaying Activity Overview Page</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#getting-the-links-on-the-overview-page-to-work">3.7.2. Getting the Links on the Overview Page to Work</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#implementing-the-noah-questions">3.7.3. Implementing the Noah Questions</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#things-i-learned-or-still-need-to-study">3.8. Things I Learned or Still Need to Study</a><ul>

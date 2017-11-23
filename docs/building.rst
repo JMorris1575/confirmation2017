@@ -853,6 +853,68 @@ The new ActionDisplay view is as follows::
             action = Action.objects.get(number=_action_number)
             return render(request, self.template_name, {'activity':activity, 'action':action})
 
+Implementing the Noah Questions
++++++++++++++++++++++++++++++++
+
+Here is what I had developed earlier for the Noah activity::
+
+    Noah: The Real Story
+
+    Many of you will be familiar with the story of Noah and the Ark in a simplified cartoon or Children’s Bible version,
+    but have you read the original?  Now is your chance!  Read Genesis 6:5 - 9:17.  (Click here if you have no idea how
+    to find those passages.)  This may take a while, in fact it probably SHOULD take a while so you have time to think
+    about what you are reading.  When you are finished come back here and go to the reflection pages by clicking on the
+    button below.  (Note: it will be more fun to read the passage before looking at the reflection pages.  You may be
+    surprised at the Bible’s version and looking ahead may spoil that.)
+
+        Activity:
+
+        Page One: What did you notice as you were reading the story?  If anything surprised you this would be a good
+        place to mention it.
+
+        Page Two: It may have surprised you that this story in the Bible is a bit disjointed.  It jumps from one thing
+        to another, gets repetitive, and even contradicts itself, for instance, on the number of each kind of animal
+        Noah was to bring on board.  None of this affects the religious value of the story but you may wonder why it is
+        that way.  It’s explained in one of the footnotes of the New American Bible translation, but in a way aimed at
+        scholars of the Bible.  Read the footnote marked “6:5-8:22" (at the bottom right of page 15 in the editions you
+        were given) and try to give a more down-to-earth explanation.  (After all have had a chance to finish, I will
+        give my own down-to-earth explanation.)
+
+        Page Three: If we took everything in the Bible literally we would soon be very confused, yet it’s stories still
+        have religious value.  You may notice that God does not always seem like Himself in this story: he “regrets”
+        things, he sets up something to “remind” Him of his promises.  Why do you think the ancient authors of Scripture
+        sometimes spoke in this way?  In other words, what advantage do you see in thinking of God in a very human way?
+
+        Page Four: What lessons might we get from the story of Noah and the Ark?  List as many as you can think of.
+
+From this I see that some items from the introduction need to be on the overview page while others should be on the
+first page. The rest of the pages are all "essay" pages.
+
+Here is a revised outline::
+
+    Overview page -- overview and list of five actions
+
+     Action Pages:
+        1. Timed instructions to read the page
+        2. What they noticed
+        3. Interpreting the footnote
+        4. Thinking of God in human terms
+        5. Lessons from Noah and the Ark
+
+First, after updating the Noah overview, I will work on displaying the timed instructions.
+
+.. csv-table:: **Does clicking the first link on the Noah overview page get to the instructions on reading?**
+    :header: "Result", "Action before next test"
+    :widths: auto
+
+    No, create a TextField in the action model for the instructions and edit ``activity_display.html`` to show them
+    No, change ``{{ activity.text }}`` to ``{{ action.text }}`` in ``action_display.html``. :ref:`see below<name_change_01>`.
+
+
+.. _name_change_01:
+
+I decided to change the name of ``activity_display.html`` to ``action_display.html`` since that is what it is doing.
+
 
 Things I Learned or Still Need to Study
 ---------------------------------------

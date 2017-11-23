@@ -24,7 +24,7 @@ class ActivityOverview(View):
         return render(request, self.template_name, {'activity':activity, 'actions':actions})
 
 class ActivityDisplay(View):
-    template_name = 'activity/activity_display.html'
+    template_name = 'activity/action_display.html'
 
     def get(self, request, _slug=None, _action_number=None):
         _activity = Activity.objects.get(slug=_slug)
