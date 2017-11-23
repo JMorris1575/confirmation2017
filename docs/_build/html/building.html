@@ -767,12 +767,52 @@ the files affected:</p>
 </div>
 <p>I also did some work on the css getting the Login and Login Again buttons to full width and centering things a little
 better.</p>
+</div>
 <div class="section" id="requiring-authentiation-to-access-the-website">
-<h3>3.5.1. Requiring Authentiation to Access the Website<a class="headerlink" href="#requiring-authentiation-to-access-the-website" title="Permalink to this headline">¶</a></h3>
-<p>placeholder</p>
+<h2>3.6. Requiring Authentiation to Access the Website<a class="headerlink" href="#requiring-authentiation-to-access-the-website" title="Permalink to this headline">¶</a></h2>
+<p>Currently, any user who knows the url patterns, or makes a good guess, can get into the website without being
+authenticated. For instance, at the login page I can enter <code class="docutils literal"><span class="pre">activity/welcome/</span></code> into the address box and get to the
+welcome page without being authenticated. This should be easy to fix since I did it already in ModelExperimentation.</p>
+<table border="1" class="colwidths-auto docutils" id="id9">
+<caption><span class="caption-text"><strong>Does submitting a url result in being sent to the Login Page?</strong></span><a class="headerlink" href="#id9" title="Permalink to this table">¶</a></caption>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Result</th>
+<th class="head">Action before next test</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>No</td>
+<td>wrap the necessary class views in <code class="docutils literal"><span class="pre">login_required(&lt;view_name&gt;)</span></code> functions in the url patterns</td>
+</tr>
+<tr class="row-odd"><td>Yes</td>
+<td>but the next=whatever isn’t working; implement the changes in <em>Django Unleashed</em> Examples 19.47 and 19.48</td>
+</tr>
+<tr class="row-even"><td>Yes</td>
+<td>see the affected files below</td>
+</tr>
+</tbody>
+</table>
+<p><strong>user.registration.login.html</strong>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">...</span>
+<span class="o">&lt;</span><span class="n">p</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;row&quot;</span><span class="o">&gt;</span>
+    <span class="p">{</span><span class="o">%</span> <span class="k">if</span> <span class="nb">next</span> <span class="o">%</span><span class="p">}</span>
+        <span class="o">&lt;</span><span class="nb">input</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;hidden&quot;</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;next&quot;</span> <span class="n">value</span><span class="o">=</span><span class="s2">&quot;{{ next }}&quot;</span><span class="o">&gt;</span>
+    <span class="p">{</span><span class="o">%</span> <span class="n">endif</span> <span class="o">%</span><span class="p">}</span>
+    <span class="o">&lt;</span><span class="n">label</span> <span class="k">for</span><span class="o">=</span><span class="s2">&quot;id_username&quot;</span><span class="o">&gt;</span><span class="n">Username</span><span class="p">:</span><span class="o">&lt;/</span><span class="n">label</span><span class="o">&gt;</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p><strong>templates.base.html</strong>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">...</span>
+<span class="p">{</span><span class="o">%</span> <span class="k">if</span> <span class="n">user</span><span class="o">.</span><span class="n">is_authenticated</span> <span class="o">%</span><span class="p">}</span>
+    <span class="o">&lt;</span><span class="n">a</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;link&quot;</span> <span class="n">href</span><span class="o">=</span><span class="s2">&quot;{</span><span class="si">% u</span><span class="s2">rl &#39;dj-auth:logout&#39; %}?next={{ request.path }}&quot;</span><span class="o">&gt;</span><span class="n">Logout</span><span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;</span>
+<span class="p">{</span><span class="o">%</span> <span class="n">endif</span> <span class="o">%</span><span class="p">}</span>
+<span class="o">...</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="adding-the-first-set-of-questions">
-<h3>3.5.2. Adding the First Set of Questions<a class="headerlink" href="#adding-the-first-set-of-questions" title="Permalink to this headline">¶</a></h3>
+<h2>3.7. Adding the First Set of Questions<a class="headerlink" href="#adding-the-first-set-of-questions" title="Permalink to this headline">¶</a></h2>
 <p>I will start with the Noah activity since that is the one I have most developed. It currently has a total of five pages,
 the first one instructions and the rest are essays. The instruction page is timed. In order to get it to display
 properly I will need to:</p>
@@ -788,12 +828,136 @@ Noah activity and modify <code class="docutils literal"><span class="pre">page-d
 really doing what I wanted. The view sends a set of pages but I really only want one. It seems I may have to figure out
 a way either to do away with contents pages, or implement a separate template and view for tables of contents. Activity
 types perhaps? Or a ‘multi-part’ option? I think the latter would be best.</p>
+<div class="section" id="displaying-activity-overview-page">
+<h3>3.7.1. Displaying Activity Overview Page<a class="headerlink" href="#displaying-activity-overview-page" title="Permalink to this headline">¶</a></h3>
+<p>Narrative: When Jim clicks on “Noah: The REAL Story” he arrives at a page giving him an overview of the entire project
+and a list of activities for him to complete. Only the first entry is available the first time he enters the page. As he
+completes activities the list of entries indicates his completion with check marks and each new activity opens up in
+order.</p>
+<div class="section" id="refactoring">
+<h4>3.7.1.1. Refactoring<a class="headerlink" href="#refactoring" title="Permalink to this headline">¶</a></h4>
+<p>I noticed that it is simpler to talk about projects and activities rather than activities and pages. I thought of
+refactoring the Activity models. But that would be very difficult since I already have an ‘activity’ app and I don’t
+want to change it to a ‘project’ app. I decided to call them ‘activities’ and ‘actions.’ I changed the Page model to
+the Action model and updated <code class="docutils literal"><span class="pre">activity/views.py</span></code>, <code class="docutils literal"><span class="pre">activity/admin.py</span></code>, <code class="docutils literal"><span class="pre">activity/urls.py</span></code> and renamed
+<code class="docutils literal"><span class="pre">page_display.html</span></code> to <code class="docutils literal"><span class="pre">activity_overview.html</span></code>. I also changed the <code class="docutils literal"><span class="pre">ActionDisplay</span></code> view into <code class="docutils literal"><span class="pre">ActionOverview</span></code>.
+Once all this was properly done the website worked as before. Now to get the overview page to display properly.</p>
+</div>
+<div class="section" id="basic-overview-page-display">
+<h4>3.7.1.2. Basic Overview Page Display<a class="headerlink" href="#basic-overview-page-display" title="Permalink to this headline">¶</a></h4>
+<p>First I will just implement the looks of the page and get the links to work going to stubs of the action pages. I will
+save the actual action pages until later as well as keeping track of which actions have been completed by particular
+users.</p>
+<table border="1" class="colwidths-auto docutils" id="id10">
+<caption><span class="caption-text"><strong>Does the overview page have an overview optionally at the top of a list of actions?</strong></span><a class="headerlink" href="#id10" title="Permalink to this table">¶</a></caption>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Result</th>
+<th class="head">Action before next test</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>No</td>
+<td>modify <code class="docutils literal"><span class="pre">activity_overview.html</span></code> to include it</td>
+</tr>
+<tr class="row-odd"><td>No</td>
+<td>the ActionOverview view needs to be modified to include the activity in the context</td>
+</tr>
+<tr class="row-even"><td>No</td>
+<td>the variable in activity.urls needs to be changed to <code class="docutils literal"><span class="pre">_slug</span></code> along with the ones in the view</td>
+</tr>
+<tr class="row-odd"><td>No</td>
+<td>getting unexpected ‘action_number’ keyword argument; create <a class="reference internal" href="#overview-url"><span class="std std-ref">new url pattern</span></a></td>
+</tr>
+<tr class="row-even"><td>No</td>
+<td>need to fix the link in <code class="docutils literal"><span class="pre">welcome.html</span></code> not to include ‘action_number’</td>
+</tr>
+<tr class="row-odd"><td>No</td>
+<td>activity overview page reached but overview still not visible</td>
+</tr>
+<tr class="row-even"><td>No</td>
+<td>in <code class="docutils literal"><span class="pre">ActionOverview</span></code> use <a class="reference internal" href="#use-get-not-filter"><span class="std std-ref">get()</span></a> instead of filter</td>
+</tr>
+<tr class="row-odd"><td>Yes</td>
+<td>Now to get the links to work</td>
+</tr>
+</tbody>
+</table>
+<p>I will need to work on the css for the overview paragraph later.</p>
+<p>Notes:</p>
+<p id="overview-url">I had to create a new url pattern when I decided to create an overview page for each activity:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^(?P&lt;_slug&gt;[\w\-]+)/$&#39;</span><span class="p">,</span> <span class="n">login_required</span><span class="p">(</span><span class="n">ActionOverview</span><span class="o">.</span><span class="n">as_view</span><span class="p">()),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;activity_overview&quot;</span><span class="p">),</span>
+</pre></div>
+</div>
+<p id="use-get-not-filter">I was getting the activity to send to <code class="docutils literal"><span class="pre">activity_overview.html</span></code> by using a filter, but filter returns a QuerySet
+rather than an object. Change the line in <code class="docutils literal"><span class="pre">ActionOverview</span></code> as follows:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">activity</span> <span class="o">=</span> <span class="n">Activity</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">slug</span><span class="o">=</span><span class="n">_slug</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="getting-the-links-on-the-overview-page-to-work">
+<h3>3.7.2. Getting the Links on the Overview Page to Work<a class="headerlink" href="#getting-the-links-on-the-overview-page-to-work" title="Permalink to this headline">¶</a></h3>
+<p>This shouldn’t be too difficult I don’t think. The url pattern already exists but may need to be edited. I’ll need a
+new view, perhaps ‘ActionDisplay.’</p>
+<table border="1" class="colwidths-auto docutils" id="id11">
+<caption><span class="caption-text"><strong>Does clicking a link on the overview page get to the proper url ‘activity/[slug]/[action number]’?</strong></span><a class="headerlink" href="#id11" title="Permalink to this table">¶</a></caption>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Result</th>
+<th class="head">Action before next test</th>
+<th class="head">&#160;</th>
+<th class="head">&#160;</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>No</td>
+<td>edit <a class="reference internal" href="#action-display-url"><span class="std std-ref">url</span></a></td>
+<td>write the <a class="reference internal" href="#action-disp-view"><span class="std std-ref">ActionDisplay</span></a>. view</td>
+<td>and the stub html</td>
+</tr>
+<tr class="row-odd"><td>No</td>
+<td>also have to create an actual link in <code class="docutils literal"><span class="pre">activity_overview.html</span></code></td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>No</td>
+<td>got multiple actions; use filter in view: action = Action.objects.filter(slug=_slug).get(number=_action_number)</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-odd"><td>No</td>
+<td>no slug field in Action; use action = Action.objects.filter(activity=_activity).get(number=_action_number)</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+<tr class="row-even"><td>Yes</td>
+<td>Next: actually display the actions</td>
+<td>&#160;</td>
+<td>&#160;</td>
+</tr>
+</tbody>
+</table>
+<p id="action-display-url">Here is the url for the action_display page:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">url</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^(?P&lt;_slug&gt;[\w\-]+)/(?P&lt;action_number&gt;[0-9]+)/$&#39;</span><span class="p">,</span>
+    <span class="n">login_required</span><span class="p">(</span><span class="n">ActivityDisplay</span><span class="o">.</span><span class="n">as_view</span><span class="p">()),</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;action_display&quot;</span><span class="p">),</span>
+</pre></div>
+</div>
+<p id="action-disp-view">The new ActionDisplay view is as follows:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ActivityDisplay</span><span class="p">(</span><span class="n">View</span><span class="p">):</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s1">&#39;activity/activity_display.html&#39;</span>
+
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">_slug</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">_action_number</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">activity</span> <span class="o">=</span> <span class="n">Activity</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">slug</span><span class="o">=</span><span class="n">_slug</span><span class="p">)</span>
+        <span class="n">action</span> <span class="o">=</span> <span class="n">Action</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">number</span><span class="o">=</span><span class="n">_action_number</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">template_name</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;activity&#39;</span><span class="p">:</span><span class="n">activity</span><span class="p">,</span> <span class="s1">&#39;action&#39;</span><span class="p">:</span><span class="n">action</span><span class="p">})</span>
+</pre></div>
+</div>
 </div>
 </div>
 <div class="section" id="things-i-learned-or-still-need-to-study">
-<h2>3.6. Things I Learned or Still Need to Study<a class="headerlink" href="#things-i-learned-or-still-need-to-study" title="Permalink to this headline">¶</a></h2>
+<h2>3.8. Things I Learned or Still Need to Study<a class="headerlink" href="#things-i-learned-or-still-need-to-study" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="static-files">
-<h3>3.6.1. Static Files<a class="headerlink" href="#static-files" title="Permalink to this headline">¶</a></h3>
+<h3>3.8.1. Static Files<a class="headerlink" href="#static-files" title="Permalink to this headline">¶</a></h3>
 <p>In order to get the <code class="docutils literal"><span class="pre">skeleton.css</span></code> files etc. to work I had to put these lines into my <code class="docutils literal"><span class="pre">base.py</span></code> program:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">STATIC_URL</span> <span class="o">=</span> <span class="s1">&#39;/static/&#39;</span>
 <span class="n">STATICFILES_DIRS</span> <span class="o">=</span> <span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">BASE_DIR</span><span class="p">,</span> <span class="s2">&quot;static&quot;</span><span class="p">,</span> <span class="s2">&quot;site&quot;</span> <span class="p">),</span> <span class="p">)</span>
@@ -812,7 +976,7 @@ types perhaps? Or a ‘multi-part’ option? I think the latter would be best.</
 <p><strong>I may need to study how Django handles static files.</strong></p>
 </div>
 <div class="section" id="moving-to-the-rectory-computer">
-<span id="moving-to-rectory"></span><h3>3.6.2. Moving to the Rectory Computer<a class="headerlink" href="#moving-to-the-rectory-computer" title="Permalink to this headline">¶</a></h3>
+<span id="moving-to-rectory"></span><h3>3.8.2. Moving to the Rectory Computer<a class="headerlink" href="#moving-to-the-rectory-computer" title="Permalink to this headline">¶</a></h3>
 <p>I managed to get everything moved over here to my rectory computer, including the data I entered in the database. I
 learned that the migration files were not under version control so I had to copy them from my Home computer then did a
 <code class="docutils literal"><span class="pre">python</span> <span class="pre">manage.py</span> <span class="pre">migrate</span></code> which worked without difficulty.</p>
@@ -831,7 +995,7 @@ directory. With all that, loading the data was simple:</p>
 </div>
 </div>
 <div class="section" id="random-notes">
-<h3>3.6.3. Random Notes<a class="headerlink" href="#random-notes" title="Permalink to this headline">¶</a></h3>
+<h3>3.8.3. Random Notes<a class="headerlink" href="#random-notes" title="Permalink to this headline">¶</a></h3>
 <p id="table-error">Apparently one must avoid using double quotes in table entries (at least without escaping them (“). The first version
 of the last line in the <a class="reference internal" href="#welcome-message-table"><span class="std std-ref">Welcome Message TDD table</span></a> had double quotes around part of it and
 generated a warning on <code class="docutils literal"><span class="pre">make</span> <span class="pre">html</span></code>.</p>
@@ -890,15 +1054,17 @@ generated a warning on <code class="docutils literal"><span class="pre">make</sp
 <li class="toctree-l3"><a class="reference internal" href="#fixing-the-url-patterns">3.4.5. Fixing the URL Patterns</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#getting-login-and-logout-working-properly">3.5. Getting Login and Logout Working Properly</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#requiring-authentiation-to-access-the-website">3.5.1. Requiring Authentiation to Access the Website</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#adding-the-first-set-of-questions">3.5.2. Adding the First Set of Questions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#getting-login-and-logout-working-properly">3.5. Getting Login and Logout Working Properly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#requiring-authentiation-to-access-the-website">3.6. Requiring Authentiation to Access the Website</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#adding-the-first-set-of-questions">3.7. Adding the First Set of Questions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#displaying-activity-overview-page">3.7.1. Displaying Activity Overview Page</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#getting-the-links-on-the-overview-page-to-work">3.7.2. Getting the Links on the Overview Page to Work</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#things-i-learned-or-still-need-to-study">3.6. Things I Learned or Still Need to Study</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#static-files">3.6.1. Static Files</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#moving-to-the-rectory-computer">3.6.2. Moving to the Rectory Computer</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#random-notes">3.6.3. Random Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#things-i-learned-or-still-need-to-study">3.8. Things I Learned or Still Need to Study</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#static-files">3.8.1. Static Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#moving-to-the-rectory-computer">3.8.2. Moving to the Rectory Computer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#random-notes">3.8.3. Random Notes</a></li>
 </ul>
 </li>
 </ul>

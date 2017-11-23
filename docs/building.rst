@@ -742,7 +742,7 @@ welcome page without being authenticated. This should be easy to fix since I did
     ...
 
 Adding the First Set of Questions
-+++++++++++++++++++++++++++++++++
+---------------------------------
 
 I will start with the Noah activity since that is the one I have most developed. It currently has a total of five pages,
 the first one instructions and the rest are essays. The instruction page is timed. In order to get it to display
@@ -760,6 +760,99 @@ Hmm... Thinking about it some I realized that the ``page-display.html`` being fe
 really doing what I wanted. The view sends a set of pages but I really only want one. It seems I may have to figure out
 a way either to do away with contents pages, or implement a separate template and view for tables of contents. Activity
 types perhaps? Or a 'multi-part' option? I think the latter would be best.
+
+Displaying Activity Overview Page
++++++++++++++++++++++++++++++++++
+
+Narrative: When Jim clicks on "Noah: The REAL Story" he arrives at a page giving him an overview of the entire project
+and a list of activities for him to complete. Only the first entry is available the first time he enters the page. As he
+completes activities the list of entries indicates his completion with check marks and each new activity opens up in
+order.
+
+Refactoring
+***********
+
+I noticed that it is simpler to talk about projects and activities rather than activities and pages. I thought of
+refactoring the Activity models. But that would be very difficult since I already have an 'activity' app and I don't
+want to change it to a 'project' app. I decided to call them 'activities' and 'actions.' I changed the Page model to
+the Action model and updated ``activity/views.py``, ``activity/admin.py``, ``activity/urls.py`` and renamed
+``page_display.html`` to ``activity_overview.html``. I also changed the ``ActionDisplay`` view into ``ActionOverview``.
+Once all this was properly done the website worked as before. Now to get the overview page to display properly.
+
+Basic Overview Page Display
+***************************
+
+First I will just implement the looks of the page and get the links to work going to stubs of the action pages. I will
+save the actual action pages until later as well as keeping track of which actions have been completed by particular
+users.
+
+.. csv-table:: **Does the overview page have an overview optionally at the top of a list of actions?**
+    :header: "Result", "Action before next test"
+    :widths: auto
+
+    No, modify ``activity_overview.html`` to include it
+    No, the ActionOverview view needs to be modified to include the activity in the context
+    No, the variable in activity.urls needs to be changed to ``_slug`` along with the ones in the view
+    No, getting unexpected 'action_number' keyword argument; create :ref:`new url pattern<overview_url>`
+    No, need to fix the link in ``welcome.html`` not to include 'action_number'
+    No, activity overview page reached but overview still not visible
+    No, in ``ActionOverview`` use :ref:`get()<use_get_not_filter>` instead of filter
+    Yes, Now to get the links to work
+
+I will need to work on the css for the overview paragraph later.
+
+Notes:
+
+.. _overview_url:
+
+I had to create a new url pattern when I decided to create an overview page for each activity::
+
+    url(r'^(?P<_slug>[\w\-]+)/$', login_required(ActionOverview.as_view()), name="activity_overview"),
+
+.. _use_get_not_filter:
+
+I was getting the activity to send to ``activity_overview.html`` by using a filter, but filter returns a QuerySet
+rather than an object. Change the line in ``ActionOverview`` as follows::
+
+    activity = Activity.objects.get(slug=_slug)
+
+Getting the Links on the Overview Page to Work
+++++++++++++++++++++++++++++++++++++++++++++++
+
+This shouldn't be too difficult I don't think. The url pattern already exists but may need to be edited. I'll need a
+new view, perhaps 'ActionDisplay.'
+
+.. csv-table:: **Does clicking a link on the overview page get to the proper url 'activity/[slug]/[action number]'?**
+    :header: "Result", "Action before next test"
+    :widths: auto
+
+    No, edit :ref:`url<action_display_url>`, write the :ref:`ActionDisplay<action_disp_view>`. view, and the stub html
+    No, also have to create an actual link in ``activity_overview.html``
+    No, got multiple actions; use filter in view: action = Action.objects.filter(slug=_slug).get(number=_action_number)
+    No, no slug field in Action; use action = Action.objects.filter(activity=_activity).get(number=_action_number)
+    Yes, Next: actually display the actions
+
+.. _action_display_url:
+
+Here is the url for the action_display page::
+
+    url(r'^(?P<_slug>[\w\-]+)/(?P<action_number>[0-9]+)/$',
+        login_required(ActivityDisplay.as_view()),
+        name="action_display"),
+
+
+.. _action_disp_view:
+
+The new ActionDisplay view is as follows::
+
+    class ActivityDisplay(View):
+        template_name = 'activity/activity_display.html'
+
+        def get(self, request, _slug=None, _action_number=None):
+            activity = Activity.objects.get(slug=_slug)
+            action = Action.objects.get(number=_action_number)
+            return render(request, self.template_name, {'activity':activity, 'action':action})
+
 
 Things I Learned or Still Need to Study
 ---------------------------------------

@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import View
-from .models import Activity, Page
+from .models import Activity, Action
 
 # Create your views here.
 
@@ -15,9 +15,18 @@ class WelcomePage(View):
         return render(request, self.template_name)
 
 
-class PageDisplay(View):
-    template_name = 'activity/page_display.html'
+class ActivityOverview(View):
+    template_name = 'activity/activity_overview.html'
 
-    def get(self, request, slug=None, page_number=None):
-        pages = Page.objects.filter(activity__slug=slug)
-        return render(request, self.template_name, {'pages':pages})
+    def get(self, request, _slug=None):
+        activity = Activity.objects.get(slug=_slug)
+        actions = Action.objects.filter(activity__slug=_slug)
+        return render(request, self.template_name, {'activity':activity, 'actions':actions})
+
+class ActivityDisplay(View):
+    template_name = 'activity/activity_display.html'
+
+    def get(self, request, _slug=None, _action_number=None):
+        _activity = Activity.objects.get(slug=_slug)
+        action = Action.objects.filter(activity=_activity).get(number=_action_number)
+        return render(request, self.template_name, {'activity':_activity, 'action':action})
