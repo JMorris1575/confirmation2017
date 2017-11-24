@@ -2,10 +2,14 @@
 
 {% block content %}
 
-    <h3>{{ activity.name }}</h3>
+    <h3>{{ activity.name }}: {{ action.number }}</h3>
 
     <div class="row">
         <h5 class="offset-by-one ten columns formatted">{{ action.text }}</h5>
+    </div>
+    <div class="row">
+        <a class="button" type="button" href="{{ action.previous }}">Previous</a>
+        <a class="button u-pull-right" type="button" href="{{ action.next }}">Next</a>
     </div>
 
 {% endblock %}

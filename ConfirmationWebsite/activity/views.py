@@ -30,3 +30,11 @@ class ActivityDisplay(View):
         _activity = Activity.objects.get(slug=_slug)
         action = Action.objects.filter(activity=_activity).get(number=_action_number)
         return render(request, self.template_name, {'activity':_activity, 'action':action})
+
+class Congrats(View):
+    template_name = 'activity/congrats.html'
+
+    def get(self, request, _slug=None):
+        _activity = Activity.objects.get(slug=_slug)
+        return render(request, self.template_name, {'activity':_activity})
+

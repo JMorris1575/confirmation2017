@@ -1,0 +1,12 @@
+{% extends 'activity/base_activity.html' %}
+
+{% block content %}
+
+    <div class ="row">
+        <h3 class="offset-by-two eight columns">Congratulations, {{ user.first_name }}!</h3>
+    </div>
+    <div class="row">
+        <h4 class = "offset-by-two eight columns">You have completed {{ activity.name }}</h4>
+    </div>
+
+{% endblock %}

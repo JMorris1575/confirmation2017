@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 # Create your models here.
 
@@ -27,11 +28,28 @@ class Action(models.Model):
     text = models.TextField(default="")
     timed = models.BooleanField(default=False)
 
-    def __str__(self):
-        count = len(Action.objects.filter(activity=self.activity))
-        return str(self.activity) + ": page " + str(self.number) + " of " + str(count)
 
     class Meta:
         unique_together = ('activity', 'number')
         ordering = ['activity', 'number']
 
+    def __str__(self):
+        count = len(Action.objects.filter(activity=self.activity))
+        return str(self.activity) + ": page " + str(self.number) + " of " + str(count)
+
+    def previous(self):
+        number = self.number
+        slug = self.activity.slug
+        if number == 1:
+            return '/activity/' + slug + '/'
+        else:
+            return '/activity/' + slug + '/' + str(number - 1) + '/'
+
+    def next(self):
+        number = self.number
+        max = len(Action.objects.filter(activity=self.activity))
+        slug = self.activity.slug
+        if number == max:
+            return '/activity/' + slug + '/congrats/'
+        else:
+            return '/activity/' + slug + '/' + str(number + 1) + '/'

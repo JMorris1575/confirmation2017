@@ -939,6 +939,128 @@ In action_display.html::
 
 The page needs to look better. Maybe offset-by-one ten columns at the <h6> size.
 
+Completing the action_display.html Page
+---------------------------------------
+
+What this page displays depends on the type of page it is but there are always some navigation buttons visible: 'Next'
+and 'Previous.' The 'Previous' button is active on all pages. On the first page it results in going back to the
+Welcome page. The 'Next' button is only active if an answer has already been submitted by the current user for this
+page. The 'Next' button also submits their current response. Here is a table of page types and objects displayed:
+
+.. csv-table:: **Contents of Various Action Display Pages**
+    :header: "Page Type", "Objects Displayed"
+    :widths: auto
+
+    Instructions, Formatted Text; Next Button; Previous Button if not first action
+    Essay, Formatted Text; TextArea for response; Next Button; Previous Button if not first action
+    Multi, Formatted Text; Radio Buttons with possible responses; Next Button; Previous Button if not first action
+
+Implementing the 'Previous' Button
+++++++++++++++++++++++++++++++++++
+
+This button appears and is active on all of the pages. Clicking it results in going back to the previous page except on
+the first page where it goes back to the Welcome page. Here is the TDD approach:
+
+.. csv-table:: **Does a working 'Previous' button appear on each Action Page?**
+    :header: "Result", "Action before next test"
+    :widths: auto
+
+    No, add this :ref;`previous button<previous_button> to ``action_display.html`` with ``href="{{ action.previous }}"``
+    No, create the ``previous`` function in the Action model
+    No, it tried to get to /activity/-slug-/-number-/activity/welcome/; try ``href={% url action.previoue %}``
+    No, no reverse; try ``href={{ url action.previouw }}``
+    No, syntax error; go back to ``href="{{ action.previous }}`` and use :ref:`this<action_previous>` in the model
+    Yes, on to the 'Next' button
+
+.. _action_previous:
+
+Here is a model function to help find the previous page. It wasn't working for a while, would tack the output onto the
+current url, but this seems to work::
+
+        def previous(self):
+            number = self.number
+            slug = self.activity.slug
+            if number == 1:
+                return '/activity/' + slug + '/'
+            else:
+                return '/activity/' + slug + '/' + str(number - 1) + '/'
+
+.. _previous_button:
+
+Here is the html for the 'Previous' button::
+
+        <div class="row">
+            <a class="button" type="button" href="{{ action.previous }}">Previous</a>
+        </div>
+
+Preliminary Implementation of the 'Next' Button
++++++++++++++++++++++++++++++++++++++++++++++++
+
+Full implementation of the 'Next' button will have to wait until I have some means of recording which actions a user
+has completed. Here I will just get it displaying and presume they can go to the next page.
+
+.. csv-table:: **Does a working 'Next' button appear on each Action Page?**
+    :header: "Result", "Action before next test"
+    :widths: auto
+
+    No, add it to ``action_display.html`` and create a model function called next()
+    Yes, but instead of going back to the overview page it should go to some sort of congratulation page
+
+.. csv-table:: **Does clicking 'Next' on the last action page for an activity result in a congratulations page?**
+    :header: "Result", "Action before next test"
+    :widths: auto
+
+    No, it goes to the overview page; create ``congrats.html``, its url, view and edit ``next()`` in the Action model
+    Yes, see below: :ref:`congrats.html<congrats>`, :ref:`Congrats view<congrats_view>`, :ref:`next()<new_next>`
+
+.. _congrats:
+
+Here is the inner part of the ``congrats.html`` page::
+
+    {% block content %}
+
+        <div class ="row">
+            <h3 class="offset-by-two eight columns">Congratulations, {{ user.first_name }}!</h3>
+        </div>
+        <div class="row">
+            <h4 class = "offset-by-two eight columns">You have completed {{ activity.name }}</h4>
+        </div>
+
+    {% endblock %}
+
+
+.. _congrats_view:
+
+I needed an additional view to render the ``congrats.html`` page::
+
+    class Congrats(View):
+        template_name = 'activity/congrats.html'
+
+        def get(self, request, _slug=None):
+            _activity = Activity.objects.get(slug=_slug)
+            return render(request, self.template_name, {'activity':_activity})
+
+
+.. _new_next:
+
+And here is the new version of the Action model's `next()` function::
+
+        def next(self):
+            number = self.number
+            max = len(Action.objects.filter(activity=self.activity))
+            slug = self.activity.slug
+            if number == max:
+                return '/activity/' + slug + '/congrats/'
+            else:
+                return '/activity/' + slug + '/' + str(number + 1) + '/'
+
+Adding Essay Answers
+++++++++++++++++++++
+
+place holder
+
+
+
 Things I Learned or Still Need to Study
 ---------------------------------------
 
