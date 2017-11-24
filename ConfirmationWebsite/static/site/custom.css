@@ -12,6 +12,10 @@ header {
     text-align: center;
 }
 
+.formatted {
+    white-space: pre-wrap;
+}
+
 .link {
     font-family: 'Arial', sans;
     color: #ffdd55;

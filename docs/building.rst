@@ -915,6 +915,29 @@ First, after updating the Noah overview, I will work on displaying the timed ins
 
 I decided to change the name of ``activity_display.html`` to ``action_display.html`` since that is what it is doing.
 
+Getting the Text on the Action Pages to Format Properly
++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+The text on the Action Pages is displaying but it doens't look very good because all the formatting has been removed. I
+wonder if there is anything that allows for rich-text format or at least some html formatting commands like <br>. I will
+study the Django docs...
+
+I didn't find anything there but *The HTML Pocket Guide* (page 126-128) told me about the <pre> tag and
+*The CSS Pocket Guide* (page 158) told me about the white-space property. I will try to use the css approach first.
+
+It worked!  Here is what I used:
+
+In custom.css::
+
+    .formatted {
+        white-space: pre-wrap;
+    }
+
+In action_display.html::
+
+    <h4 class="formatted">{{ action.text }}</h4>
+
+The page needs to look better. Maybe offset-by-one ten columns at the <h6> size.
 
 Things I Learned or Still Need to Study
 ---------------------------------------
