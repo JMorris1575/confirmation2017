@@ -1076,11 +1076,65 @@ Adding a component for essay questions seems the easiest thing to do first. I wi
     :widths: auto
 
     No, there is no place to save it; create a UserResponse model
+    Yes, but I skipped a lot of mistakes here; see below for the affected files
 
+**The UserResponse Model**::
 
+    class UserResponse(models.Model):
+        user = models.ForeignKey(User)
+        action = models.ForeignKey(Action, null=True)
+        #response = models.ForeignKey(Response)
+        essay = models.TextField()
 
+        def __str__(self):
+            return self.user.username + "'s response to " + str(self.action)
 
+**The Essay Form in action_display.html**::
 
+    {% if action.type == 'ES' %}
+        <div class="row">
+            <form class="offset-by-one ten columns" method="post" action="{{ action.get_absolute_url }}submit_essay/">
+                <input type="hidden" name="_user" value="{{ user }}">
+                <input type="hidden" name="_action" value="{{ action }}">
+                <div class="row">
+                    <textarea class="u-full-width" name="essay" required autofocus></textarea>
+                </div>
+                <div class="row">
+                    <input class="button-primary offset-by-five two columns u-full-width"
+                           type="submit" value="Submit">
+                </div>
+                {% csrf_token %}
+            </form>
+        </div>
+    {% endif %}
+
+**The SubmitEssay View**::
+
+    class SubmitEssay(View):
+        template_name = 'activity/action_display.html'
+
+        def get(self, request):
+            return render(request, self.template_name)
+
+        def post(self, request, _slug=None, _action_number=None):
+            _activity = Activity.objects.get(slug=_slug)
+            _action = Action.objects.filter(activity=_activity).get(number=_action_number)
+            new_response = UserResponse(user=request.user,
+                                        action=_action,
+                                        essay = request.POST['essay'])
+            new_response.save()
+            return redirect(_action.get_absolute_url())
+
+**The submit_essay URL Pattern**::
+
+    url(r'^(?P<_slug>[\w\-]+)/(?P<_action_number>[0-9]+)/submit_essay/$',
+        login_required(SubmitEssay.as_view()),
+        name="submit_essay"),
+
+Adding Multiple Choice/True-False Responses
++++++++++++++++++++++++++++++++++++++++++++
+
+This will require another new model to hold the possible responses.
 
 
 

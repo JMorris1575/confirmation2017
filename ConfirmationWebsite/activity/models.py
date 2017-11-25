@@ -63,7 +63,7 @@ class Action(models.Model):
 
 class UserResponse(models.Model):
     user = models.ForeignKey(User)
-    action = models.ForeignKey(Action, null=True)
+    action = models.ForeignKey(Action)
     #response = models.ForeignKey(Response)
     essay = models.TextField()
 

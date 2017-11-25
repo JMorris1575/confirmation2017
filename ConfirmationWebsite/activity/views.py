@@ -26,9 +26,10 @@ class ActivityOverview(View):
 class ActivityDisplay(View):
     template_name = 'activity/action_display.html'
 
-    def get(self, request, _slug=None, _action_number=None):
+    def get(self, request, _slug=None, _action_number=None, _user=None):
         _activity = Activity.objects.get(slug=_slug)
         action = Action.objects.filter(activity=_activity).get(number=_action_number)
+        #_essay = UserResponse.objects.filter(user=request.user).get(action=action).essay
         return render(request, self.template_name, {'activity':_activity, 'action':action})
 
 class Congrats(View):
@@ -52,4 +53,4 @@ class SubmitEssay(View):
                                     action=_action,
                                     essay = request.POST['essay'])
         new_response.save()
-        return redirect(_action.get_absolute_url())
+        return redirect(_action.next())
