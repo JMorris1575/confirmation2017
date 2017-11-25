@@ -1057,7 +1057,30 @@ And here is the new version of the Action model's `next()` function::
 Adding Essay Answers
 ++++++++++++++++++++
 
-place holder
+Adding a component for essay questions seems the easiest thing to do first. I will need to:
+
+* display a text box
+* display a submit button
+* add a view to process the submission of an essay answer
+* create the User-Answer model to hold the user's answers
+
+.. csv-table:: **Do essay pages appear with a text box and a submit button?**
+    :header: "Result", "Action before next test"
+    :widths: auto
+
+    No, add a conditional form to ``action_display.html``
+    Yes, get the submit button to do something
+
+.. csv-table:: **Does clicking the 'Submit' button on an Essay page save the essay to the database?**
+    :header: "Result", "Action before next test"
+    :widths: auto
+
+    No, there is no place to save it; create a UserResponse model
+
+
+
+
+
 
 
 

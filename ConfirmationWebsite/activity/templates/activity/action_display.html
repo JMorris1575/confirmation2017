@@ -7,6 +7,22 @@
     <div class="row">
         <h5 class="offset-by-one ten columns formatted">{{ action.text }}</h5>
     </div>
+    {% if action.type == 'ES' %}
+        <div class="row">
+            <form class="offset-by-one ten columns" method="post" action="{{ action.get_absolute_url }}submit_essay/">
+                <input type="hidden" name="_user" value="{{ user }}">
+                <input type="hidden" name="_action" value="{{ action }}">
+                <div class="row">
+                    <textarea class="u-full-width" name="essay" required autofocus></textarea>
+                </div>
+                <div class="row">
+                    <input class="button-primary offset-by-five two columns u-full-width"
+                           type="submit" value="Submit">
+                </div>
+                {% csrf_token %}
+            </form>
+        </div>
+    {% endif %}
     <div class="row">
         <a class="button" type="button" href="{{ action.previous }}">Previous</a>
         <a class="button u-pull-right" type="button" href="{{ action.next }}">Next</a>

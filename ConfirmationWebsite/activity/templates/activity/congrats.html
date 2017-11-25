@@ -3,10 +3,18 @@
 {% block content %}
 
     <div class ="row">
-        <h3 class="offset-by-two eight columns">Congratulations, {{ user.first_name }}!</h3>
+        <h3 class="offset-by-two eight columns center-text">Congratulations, {{ user.first_name }}!</h3>
     </div>
     <div class="row">
-        <h4 class = "offset-by-two eight columns">You have completed {{ activity.name }}</h4>
+        <h4 class = "offset-by-two eight columns center-text">You have completed:</h4>
+    </div>
+    <div class="row">
+        <h4 class="offset-by-two eight columns center-text">{{ activity.name }}</h4>
+    </div>
+    <div class="row">
+        <a class="button offset-by-five two columns u-full-width" type="button" href="{% url 'welcome_page' %}">
+            Continue
+        </a>
     </div>
 
 {% endblock %}

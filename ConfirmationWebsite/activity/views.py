@@ -1,6 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import View
-from .models import Activity, Action
+from .models import Activity, Action, UserResponse
 
 # Create your views here.
 
@@ -38,3 +38,18 @@ class Congrats(View):
         _activity = Activity.objects.get(slug=_slug)
         return render(request, self.template_name, {'activity':_activity})
 
+
+class SubmitEssay(View):
+    template_name = 'activity/action_display.html'
+
+    def get(self, request):
+        return render(request, self.template_name)
+
+    def post(self, request, _slug=None, _action_number=None):
+        _activity = Activity.objects.get(slug=_slug)
+        _action = Action.objects.filter(activity=_activity).get(number=_action_number)
+        new_response = UserResponse(user=request.user,
+                                    action=_action,
+                                    essay = request.POST['essay'])
+        new_response.save()
+        return redirect(_action.get_absolute_url())

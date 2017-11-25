@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 from django.urls import reverse
 
 # Create your models here.
@@ -35,7 +36,12 @@ class Action(models.Model):
 
     def __str__(self):
         count = len(Action.objects.filter(activity=self.activity))
-        return str(self.activity) + ": page " + str(self.number) + " of " + str(count)
+        return str(self.activity) + " - Number " + str(self.number)
+
+    def get_absolute_url(self):
+        number = self.number
+        slug = self.activity.slug
+        return '/activity/' + slug + '/' + str(number) +'/'
 
     def previous(self):
         number = self.number
@@ -53,3 +59,13 @@ class Action(models.Model):
             return '/activity/' + slug + '/congrats/'
         else:
             return '/activity/' + slug + '/' + str(number + 1) + '/'
+
+
+class UserResponse(models.Model):
+    user = models.ForeignKey(User)
+    action = models.ForeignKey(Action, null=True)
+    #response = models.ForeignKey(Response)
+    essay = models.TextField()
+
+    def __str__(self):
+        return self.user.username + "'s response to " + str(self.action)
